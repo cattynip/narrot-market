@@ -8,7 +8,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "yarn tsc --noEmit && yarn eslint . && yarn prettier --write ."
   },
   "dependencies": {
     "next": "12.2.5",
