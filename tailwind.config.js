@@ -3,7 +3,7 @@ const options = {
   theme: {
     extend: {}
   },
-  plugins: []
+  plugins: [require('@tailwindcss/forms')]
 };
 
 /** @type {import('tailwindcss').Config} */
