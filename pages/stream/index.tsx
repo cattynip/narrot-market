@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 
-const Live: NextPage = () => {
+const Stream: NextPage = () => {
   return (
     <div className="py-10 px-4 space-y-4 divide-y-2">
       {[...Array(20)].map((value, idx) => (
@@ -29,4 +29,4 @@ const Live: NextPage = () => {
   );
 };
 
-export default Live;
+export default Stream;
