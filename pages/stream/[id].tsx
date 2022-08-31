@@ -12,7 +12,6 @@ const StreamDetail: NextPage = () => {
       <div>
         <div className="pt-8">
           <div className="flex justify-start items-start space-x-3">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
               <p className="text-sm">
                 Hi how much are you selling them for? Hi how much are you
@@ -34,7 +33,6 @@ const StreamDetail: NextPage = () => {
             </div>
           </div>
           <div className="flex justify-start items-start space-x-3">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
               <p className="text-sm">
                 Hi how much are you selling them for? Hi how much are you
@@ -56,7 +54,6 @@ const StreamDetail: NextPage = () => {
             </div>
           </div>
           <div className="flex justify-start items-start space-x-3">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
               <p className="text-sm">
                 Hi how much are you selling them for? Hi how much are you
@@ -78,7 +75,6 @@ const StreamDetail: NextPage = () => {
             </div>
           </div>
           <div className="flex justify-start items-start space-x-3">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
               <p className="text-sm">
                 Hi how much are you selling them for? Hi how much are you
@@ -100,7 +96,6 @@ const StreamDetail: NextPage = () => {
             </div>
           </div>
           <div className="flex justify-start items-start space-x-3">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
               <p className="text-sm">
                 Hi how much are you selling them for? Hi how much are you
@@ -122,7 +117,6 @@ const StreamDetail: NextPage = () => {
             </div>
           </div>
           <div className="flex justify-start items-start space-x-3">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
               <p className="text-sm">
                 Hi how much are you selling them for? Hi how much are you
@@ -144,7 +138,6 @@ const StreamDetail: NextPage = () => {
             </div>
           </div>
           <div className="flex justify-start items-start space-x-3">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
               <p className="text-sm">
                 Hi how much are you selling them for? Hi how much are you
@@ -185,7 +178,6 @@ const StreamDetail: NextPage = () => {
                 much are you selling them for?
               </p>
             </div>
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
           </div>
           <div className="flex items-start space-x-3 justify-end">
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
@@ -207,28 +199,13 @@ const StreamDetail: NextPage = () => {
                 much are you selling them for?
               </p>
             </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
           </div>{' '}
           <div className="flex items-center space-x-3 justify-end">
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
           </div>
           <div className="flex items-center space-x-3 justify-end">
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
-          </div>
-          <div className="flex items-center space-x-3 justify-start">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3 justify-start">
-            <div className="w-11 h-11 bg-transparent rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
@@ -237,34 +214,18 @@ const StreamDetail: NextPage = () => {
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
           </div>
           <div className="flex items-center space-x-3 justify-end">
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
           </div>
           <div className="flex items-center space-x-3 justify-end">
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
-          </div>
-          <div className="flex items-center space-x-3 justify-end">
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
-          </div>
-          <div className="flex items-center space-x-3 justify-start">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
           </div>
           <div className="flex items-center space-x-3 justify-start">
-            <div className="w-11 h-11 bg-transparent rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
@@ -273,70 +234,28 @@ const StreamDetail: NextPage = () => {
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
           </div>
           <div className="flex items-center space-x-3 justify-end">
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
           </div>
           <div className="flex items-center space-x-3 justify-end">
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
           </div>
           <div className="flex items-center space-x-3 justify-end">
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
-          </div>
-          <div className="flex items-center space-x-3 justify-start">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
           </div>
           <div className="flex items-center space-x-3 justify-start">
-            <div className="w-11 h-11 bg-transparent rounded-full" />
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3 justify-end">
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
-          </div>
-          <div className="flex items-center space-x-3 justify-end">
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
-          </div>
-          <div className="flex items-center space-x-3 justify-end">
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
-          </div>
-          <div className="flex items-center space-x-3 justify-end">
-            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
-              <p className="text-sm">Hi how much are you selling them for?</p>
-            </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
-          </div>
-          <div className="flex items-center space-x-3 justify-start">
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
           </div>
           <div className="flex items-center space-x-3 justify-start">
-            <div className="w-11 h-11 bg-transparent rounded-full" />
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
@@ -345,13 +264,71 @@ const StreamDetail: NextPage = () => {
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
-            <div className="w-11 h-11 bg-gray-400 rounded-full" />
           </div>
           <div className="flex items-center space-x-3 justify-end">
             <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
               <p className="text-sm">Hi how much are you selling them for?</p>
             </div>
-            <div className="w-11 h-11 bg-transparent rounded-full" />
+          </div>
+          <div className="flex items-center space-x-3 justify-end">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-end">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-start">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-start">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-end">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-end">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-end">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-end">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-start">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-start">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-end">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 justify-end">
+            <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg">
+              <p className="text-sm">Hi how much are you selling them for?</p>
+            </div>
           </div>
         </div>
         <div className="fixed bottom-0 left-0 w-full bg-white px-5 py-5">
