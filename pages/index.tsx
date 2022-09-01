@@ -3,9 +3,9 @@ import Layout from '../components/layout';
 
 const Home: NextPage = () => {
   return (
-    <Layout title="Home" hasTabBar>
+    <Layout title="Home">
       <div className="flex flex-col space-y-5">
-        {[...Array(10)].map((value, idx) => (
+        {[...Array(10)].map((_, idx) => (
           <div
             className="flex border-b pb-4 px-4 cursor-pointer justify-between"
             key={idx}

@@ -1,12 +1,10 @@
 import type { NextPage } from 'next';
+import Layout from '../../components/layout';
 
 const ChatsDetail: NextPage = () => {
   return (
-    <div className="px-4">
-      <div className="flex items-center py-5 pb-3 relative border-b-4">
-        <h1 className="font-extrabold text-5xl">Steve Jebs</h1>
-      </div>
-      <div className="pt-8">
+    <Layout title="Chat - {UserName}">
+      <div className="pt-4">
         <div className="flex justify-start items-start space-x-3">
           <div className="w-11 h-11 bg-gray-400 rounded-full" />
           <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md mb-4">
@@ -363,7 +361,7 @@ const ChatsDetail: NextPage = () => {
         </div>
       </div>
       <div className="h-24" />
-    </div>
+    </Layout>
   );
 };
 
