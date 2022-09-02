@@ -3,7 +3,7 @@ import Layout from '../../components/layout';
 
 const ProfileSold: NextPage = () => {
   return (
-    <Layout title="Profile - Sold">
+    <Layout title="Profile - Sold" canGoBack>
       <div>
         <h1 className="font-extrabold text-4xl pb-5">Steve Jeb 의 판매목록</h1>
         {[...Array(10)].map((value, idx) => (

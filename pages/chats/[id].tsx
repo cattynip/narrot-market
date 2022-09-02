@@ -3,7 +3,7 @@ import Layout from '../../components/layout';
 
 const ChatsDetail: NextPage = () => {
   return (
-    <Layout title="Chat - {UserName}">
+    <Layout title="Chat - {UserName}" canGoBack>
       <div className="pt-4">
         <div className="flex justify-start items-start space-x-3">
           <div className="w-11 h-11 bg-gray-400 rounded-full" />
@@ -348,7 +348,7 @@ const ChatsDetail: NextPage = () => {
           <div className="w-11 h-11 bg-transparent rounded-full" />
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 w-full bg-white px-5 py-5">
+      <div className="fixed bottom-16 left-0 w-full bg-white px-5 py-5">
         <div className="flex items-center relative">
           <input
             type="text"

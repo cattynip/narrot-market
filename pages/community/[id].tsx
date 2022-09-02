@@ -3,7 +3,7 @@ import Layout from '../../components/layout';
 
 const CommunityPostDetail: NextPage = () => {
   return (
-    <Layout title="Post - {PostName}">
+    <Layout title="Post - {PostName}" canGoBack>
       <div>
         <div>
           <div className="px-1.5 rounded-md w-fit bg-gray-300">

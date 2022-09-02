@@ -3,7 +3,7 @@ import Layout from '../../components/layout';
 
 const StreamDetail: NextPage = () => {
   return (
-    <Layout title="Stream - {StreamName}">
+    <Layout title="Stream - {StreamName}" canGoBack>
       <div className="space-y-4">
         <div className="fixed top-12 left-0 p-4 w-full bg-white">
           <div className="w-full rounded-md shadow-sm bg-slate-500 aspect-video" />

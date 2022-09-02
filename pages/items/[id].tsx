@@ -3,7 +3,7 @@ import Layout from '../../components/layout';
 
 const ItemDetail: NextPage = () => {
   return (
-    <Layout title="Items - {ItemName}">
+    <Layout title="Items - {ItemName}" canGoBack>
       <div>
         <div>
           <div className="relative">
