@@ -1,17 +1,13 @@
 import type { NextPage } from 'next';
 import Layout from '../../components/layout';
+import StreamItem from '../../components/streamItem';
 
 const Stream: NextPage = () => {
   return (
     <Layout title="Stream">
       <div className="px-4 space-y-4 divide-y-2">
         {[...Array(20)].map((value, idx) => (
-          <div key={idx} className="pt-6 first:pt-0">
-            <div className="w-full rounded-md shadow-sm bg-slate-500 aspect-video" />
-            <h3 className="text-2xl text-gray-700 mt-">
-              Let&apos;s try potatos
-            </h3>
-          </div>
+          <StreamItem title="Let\'s Get Started" streamId="123" key={idx} />
         ))}
         <button className="transition ease-in-out fixed bottom-16 right-10 bg-orange-400 rounded-full p-4 text-white shadow-lg hover:-translate-y-2 hover:rotate-180 hover:bg-orange-500 border-transparent">
           <svg

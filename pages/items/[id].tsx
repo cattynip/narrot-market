@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Layout from '../../components/layout';
+import SimilarItems from '../../components/smiliarItem';
 
 const ItemDetail: NextPage = () => {
   return (
@@ -62,18 +63,14 @@ const ItemDetail: NextPage = () => {
             </div>
             <div>
               <h2 className="font-extrabold text-2xl pb-3">Similar Items</h2>
-              <div className="border-t-2 border-t-gray-300 pt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+              <div className="border-t-2 border-t-gray-300 pt-5 grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
                 {[...Array(50)].map((value, idx) => (
-                  <div key={idx}>
-                    <div className="w-full aspect-square bg-slate-500 rounded-md" />
-                    <div className="mt-2 flex justify-between items-center">
-                      <div className="flex items-center justify-center space-x-2">
-                        <div className="w-10 h-10 rounded-full bg-slate-500" />
-                        <h3 className="font-bold">Galaxy S60</h3>
-                      </div>
-                      <p className="text-gray-500">$6</p>
-                    </div>
-                  </div>
+                  <SimilarItems
+                    title="Galaxy S50"
+                    price={140}
+                    id={123}
+                    key={idx}
+                  />
                 ))}
               </div>
             </div>

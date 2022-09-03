@@ -1,5 +1,7 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
+import BeautifulButton from '../components/beautifulButton';
+import BeautifulInput from '../components/beautifulInput';
 import Layout from '../components/layout';
 import { joinClass } from '../libs/utils';
 
@@ -41,17 +43,20 @@ const Enter: NextPage = () => {
             </div>
           </div>
           <form className="flex flex-col mt-6">
-            <label className="text-sm font-medium text-gray-500">
+            <label
+              className="text-sm font-medium text-gray-500"
+              htmlFor={method === 'email' ? 'email' : 'phone'}
+            >
               {method === 'email' ? 'Email Address' : null}
               {method === 'phone' ? 'Phone Number' : null}
             </label>
             <div className="mt-3">
               {method === 'email' ? (
-                <input
+                <BeautifulInput
                   type="email"
-                  className="transition-colors placeholder:transition placeholder:focus:text-transparent appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-600 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                   placeholder="Your Email Address"
-                  required
+                  isReuqired
+                  id="email"
                 />
               ) : null}
               {method === 'phone' ? (
@@ -63,15 +68,17 @@ const Enter: NextPage = () => {
                     type="number"
                     className="transition border-none placeholder:transition placeholder:focus:text-transparent w-full focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none rounded-r-md"
                     placeholder="Your Phone Address"
+                    id="phone"
                     required
                   />
                 </div>
               ) : null}
             </div>
-            <button className="bg-orange-400 transition-colors hover:bg-orange-600 focus:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md mt-5 shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none">
-              {method === 'email' ? 'Get login link' : null}
-              {method === 'phone' ? 'Get one-time password' : null}
-            </button>
+            <BeautifulButton
+              buttonText={
+                method === 'email' ? 'Get login link' : 'Get one-time password'
+              }
+            />
           </form>
           <div className="mt-8">
             <div className="relative">

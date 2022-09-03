@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import BeautifulTextarea from '../../components/beautifulTextarea';
 import Layout from '../../components/layout';
 
 const StreamCreate: NextPage = () => {
@@ -44,12 +45,10 @@ const StreamCreate: NextPage = () => {
               Description
             </label>
             <div>
-              <textarea
-                rows={4}
-                cols={10}
-                id="description"
-                className="w-full resize-none rounded-md focus:border-orange-500 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 mt-2 transition placeholder:transition focus:placeholder:text-transparent shadow-lg p-2"
+              <BeautifulTextarea
                 placeholder="This product is amazing!"
+                isRequired
+                id="description"
               />
             </div>
           </div>

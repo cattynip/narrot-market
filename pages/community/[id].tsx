@@ -1,4 +1,7 @@
 import type { NextPage } from 'next';
+import BeautifulButton from '../../components/beautifulButton';
+import BeautifulTextarea from '../../components/beautifulTextarea';
+import CommunityAnswer from '../../components/communityAnswer';
 import Layout from '../../components/layout';
 
 const CommunityPostDetail: NextPage = () => {
@@ -65,30 +68,18 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           </div>
         </div>
-        <div>
-          <div className="flex items-center justify-between pt-3">
-            <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-full bg-gray-400" />
-              <div>
-                <p className="text-sm font-medium">Steve Jebs</p>
-                <p className="text-gray-500 text-xs">2h</p>
-              </div>
-            </div>
-          </div>
-          <div className="px-12 py-2">
-            The best mandu restaurant is the one next to my house.
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <textarea
-            rows={4}
-            cols={10}
-            className="w-full resize-none rounded-md focus:border-orange-500 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 mt-2 transition placeholder:transition focus:placeholder:text-transparent shadow-lg p-2"
-            placeholder="Answer this question!"
+        {[...Array(10)].map((value, idx) => (
+          <CommunityAnswer
+            key={idx}
+            author="craftzcat"
+            createdAtValue={2}
+            createdAtType="h"
+            answer="The best mandu restaurant is the one next to my house."
           />
-          <button className="bg-orange-400 transition-colors hover:bg-orange-600 focus:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md mt-5 shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none">
-            Apply
-          </button>
+        ))}
+        <div className="flex flex-col">
+          <BeautifulTextarea placeholder="Answer" id="" isRequired />
+          <BeautifulButton buttonText="Apply" />
         </div>
       </div>
     </Layout>
