@@ -5,20 +5,43 @@ import BeautifulButton from '../components/beautifulButton';
 import Layout from '../components/layout';
 
 const FormPractice: NextPage = () => {
-  const { register } = useForm();
+  const { register, handleSubmit } = useForm();
+
+  const onValid = () => {
+    console.log('onvalid');
+  };
+
+  const onInvalid = () => {
+    console.log('oninvalid');
+  };
 
   return (
     <Layout title="Form Practice">
-      <div className="w-full space-y-2">
-        <input placeholder="Username" type="text" {...register('username')} />
-        <input placeholder="Email" type="email" {...register('email')} />
+      <form onSubmit={handleSubmit(onValid, onInvalid)}>
+        <input
+          placeholder="Username"
+          type="text"
+          {...register('username', {
+            required: true
+          })}
+        />
+        <input
+          placeholder="Email"
+          type="email"
+          {...(register('email'),
+          {
+            required: true
+          })}
+        />
         <input
           placeholder="Password"
           type="password"
-          {...register('password')}
+          {...register('password', {
+            required: true
+          })}
         />
         <BeautifulButton buttonText="Apply" />
-      </div>
+      </form>
     </Layout>
   );
 };
