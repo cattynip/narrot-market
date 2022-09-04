@@ -1,18 +1,24 @@
 import type { NextPage } from 'next';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import BeautifulButton from '../components/beautifulButton';
 import Layout from '../components/layout';
 
-const FormPractice: NextPage = () => {
-  const { register, handleSubmit } = useForm();
+interface LoginForm {
+  username: string;
+  password: string;
+  email: string;
+}
 
-  const onValid = () => {
+const FormPractice: NextPage = () => {
+  const { register, handleSubmit } = useForm<LoginForm>();
+
+  const onValid = (/* _: LoginForm */) => {
     console.log('onvalid');
   };
 
-  const onInvalid = () => {
-    console.log('oninvalid');
+  const onInvalid = (errors: FieldErrors) => {
+    console.log(errors);
   };
 
   return (
@@ -22,22 +28,42 @@ const FormPractice: NextPage = () => {
           placeholder="Username"
           type="text"
           {...register('username', {
-            required: true
+            required: {
+              value: true,
+              message: 'Username is required'
+            },
+            maxLength: {
+              value: 25,
+              message: 'Username is too long'
+            },
+            minLength: {
+              value: 2,
+              message: 'Username is too short'
+            }
           })}
         />
         <input
           placeholder="Email"
           type="email"
-          {...(register('email'),
-          {
-            required: true
+          {...register('email', {
+            required: {
+              value: true,
+              message: 'Email is required'
+            }
           })}
         />
         <input
           placeholder="Password"
           type="password"
           {...register('password', {
-            required: true
+            required: {
+              value: true,
+              message: 'Password is required'
+            },
+            minLength: {
+              value: 10,
+              message: 'Password has to be at least 10.'
+            }
           })}
         />
         <BeautifulButton buttonText="Apply" />
