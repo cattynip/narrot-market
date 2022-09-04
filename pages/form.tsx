@@ -1,35 +1,23 @@
 import type { NextPage } from 'next';
 import React from 'react';
-import BeautifulForm from '../components/beautifulForm';
+import { useForm } from 'react-hook-form';
+import BeautifulButton from '../components/beautifulButton';
 import Layout from '../components/layout';
 
 const FormPractice: NextPage = () => {
+  const { register } = useForm();
+
   return (
     <Layout title="Form Practice">
       <div className="w-full space-y-2">
-        <BeautifulForm
-          topics={[
-            {
-              title: 'Username',
-              placeholder: 'Enter Username',
-              inputType: 'text',
-              isRequired: true
-            },
-            {
-              title: 'Email',
-              placeholder: 'Enter Email',
-              inputType: 'email',
-              isRequired: true
-            },
-            {
-              title: 'password',
-              placeholder: 'Enter Password',
-              inputType: 'password',
-              isRequired: true
-            }
-          ]}
-          applyText="Apply"
+        <input placeholder="Username" type="text" {...register('username')} />
+        <input placeholder="Email" type="email" {...register('email')} />
+        <input
+          placeholder="Password"
+          type="password"
+          {...register('password')}
         />
+        <BeautifulButton buttonText="Apply" />
       </div>
     </Layout>
   );
