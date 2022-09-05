@@ -96,7 +96,7 @@ const Enter: NextPage = () => {
                   </span>
                   <BeautifulInput
                     type="number"
-                    placeholder="Your Phone Address without -"
+                    placeholder="Your Phone Address without '-'"
                     id="phone"
                     register={register('phone')}
                   />
