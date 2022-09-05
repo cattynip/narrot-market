@@ -13,8 +13,8 @@ const useMutation = (url: string): TUseMutationReturn => {
     data: undefined,
     error: undefined
   });
-  function mutation({ data }: any) {
-    console.log('Data : ', data);
+
+  function mutation(data: any) {
     setState(prev => ({ ...prev, loading: true }));
     fetch(url, {
       method: 'POST',
@@ -32,6 +32,7 @@ const useMutation = (url: string): TUseMutationReturn => {
       .catch(error => setState(prev => ({ ...prev, error })))
       .finally(() => setState(prev => ({ ...prev, loading: false })));
   }
+
   return [mutation, { ...state }];
 };
 
