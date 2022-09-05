@@ -1,4 +1,4 @@
-import { joinClass } from '../libs/utils';
+import { joinClass } from '../libs/client/utils';
 
 interface ChatsBubbleProps {
   content: string;

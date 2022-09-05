@@ -4,7 +4,8 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import BeautifulButton from '../components/beautifulButton';
 import BeautifulInput from '../components/beautifulInput';
 import Layout from '../components/layout';
-import { joinClass } from '../libs/utils';
+import useMutation from '../libs/client/useMutation';
+import { joinClass } from '../libs/client/utils';
 
 interface IEnterForm {
   email?: string;
@@ -13,6 +14,7 @@ interface IEnterForm {
 
 const Enter: NextPage = () => {
   const { register, reset, handleSubmit } = useForm<IEnterForm>();
+  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
   const [method, setMethod] = useState<'email' | 'phone'>('email');
   const [submitting, setSubmitting] = useState(false);
 
@@ -27,16 +29,7 @@ const Enter: NextPage = () => {
   };
 
   const onValid = (data: IEnterForm) => {
-    setSubmitting(true);
-    fetch('/api/users/enter', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(() => {
-      setSubmitting(false);
-    });
+    enter(data);
   };
 
   const onInvalid = (errors: FieldErrors) => {
@@ -115,8 +108,8 @@ const Enter: NextPage = () => {
                 submitting
                   ? 'Loading...'
                   : method === 'email'
-                  ? 'Get login link'
-                  : 'Get one-time password'
+                    ? 'Get login link'
+                    : 'Get one-time password'
               }
             />
           </form>
