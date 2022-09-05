@@ -1,14 +1,37 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
 import BeautifulButton from '../components/beautifulButton';
 import BeautifulInput from '../components/beautifulInput';
 import Layout from '../components/layout';
 import { joinClass } from '../libs/utils';
 
+interface IEnterForm {
+  email?: string;
+  phone: number;
+}
+
 const Enter: NextPage = () => {
+  const { register, reset, handleSubmit } = useForm<IEnterForm>();
   const [method, setMethod] = useState<'email' | 'phone'>('email');
-  const onEmailClick = () => setMethod('email');
-  const onPhoneClick = () => setMethod('phone');
+
+  const onEmailClick = () => {
+    reset();
+    setMethod('email');
+  };
+
+  const onPhoneClick = () => {
+    reset();
+    setMethod('phone');
+  };
+
+  const onValid = (data: IEnterForm) => {
+    console.log(data);
+  };
+
+  const onInvalid = (errors: FieldErrors) => {
+    console.log(errors);
+  };
 
   return (
     <Layout title="Welcome!">
@@ -42,7 +65,10 @@ const Enter: NextPage = () => {
               </button>
             </div>
           </div>
-          <form className="flex flex-col mt-6">
+          <form
+            onSubmit={handleSubmit(onValid, onInvalid)}
+            className="flex flex-col mt-6"
+          >
             <label
               className="text-sm font-medium text-gray-500"
               htmlFor={method === 'email' ? 'email' : 'phone'}
@@ -57,6 +83,7 @@ const Enter: NextPage = () => {
                   placeholder="Your Email Address"
                   isReuqired
                   id="email"
+                  register={register('email')}
                 />
               ) : null}
               {method === 'phone' ? (
@@ -64,12 +91,11 @@ const Enter: NextPage = () => {
                   <span className="flex items-center justify-center px-4  rounded-l-md border-r-2">
                     +1
                   </span>
-                  <input
+                  <BeautifulInput
                     type="number"
-                    className="transition border-none placeholder:transition placeholder:focus:text-transparent w-full focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none rounded-r-md"
-                    placeholder="Your Phone Address"
+                    placeholder="Your Phone Address without -"
                     id="phone"
-                    required
+                    register={register('phone')}
                   />
                 </div>
               ) : null}
