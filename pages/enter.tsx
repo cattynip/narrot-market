@@ -14,23 +14,25 @@ interface IEnterForm {
 
 const Enter: NextPage = () => {
   const { register, reset, handleSubmit } = useForm<IEnterForm>();
-  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
+  const [enter, { loading, data, error }] = useMutation('/api/users/enter');
   const [method, setMethod] = useState<'email' | 'phone'>('email');
-  const [submitting, setSubmitting] = useState(false);
 
   const onEmailClick = () => {
     reset();
     setMethod('email');
   };
-
   const onPhoneClick = () => {
     reset();
     setMethod('phone');
   };
 
-  const onValid = (data: IEnterForm) => {
-    enter(data);
+  const onValid = (validForm: IEnterForm) => {
+    if (loading) return;
+    console.log(validForm);
+    enter(validForm);
   };
+
+  console.log(loading, data, error);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -105,11 +107,11 @@ const Enter: NextPage = () => {
             </div>
             <BeautifulButton
               buttonText={
-                submitting
+                loading
                   ? 'Loading...'
                   : method === 'email'
-                    ? 'Get login link'
-                    : 'Get one-time password'
+                  ? 'Get login link'
+                  : 'Get one-time password'
               }
             />
           </form>
