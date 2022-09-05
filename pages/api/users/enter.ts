@@ -1,11 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-// import client from '../../../libs/client';
+import withHandler from '../../../libs/server/withHandler';
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') res.status(401).end();
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log('Request Body in Response Handler : ', req.body);
+  res.status(200).json({ hello: true });
+};
 
-  console.log('Request Body : ', req.body);
-  res.json({ ok: true });
-}
-
-export default handler;
+export default withHandler('POST', handler);

@@ -14,6 +14,7 @@ const useMutation = (url: string): TUseMutationReturn => {
     error: undefined
   });
   function mutation({ data }: any) {
+    console.log('Data : ', data);
     setState(prev => ({ ...prev, loading: true }));
     fetch(url, {
       method: 'POST',

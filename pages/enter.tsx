@@ -27,8 +27,7 @@ const Enter: NextPage = () => {
   };
 
   const onValid = (validForm: IEnterForm) => {
-    if (loading) return;
-    console.log(validForm);
+    console.log('ValidForm', validForm);
     enter(validForm);
   };
 
