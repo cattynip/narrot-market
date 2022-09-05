@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import Layout from '../../components/layout';
-import SimilarItems from '../../components/smiliarItem';
+import Layout from '@components/layout';
+import SimilarItems from '@components/smiliarItem';
 
 const ItemDetail: NextPage = () => {
   return (

@@ -1,11 +1,11 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import BeautifulButton from '../components/beautifulButton';
-import BeautifulInput from '../components/beautifulInput';
-import Layout from '../components/layout';
-import useMutation from '../libs/client/useMutation';
-import { joinClass } from '../libs/client/utils';
+import BeautifulButton from '@components/beautifulButton';
+import BeautifulInput from '@components/beautifulInput';
+import Layout from '@components/layout';
+import useMutation from '@libs/client/useMutation';
+import { joinClass } from '@libs/client/utils';
 
 interface IEnterForm {
   email?: string;

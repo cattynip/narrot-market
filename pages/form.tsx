@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import React from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import BeautifulButton from '../components/beautifulButton';
-import Layout from '../components/layout';
+import BeautifulButton from '@components/beautifulButton';
+import Layout from '@components/layout';
 
 interface LoginForm {
   username: string;

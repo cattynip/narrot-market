@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import CommunityItem from '../../components/communityItem';
-import Layout from '../../components/layout';
+import CommunityItem from '@components/communityItem';
+import Layout from '@components/layout';
 
 const Community: NextPage = () => {
   return (

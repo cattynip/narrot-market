@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import BeautifulTextarea from '../../components/beautifulTextarea';
-import Layout from '../../components/layout';
+import BeautifulTextarea from '@components/beautifulTextarea';
+import Layout from '@components/layout';
 
 const StreamCreate: NextPage = () => {
   return (
