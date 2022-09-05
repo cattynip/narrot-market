@@ -14,6 +14,7 @@ interface IEnterForm {
 const Enter: NextPage = () => {
   const { register, reset, handleSubmit } = useForm<IEnterForm>();
   const [method, setMethod] = useState<'email' | 'phone'>('email');
+  const [submitting, setSubmitting] = useState(false);
 
   const onEmailClick = () => {
     reset();
@@ -26,7 +27,16 @@ const Enter: NextPage = () => {
   };
 
   const onValid = (data: IEnterForm) => {
-    console.log(data);
+    setSubmitting(true);
+    fetch('/api/users/enter', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      setSubmitting(false);
+    });
   };
 
   const onInvalid = (errors: FieldErrors) => {
@@ -102,7 +112,11 @@ const Enter: NextPage = () => {
             </div>
             <BeautifulButton
               buttonText={
-                method === 'email' ? 'Get login link' : 'Get one-time password'
+                submitting
+                  ? 'Loading...'
+                  : method === 'email'
+                  ? 'Get login link'
+                  : 'Get one-time password'
               }
             />
           </form>
