@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
-interface IUseMutationState {
+interface IUseMutationState<T> {
   loading: boolean;
-  data?: object;
+  data?: T;
   error?: object;
 }
-type TUseMutationReturn = [(data: any) => void, IUseMutationState];
+type TUseMutationReturn<T> = [(data: any) => void, IUseMutationState<T>];
 
-const useMutation = (url: string): TUseMutationReturn => {
-  const [state, setState] = useState<IUseMutationState>({
+function useMutation<T = any>(url: string): TUseMutationReturn<T> {
+  const [state, setState] = useState<IUseMutationState<T>>({
     loading: false,
     data: undefined,
     error: undefined
@@ -34,6 +34,6 @@ const useMutation = (url: string): TUseMutationReturn => {
   }
 
   return [mutation, { ...state }];
-};
+}
 
 export default useMutation;

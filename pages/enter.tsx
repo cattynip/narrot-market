@@ -5,15 +5,36 @@ import BeautifulButton from '@components/beautifulButton';
 import BeautifulInput from '@components/beautifulInput';
 import useMutation from '@libs/client/useMutation';
 import { joinClass } from '@libs/client/utils';
+import BeautifulError from '@components/beautifulError';
 
 interface IEnterForm {
   email?: string;
   phone: number;
 }
 
-const Enter: NextPage = () => {
+interface IConfirmForm {
+  code?: number;
+}
+
+interface EnterMutation {
+  ok: boolean;
+}
+
+interface ConfirmMutation {
+  ok: boolean;
+}
+
+const Enter: NextPage = props => {
   const { register, reset, handleSubmit } = useForm<IEnterForm>();
-  const [enter, { loading, data, error }] = useMutation('/api/users/enter');
+  const { register: tokenRegister, handleSubmit: tokenHandleSubmit } =
+    useForm<IConfirmForm>();
+
+  const [enter, { loading, data, error }] =
+    useMutation<EnterMutation>('/api/users/enter');
+  const [
+    confirmToken,
+    { loading: tokenLoading, data: tokenData, error: tokentError }
+  ] = useMutation<ConfirmMutation>('/api/users/confirm');
   const [method, setMethod] = useState<'email' | 'phone'>('email');
 
   const onEmailClick = () => {
@@ -26,14 +47,24 @@ const Enter: NextPage = () => {
   };
 
   const onValid = (validForm: IEnterForm) => {
+    if (loading) return;
     enter(validForm);
   };
-
-  console.log(loading, data, error);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
+  const onTokenValid = (validForm: IConfirmForm) => {
+    if (tokenLoading) return;
+    confirmToken(validForm);
+  };
+
+  const onTokenInvalid = (errors: FieldErrors) => {
+    console.log(errors);
+  };
+
+  console.log(tokenData);
 
   return (
     <div className="pt-4">
@@ -41,76 +72,103 @@ const Enter: NextPage = () => {
       <div className="mt-8">
         <div className="flex flex-col items-center">
           <h5 className="text-sm text-gray-500 font-medium">Enter using:</h5>
-          <div className="grid border-b w-full mt-8 grid-cols-2 gap-0">
-            <button
-              className={joinClass(
-                'pb-4 font-medium',
-                method === 'email'
-                  ? 'border-orange-600 text-orange-500 border-b-2'
-                  : 'border-transparent text-gray-500'
-              )}
-              onClick={onEmailClick}
-            >
-              Email Address
-            </button>
-            <button
-              className={joinClass(
-                'pb-4 font-medium',
-                method === 'phone'
-                  ? 'border-orange-600 text-orange-500 border-b-2'
-                  : 'border-transparent text-gray-500'
-              )}
-              onClick={onPhoneClick}
-            >
-              Phone Address
-            </button>
-          </div>
+          {data?.ok ? null : (
+            <div className="grid border-b w-full mt-8 grid-cols-2 gap-0">
+              <button
+                className={joinClass(
+                  'pb-4 font-medium',
+                  method === 'email'
+                    ? 'border-orange-600 text-orange-500 border-b-2'
+                    : 'border-transparent text-gray-500'
+                )}
+                onClick={onEmailClick}
+              >
+                Email Address
+              </button>
+              <button
+                className={joinClass(
+                  'pb-4 font-medium',
+                  method === 'phone'
+                    ? 'border-orange-600 text-orange-500 border-b-2'
+                    : 'border-transparent text-gray-500'
+                )}
+                onClick={onPhoneClick}
+              >
+                Phone Address
+              </button>
+            </div>
+          )}
         </div>
-        <form
-          onSubmit={handleSubmit(onValid, onInvalid)}
-          className="flex flex-col mt-6"
-        >
-          <label
-            className="text-sm font-medium text-gray-500"
-            htmlFor={method === 'email' ? 'email' : 'phone'}
+        {data?.ok ? (
+          <form
+            onSubmit={tokenHandleSubmit(onTokenValid, onTokenInvalid)}
+            className="flex flex-col mt-6"
           >
-            {method === 'email' ? 'Email Address' : null}
-            {method === 'phone' ? 'Phone Number' : null}
-          </label>
-          <div className="mt-3">
-            {method === 'email' ? (
+            <label className="text-sm font-medium text-gray-500" htmlFor="code">
+              Code
+            </label>
+            <div className="mt-3">
               <BeautifulInput
-                type="email"
-                placeholder="Your Email Address"
+                type="number"
+                placeholder="Enter Code"
                 isReuqired
-                id="email"
-                register={register('email')}
+                id="code"
+                register={tokenRegister('code')}
               />
-            ) : null}
-            {method === 'phone' ? (
-              <div className="flex rounded-md shadow-md">
-                <span className="flex items-center justify-center px-4  rounded-l-md border-r-2">
-                  +1
-                </span>
+            </div>
+            <BeautifulButton
+              buttonText={tokenLoading ? 'Loading...' : 'Confirm'}
+            />
+            {error ? <BeautifulError message={`${error}`} /> : null}
+          </form>
+        ) : (
+          <form
+            onSubmit={handleSubmit(onValid, onInvalid)}
+            className="flex flex-col mt-6"
+          >
+            <label
+              className="text-sm font-medium text-gray-500"
+              htmlFor={method === 'email' ? 'email' : 'phone'}
+            >
+              {method === 'email' ? 'Email Address' : null}
+              {method === 'phone' ? 'Phone Number' : null}
+            </label>
+            <div className="mt-3">
+              {method === 'email' ? (
                 <BeautifulInput
-                  type="number"
-                  placeholder="Your Phone Address without '-'"
-                  id="phone"
-                  register={register('phone')}
+                  type="email"
+                  placeholder="Your Email Address"
+                  isReuqired
+                  id="email"
+                  register={register('email')}
                 />
-              </div>
-            ) : null}
-          </div>
-          <BeautifulButton
-            buttonText={
-              loading
-                ? 'Loading...'
-                : method === 'email'
-                ? 'Get login link'
-                : 'Get one-time password'
-            }
-          />
-        </form>
+              ) : null}
+              {method === 'phone' ? (
+                <div className="flex rounded-md shadow-md">
+                  <span className="flex items-center justify-center px-4  rounded-l-md border-r-2">
+                    +1
+                  </span>
+                  <BeautifulInput
+                    type="number"
+                    placeholder="Your Phone Address without '-'"
+                    id="phone"
+                    register={register('phone')}
+                  />
+                </div>
+              ) : null}
+            </div>
+            <BeautifulButton
+              buttonText={
+                loading
+                  ? 'Loading...'
+                  : method === 'email'
+                  ? 'Get login link'
+                  : 'Get one-time password'
+              }
+            />
+            {tokentError ? <BeautifulError message={`${tokentError}`} /> : null}
+          </form>
+        )}
         <div className="mt-8">
           <div className="relative">
             <div className="absolute w-full border-t border-gray-300" />
