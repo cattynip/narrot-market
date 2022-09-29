@@ -7,8 +7,11 @@ export interface ResponseType {
   [key: string]: any;
 }
 
-const withHandler = (method: TMethod, handler: NextApiHandler) => {
-  return async function (req: NextApiRequest, res: NextApiResponse) {
+function withHandler(method: TMethod, handler: NextApiHandler) {
+  return async function (
+    req: NextApiRequest,
+    res: NextApiResponse
+  ): Promise<any> {
     if (req.method !== method) return res.status(405).end();
 
     try {
@@ -17,6 +20,6 @@ const withHandler = (method: TMethod, handler: NextApiHandler) => {
       return res.status(500).json({ error });
     }
   };
-};
+}
 
 export default withHandler;

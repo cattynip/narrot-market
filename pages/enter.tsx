@@ -13,7 +13,7 @@ interface IEnterForm {
 }
 
 interface IConfirmForm {
-  code?: number;
+  token?: number;
 }
 
 interface EnterMutation {
@@ -112,8 +112,8 @@ const Enter: NextPage = props => {
                 type="number"
                 placeholder="Enter Code"
                 isReuqired
-                id="code"
-                register={tokenRegister('code')}
+                id="token"
+                register={tokenRegister('token')}
               />
             </div>
             <BeautifulButton
