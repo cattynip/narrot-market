@@ -22,7 +22,7 @@ model User {
   // Id for identifying. Default value will be decided by increasing.
   id        Int      @id @default(autoincrement())
   // The phone number and email of the user. And these values have to be unique.
-  phone     BigInt?  @unique
+  phone     String?  @unique
   email     String?  @unique
   // The name of the user.
   name      String

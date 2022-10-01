@@ -1,15 +1,7 @@
-import { withIronSessionApiRoute } from 'iron-session/next';
+import { withApiSession } from '@libs/server/withSession';
 import withHandler, { ResponseType } from '@libs/server/withHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import client from '@libs/server/client';
-
-declare module 'iron-session' {
-  interface IronSessionData {
-    user?: {
-      id: number;
-    };
-  }
-}
 
 const handler = async (
   req: NextApiRequest,
@@ -18,7 +10,7 @@ const handler = async (
   // The Session will be injected by `withIronSessionApiRoute`.
   const { token } = req.body;
 
-  const exists = await client.token.findUnique({
+  const foundToken = await client.token.findUnique({
     where: {
       payload: token
     },
@@ -28,19 +20,22 @@ const handler = async (
     }
   });
 
-  if (!exists) return res.status(404).end();
+  if (!foundToken) return res.status(404).end();
 
   req.session.user = {
-    id: exists.userId
+    id: foundToken.userId
   };
 
   // If you go to Application > Cookies > http://localhost:300, I will see a cookie.
   await req.session.save();
 
-  return res.json({ ok: true, confirm: true });
+  await client.token.deleteMany({
+    where: {
+      userId: foundToken.userId
+    }
+  });
+
+  return res.json({ ok: true });
 };
 
-export default withIronSessionApiRoute(withHandler('POST', handler), {
-  cookieName: 'narrotsession',
-  password: process.env.SESSION_PASSWORD!
-});
+export default withApiSession(withHandler('POST', handler));

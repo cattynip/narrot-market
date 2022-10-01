@@ -1,11 +1,12 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import BeautifulButton from '@components/beautifulButton';
 import BeautifulInput from '@components/beautifulInput';
 import useMutation from '@libs/client/useMutation';
 import { joinClass } from '@libs/client/utils';
 import BeautifulError from '@components/beautifulError';
+import { useRouter } from 'next/router';
 
 interface IEnterForm {
   email?: string;
@@ -36,6 +37,7 @@ const Enter: NextPage = props => {
     { loading: tokenLoading, data: tokenData, error: tokentError }
   ] = useMutation<ConfirmMutation>('/api/users/confirm');
   const [method, setMethod] = useState<'email' | 'phone'>('email');
+  const router = useRouter();
 
   const onEmailClick = () => {
     reset();
@@ -64,7 +66,11 @@ const Enter: NextPage = props => {
     console.log(errors);
   };
 
-  console.log(tokenData);
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push('/');
+    }
+  }, [tokenData, router]);
 
   return (
     <div className="pt-4">

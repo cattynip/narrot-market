@@ -11,12 +11,12 @@ const Home: NextPage = props => {
       <div className="flex flex-col space-y-5">
         {[...Array(10)].map((_, idx) => (
           <Item
-            title="New iPhone 14"
-            color="black"
-            price={65}
-            hearts={2}
-            comments={2}
-            id={123}
+            title="Pikachu"
+            color="Yellow"
+            price={10000000000000000000}
+            hearts={100000}
+            comments={5000}
+            id={123556}
             key={idx}
           />
         ))}
