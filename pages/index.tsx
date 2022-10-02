@@ -1,11 +1,16 @@
 import type { NextPage } from 'next';
 import Item from '@components/item';
 import Layout from '@components/layout';
+import useUser from '@libs/client/useUser';
 
 // `index` means the default route of a router of its father.
 // All of the pages must have the type `NextPage` which Next.js provide for Typescript.
 
 const Home: NextPage = props => {
+  const user = useUser();
+
+  console.log(user);
+
   return (
     <Layout title="Home">
       <div className="flex flex-col space-y-5">
