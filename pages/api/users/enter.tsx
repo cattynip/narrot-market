@@ -53,4 +53,7 @@ const handler = async (
   }
 };
 
-export default withHandler('POST', handler);
+export default withHandler({
+  method: 'POST',
+  handler
+});

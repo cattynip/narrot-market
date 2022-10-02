@@ -6,7 +6,7 @@ import { withApiSession } from '@libs/server/withSession';
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
-) => {
+): Promise<any> => {
   const profile = await client.user.findUnique({
     where: {
       id: req.session.user?.id
@@ -21,4 +21,10 @@ const handler = async (
   });
 };
 
-export default withApiSession(withHandler('GET', handler));
+export default withApiSession(
+  withHandler({
+    method: 'GET',
+    handler,
+    isPrivate: true
+  })
+);
