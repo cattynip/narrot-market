@@ -7,7 +7,7 @@ import useUser from '@libs/client/useUser';
 // All of the pages must have the type `NextPage` which Next.js provide for Typescript.
 
 const Home: NextPage = props => {
-  const user = useUser();
+  const { user, isLoading } = useUser();
 
   console.log(user);
 

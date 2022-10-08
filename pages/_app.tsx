@@ -1,5 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import { SWRConfig } from 'swr';
+import { fetcher } from '@libs/client/useUser';
 
 // Before Next.js is rendering the page after user go to the specific route,
 // Next.js will be rendering this component first.
@@ -11,9 +13,16 @@ import type { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <Component {...pageProps} />
-    </div>
+    <SWRConfig
+      value={{
+        refreshInterval: 2000,
+        fetcher
+      }}
+    >
+      <div className="w-full max-w-xl mx-auto">
+        <Component {...pageProps} />
+      </div>
+    </SWRConfig>
   );
 }
 
