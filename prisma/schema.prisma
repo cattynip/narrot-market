@@ -20,18 +20,19 @@ datasource db {
 // Create a User.
 model User {
   // Id for identifying. Default value will be decided by increasing.
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   // The phone number and email of the user. And these values have to be unique.
-  phone     String?  @unique
-  email     String?  @unique
+  phone     String?   @unique
+  email     String?   @unique
   // The name of the user.
   name      String
   // The avatar of the user. It will be the route url.
   avatar    String?
   tokens    Token[]
+  products  Product[]
   // The created time and updated time of the user. The default value of createdAt is when the user create this account.
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 // Set a Token.
@@ -41,11 +42,23 @@ model Token {
   payload   String   @unique
   // user and userId for connecting between user and token.
   // relation indentify the User that is connected with this.
-  // This token will be deleted when the User that is connected with this token because of `onDelte: Cascade`.
+  // This token will be deleted when the User that is connected with this token because of `onDelete: Cascade`.
   // But value of `user` will not be applied to real server. It is for developers.
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   // Value of `userId` will be applied to real server.
   userId    Int
   // The created time and updated time of the user. The default value of createdAt is when the user create this account.
   createdAt DateTime @default(now())
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  image       String
+  name        String
+  price       Float
+  description String   @db.MediumText
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

@@ -10,7 +10,7 @@ interface ItemProps {
 const Item = ({ title, color, price, hearts, comments, id }: ItemProps) => {
   return (
     <a
-      href={`/items/${id}`}
+      href={`/products/${id}`}
       className="flex border-b pb-4 px-4 cursor-pointer justify-between"
     >
       <div className="flex space-x-4">
