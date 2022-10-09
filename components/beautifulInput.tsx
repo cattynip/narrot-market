@@ -1,32 +1,40 @@
 import React from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
+import BeautifulTextarea from './beautifulTextarea';
 
 interface BeautifulInputProps {
-  type: React.HTMLInputTypeAttribute;
+  inputType: React.HTMLInputTypeAttribute;
   placeholder: string;
-  isReuqired?: boolean;
+  isRequired?: boolean;
   id?: string;
-  register?: UseFormRegisterReturn;
 }
 
 const BeautifulInput = ({
-  type,
+  inputType,
   placeholder,
-  isReuqired,
+  isRequired,
   id,
-  register,
   ...rest
 }: BeautifulInputProps) => {
   return (
-    <input
-      type={type}
-      placeholder={placeholder}
-      required={isReuqired}
-      id={id}
-      className="transition-colors placeholder:transition placeholder:focus:text-transparent appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-600 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-      {...register}
-      {...rest}
-    />
+    <div>
+      {inputType === 'description' ? (
+        <BeautifulTextarea
+          placeholder={placeholder}
+          isRequired={isRequired ? true : false}
+          id={id}
+        />
+      ) : (
+        <input
+          type={inputType}
+          placeholder={placeholder}
+          required={isRequired}
+          id={id}
+          className="transition-colors placeholder:transition placeholder:focus:text-transparent appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-600 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+          {...rest}
+        />
+      )}
+    </div>
   );
 };
 

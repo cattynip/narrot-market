@@ -1,7 +1,7 @@
 interface BeautifulTextareaProps {
   placeholder: string;
   isRequired: boolean;
-  id: string;
+  id?: string;
 }
 
 const BeautifulTextarea = ({
@@ -11,7 +11,7 @@ const BeautifulTextarea = ({
 }: BeautifulTextareaProps) => {
   return (
     <textarea
-      className="w-full resize-none rounded-md focus:border-orange-500 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 mt-2 transition placeholder:transition focus:placeholder:text-transparent shadow-lg p-2"
+      className="transition-colors placeholder:transition placeholder:focus:text-transparent appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-600 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
       placeholder={placeholder}
       required={isRequired}
       id={id}

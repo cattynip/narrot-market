@@ -115,11 +115,10 @@ const Enter: NextPage = props => {
             </label>
             <div className="mt-3">
               <BeautifulInput
-                type="number"
+                inputType="number"
                 placeholder="Enter Code"
-                isReuqired
                 id="token"
-                register={tokenRegister('token')}
+                {...tokenRegister('token')}
               />
             </div>
             <BeautifulButton
@@ -142,11 +141,10 @@ const Enter: NextPage = props => {
             <div className="mt-3">
               {method === 'email' ? (
                 <BeautifulInput
-                  type="email"
+                  inputType="email"
                   placeholder="Your Email Address"
-                  isReuqired
                   id="email"
-                  register={register('email')}
+                  {...register('email')}
                 />
               ) : null}
               {method === 'phone' ? (
@@ -155,10 +153,10 @@ const Enter: NextPage = props => {
                     +1
                   </span>
                   <BeautifulInput
-                    type="number"
+                    inputType="number"
                     placeholder="Your Phone Address without '-'"
                     id="phone"
-                    register={register('phone')}
+                    {...register('phone')}
                   />
                 </div>
               ) : null}

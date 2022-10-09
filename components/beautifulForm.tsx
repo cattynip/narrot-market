@@ -26,7 +26,7 @@ const BeautifulForm = ({ topics, applyText }: BeautifulFormProps) => {
             isRequired={value.isRequired}
           />
           <BeautifulInput
-            type={value.inputType}
+            inputType={value.inputType}
             placeholder={value.placeholder}
             id={value.title}
           />
