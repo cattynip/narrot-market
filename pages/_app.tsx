@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
-import { fetcher } from '@libs/client/useUser';
+import useUser, { fetcher } from '@libs/client/useUser';
 
 // Before Next.js is rendering the page after user go to the specific route,
 // Next.js will be rendering this component first.
@@ -12,10 +12,11 @@ import { fetcher } from '@libs/client/useUser';
 // All of the pages and components have to be exported by `export default ${functionName}`.
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { user, isLoading } = useUser();
   return (
     <SWRConfig
       value={{
-        refreshInterval: 2000,
+        refreshInterval: 10000,
         fetcher
       }}
     >

@@ -12,6 +12,8 @@ function useUser() {
   useEffect(() => {
     if (data && !data.ok) {
       router.replace('/enter');
+    } else if (location.pathname === '/enter') {
+      router.replace('/');
     }
   }, [data, router]);
 

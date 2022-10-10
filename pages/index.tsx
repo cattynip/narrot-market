@@ -9,8 +9,6 @@ import useUser from '@libs/client/useUser';
 const Home: NextPage = props => {
   const { user, isLoading } = useUser();
 
-  console.log(user);
-
   return (
     <Layout title="Home">
       <div className="flex flex-col space-y-5">
@@ -18,7 +16,7 @@ const Home: NextPage = props => {
           <Item
             title="Pikachu"
             color="Yellow"
-            price={10000000000000000000}
+            price={100}
             hearts={100000}
             comments={5000}
             id={123556}
