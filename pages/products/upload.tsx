@@ -1,7 +1,8 @@
 import type { NextPage } from 'next';
 import Layout from '@components/layout';
 import { useForm } from 'react-hook-form';
-import BeautifulInputSet from '@components/beautifulInputSet';
+import { joinClass } from '@libs/client/utils';
+import BeautifulInput from '@components/beautifulInput';
 
 interface IProductUpload {
   name: string;
@@ -10,7 +11,11 @@ interface IProductUpload {
 }
 
 const ItemUpload: NextPage = () => {
-  const { register, handleSubmit } = useForm<IProductUpload>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<IProductUpload>();
 
   const onValid = (data: IProductUpload) => {
     console.log(data);
@@ -41,30 +46,56 @@ const ItemUpload: NextPage = () => {
           </div>
         </div>
         <div>
-          <BeautifulInputSet
-            inputType="name"
-            placeholder="Super Mega Product!"
-            label="Name"
-            isRequired
-            {...register('name', { required: false })}
-          />
-          <BeautifulInputSet
-            inputType="number"
-            placeholder="666.66"
-            label="Price"
-            isRequired
-            {...register('price', { required: true })}
-          />
-          <BeautifulInputSet
-            inputType="description"
-            placeholder="This product is amazing!"
-            label="Description"
-            isRequired
-            {...register('description', { required: true })}
-          />
+          <div>
+            <BeautifulInput
+              inputType="text"
+              placeholder="Super Mega Product"
+              label="Name"
+              {...register('name', {
+                required: {
+                  value: true,
+                  message: 'Name is required'
+                }
+              })}
+            />
+          </div>
+          <div>
+            <BeautifulInput
+              inputType="number"
+              placeholder="666.66"
+              label="Price"
+              {...register('price', {
+                required: {
+                  value: true,
+                  message: 'Price is required'
+                },
+                min: {
+                  value: 0,
+                  message: 'Price must be at least $0'
+                }
+              })}
+            />
+          </div>
+          <div>
+            <BeautifulInput
+              inputType="description"
+              placeholder="This product is amazing!"
+              label="Description"
+              {...register('description', {
+                required: false
+              })}
+            />
+          </div>
         </div>
         <div className="mt-4">
-          <button className="text-white bg-orange-400 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none w-full py-2 text-sm rounded-md transition hover:bg-orange-500 shadow-lg">
+          <button
+            className={joinClass(
+              'text-white cursor-pointer bg-orange-400 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none w-full py-2 text-sm rounded-md transition hover:bg-orange-500 shadow-lg',
+              errors
+                ? 'cursor-not-allowed bg-orange-300 hover:bg-orange-300'
+                : ''
+            )}
+          >
             Upload Product
           </button>
         </div>

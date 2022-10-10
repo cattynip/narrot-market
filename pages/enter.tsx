@@ -110,13 +110,11 @@ const Enter: NextPage = props => {
             onSubmit={tokenHandleSubmit(onTokenValid, onTokenInvalid)}
             className="flex flex-col mt-6"
           >
-            <label className="text-sm font-medium text-gray-500" htmlFor="code">
-              Code
-            </label>
             <div className="mt-3">
               <BeautifulInput
                 inputType="number"
                 placeholder="Enter Code"
+                label="Code"
                 id="token"
                 {...tokenRegister('token')}
               />
@@ -131,34 +129,24 @@ const Enter: NextPage = props => {
             onSubmit={handleSubmit(onValid, onInvalid)}
             className="flex flex-col mt-6"
           >
-            <label
-              className="text-sm font-medium text-gray-500"
-              htmlFor={method === 'email' ? 'email' : 'phone'}
-            >
-              {method === 'email' ? 'Email Address' : null}
-              {method === 'phone' ? 'Phone Number' : null}
-            </label>
-            <div className="mt-3">
+            <div>
               {method === 'email' ? (
                 <BeautifulInput
                   inputType="email"
                   placeholder="Your Email Address"
+                  label="Email Address"
                   id="email"
                   {...register('email')}
                 />
               ) : null}
               {method === 'phone' ? (
-                <div className="flex rounded-md shadow-md">
-                  <span className="flex items-center justify-center px-4  rounded-l-md border-r-2">
-                    +1
-                  </span>
-                  <BeautifulInput
-                    inputType="number"
-                    placeholder="Your Phone Address without '-'"
-                    id="phone"
-                    {...register('phone')}
-                  />
-                </div>
+                <BeautifulInput
+                  inputType="number"
+                  placeholder="Your Phone Address without '-'"
+                  label="Phone Number"
+                  id="phone"
+                  {...register('phone')}
+                />
               ) : null}
             </div>
             <BeautifulButton

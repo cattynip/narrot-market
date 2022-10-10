@@ -1,23 +1,31 @@
+import { randomId } from '@libs/client/randoms';
 import React from 'react';
-import type { UseFormRegisterReturn } from 'react-hook-form';
+import BeautifulLabel from './beautifulLabel';
 import BeautifulTextarea from './beautifulTextarea';
 
 interface BeautifulInputProps {
   inputType: React.HTMLInputTypeAttribute;
   placeholder: string;
-  isRequired?: boolean;
+  label?: string;
   id?: string;
+  isRequired?: boolean;
 }
 
 const BeautifulInput = ({
   inputType,
   placeholder,
-  isRequired,
+  label,
   id,
+  isRequired,
   ...rest
 }: BeautifulInputProps) => {
+  if (!id) id = randomId({}).id;
+
   return (
     <div>
+      {label ? (
+        <BeautifulLabel content={label} isRequired={isRequired} htmlFor={id} />
+      ) : null}
       {inputType === 'description' ? (
         <BeautifulTextarea
           placeholder={placeholder}
