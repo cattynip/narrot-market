@@ -8,7 +8,7 @@ export interface IRandomNumberOutput {
 }
 
 export const Chars =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
 
 export interface IRandomIdInput {
   length?: number;

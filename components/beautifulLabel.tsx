@@ -11,7 +11,7 @@ const BeautifulLabel = ({
 }: BeautifulLabelProps) => {
   return (
     <label
-      htmlFor={`${htmlFor}`}
+      htmlFor={htmlFor}
       className="text-lg my-2 font-medium flex items-center justify-between cursor-pointer"
     >
       {content}

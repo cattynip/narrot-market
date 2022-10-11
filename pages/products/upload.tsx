@@ -3,27 +3,31 @@ import Layout from '@components/layout';
 import { useForm } from 'react-hook-form';
 import { joinClass } from '@libs/client/utils';
 import BeautifulInput from '@components/beautifulInput';
+import useMutation from '@libs/client/useMutation';
 
 interface IProductUpload {
   name: string;
-  description: string;
   price: number;
+  description: string;
 }
 
 const ItemUpload: NextPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: {errors},
   } = useForm<IProductUpload>();
 
+  const [uploadProduct, {loading, data}]  = useMutation("/api/products/upload");
+
   const onValid = (data: IProductUpload) => {
-    console.log(data);
+    if (loading) return;
+    uploadProduct(data);
   };
 
   return (
     <Layout title="Upload Item">
-      <div className="p-4">
+      <form onSubmit={handleSubmit(onValid)}>
         <div>
           <div>
             <label className="w-full flex items-center justify-center border-2 border-gray-500 border-dashed p-4 rounded-md transition-colors hover:border-orange-500 hover:text-orange-500 cursor-pointer">
@@ -51,7 +55,7 @@ const ItemUpload: NextPage = () => {
               inputType="text"
               placeholder="Super Mega Product"
               label="Name"
-              {...register('name', {
+              register={register('name', {
                 required: {
                   value: true,
                   message: 'Name is required'
@@ -64,7 +68,7 @@ const ItemUpload: NextPage = () => {
               inputType="number"
               placeholder="666.66"
               label="Price"
-              {...register('price', {
+              register={register('price', {
                 required: {
                   value: true,
                   message: 'Price is required'
@@ -81,9 +85,7 @@ const ItemUpload: NextPage = () => {
               inputType="description"
               placeholder="This product is amazing!"
               label="Description"
-              {...register('description', {
-                required: false
-              })}
+              register={register('description')}
             />
           </div>
         </div>
@@ -91,15 +93,12 @@ const ItemUpload: NextPage = () => {
           <button
             className={joinClass(
               'text-white cursor-pointer bg-orange-400 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none w-full py-2 text-sm rounded-md transition hover:bg-orange-500 shadow-lg',
-              errors
-                ? 'cursor-not-allowed bg-orange-300 hover:bg-orange-300'
-                : ''
             )}
           >
-            Upload Product
+            {loading ? "Loading..." : "Upload"}
           </button>
         </div>
-      </div>
+      </form>
     </Layout>
   );
 };
