@@ -1,23 +1,33 @@
+import { joinClass } from '@libs/client/utils';
+
 interface BeautifulLabelProps {
-  htmlFor?: string;
   content: string;
+  htmlFor?: string;
+  error?: string;
   isRequired?: boolean;
 }
 
 const BeautifulLabel = ({
-  htmlFor,
   content,
+  htmlFor,
+  error,
   isRequired
 }: BeautifulLabelProps) => {
   return (
     <label
       htmlFor={htmlFor}
-      className="text-lg my-2 font-medium flex items-center justify-between cursor-pointer"
+      className={joinClass(
+        'transition-colors text-lg mt-3 mb-1 font-medium flex items-center justify-between cursor-pointer',
+        error ? 'text-red-400' : ''
+      )}
     >
       {content}
-      {isRequired ? (
-        <div className="text-2xl mr-3 text-red-500 font-medium">*</div>
-      ) : null}
+      <div className="flex space-x-4">
+        <div>{error}</div>
+        {isRequired ? (
+          <div className="text-2xl mr-3 text-red-500 font-medium">*</div>
+        ) : null}
+      </div>
     </label>
   );
 };

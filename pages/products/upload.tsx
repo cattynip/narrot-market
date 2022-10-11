@@ -8,17 +8,19 @@ import useMutation from '@libs/client/useMutation';
 interface IProductUpload {
   name: string;
   price: number;
-  description: string;
+  description?: string;
 }
 
 const ItemUpload: NextPage = () => {
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors }
   } = useForm<IProductUpload>();
 
-  const [uploadProduct, {loading, data}]  = useMutation("/api/products/upload");
+  const [uploadProduct, { loading, data }] = useMutation(
+    '/api/products/upload'
+  );
 
   const onValid = (data: IProductUpload) => {
     if (loading) return;
@@ -55,6 +57,7 @@ const ItemUpload: NextPage = () => {
               inputType="text"
               placeholder="Super Mega Product"
               label="Name"
+              error={errors.name?.message}
               register={register('name', {
                 required: {
                   value: true,
@@ -68,6 +71,7 @@ const ItemUpload: NextPage = () => {
               inputType="number"
               placeholder="666.66"
               label="Price"
+              error={errors.price?.message}
               register={register('price', {
                 required: {
                   value: true,
@@ -85,6 +89,7 @@ const ItemUpload: NextPage = () => {
               inputType="description"
               placeholder="This product is amazing!"
               label="Description"
+              error={errors.description?.message}
               register={register('description')}
             />
           </div>
@@ -92,10 +97,10 @@ const ItemUpload: NextPage = () => {
         <div className="mt-4">
           <button
             className={joinClass(
-              'text-white cursor-pointer bg-orange-400 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none w-full py-2 text-sm rounded-md transition hover:bg-orange-500 shadow-lg',
+              'text-white cursor-pointer bg-orange-400 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none w-full py-2 text-sm rounded-md transition hover:bg-orange-500 shadow-lg'
             )}
           >
-            {loading ? "Loading..." : "Upload"}
+            {loading ? 'Loading...' : 'Upload'}
           </button>
         </div>
       </form>
