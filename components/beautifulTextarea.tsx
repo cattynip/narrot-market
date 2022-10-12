@@ -16,7 +16,6 @@ const BeautifulTextarea = ({
   register,
   id
 }: BeautifulTextareaProps) => {
-  console.log(`DESCRIPTION ERROR : ${error}`);
   return (
     <textarea
       className={joinClass(

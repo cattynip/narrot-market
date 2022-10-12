@@ -2,9 +2,10 @@ import { useState } from 'react';
 
 interface IUseMutationState<T> {
   loading: boolean;
-  data?: T;
   error?: object;
+  data?: T;
 }
+
 type TUseMutationReturn<T> = [(data: any) => void, IUseMutationState<T>];
 
 function useMutation<T = any>(url: string): TUseMutationReturn<T> {

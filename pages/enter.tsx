@@ -154,8 +154,8 @@ const Enter: NextPage = props => {
                 loading
                   ? 'Loading...'
                   : method === 'email'
-                  ? 'Get login link'
-                  : 'Get one-time password'
+                    ? 'Get login link'
+                    : 'Get one-time password'
               }
             />
             {tokentError ? <BeautifulError message={`${tokentError}`} /> : null}
