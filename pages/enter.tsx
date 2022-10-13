@@ -50,6 +50,7 @@ const Enter: NextPage = props => {
 
   const onValid = (validForm: IEnterForm) => {
     if (loading) return;
+    console.log(validForm);
     enter(validForm);
   };
 
@@ -116,7 +117,7 @@ const Enter: NextPage = props => {
                 placeholder="Enter Code"
                 label="Code"
                 id="token"
-                {...tokenRegister('token')}
+                register={tokenRegister('token')}
               />
             </div>
             <BeautifulButton
@@ -136,7 +137,7 @@ const Enter: NextPage = props => {
                   placeholder="Your Email Address"
                   label="Email Address"
                   id="email"
-                  {...register('email')}
+                  register={register("email")}
                 />
               ) : null}
               {method === 'phone' ? (
@@ -145,7 +146,7 @@ const Enter: NextPage = props => {
                   placeholder="Your Phone Address without '-'"
                   label="Phone Number"
                   id="phone"
-                  {...register('phone')}
+                  register={register('phone')}
                 />
               ) : null}
             </div>
@@ -154,8 +155,8 @@ const Enter: NextPage = props => {
                 loading
                   ? 'Loading...'
                   : method === 'email'
-                    ? 'Get login link'
-                    : 'Get one-time password'
+                  ? 'Get login link'
+                  : 'Get one-time password'
               }
             />
             {tokentError ? <BeautifulError message={`${tokentError}`} /> : null}
