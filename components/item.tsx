@@ -1,13 +1,12 @@
 interface ItemProps {
   title: string;
-  color: string;
   price: number;
   hearts: number;
   comments: number;
   id: number;
 }
 
-const Item = ({ title, color, price, hearts, comments, id }: ItemProps) => {
+const Item = ({ title, price, hearts, comments, id }: ItemProps) => {
   return (
     <a
       href={`/products/${id}`}
@@ -18,7 +17,6 @@ const Item = ({ title, color, price, hearts, comments, id }: ItemProps) => {
         <div>
           <h3 className="font-bold text-lg">{title}</h3>
           <div className="flex flex-col">
-            <span className="text-gray-500 text-xs">{color}</span>
             <span className="text-sm">${price}</span>
           </div>
         </div>

@@ -36,12 +36,12 @@ const ItemUpload: NextPage = () => {
   useEffect(() => {
     if (data?.ok) {
       console.log(data);
-      router.replace(`/product/${data.productId}`);
+      router.replace(`/products/${data.productId}`);
     }
   }, [data, router])
 
   return (
-    <Layout title="Upload Item">
+    <Layout title="Upload Item" canGoBack>
       <form onSubmit={handleSubmit(onValid)}>
         <div>
           <div>

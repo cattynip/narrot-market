@@ -1,9 +1,9 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
-type TMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH';
+export type TMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH';
 
 interface IWithHandler {
-  method: TMethod;
+  methods: TMethod[];
   handler: NextApiHandler;
   isPrivate?: boolean;
 }
@@ -13,12 +13,12 @@ export interface ResponseType {
   [key: string]: any;
 }
 
-function withHandler({ method, handler, isPrivate = false }: IWithHandler) {
-  return async function (
+function withHandler({ methods, handler, isPrivate = false }: IWithHandler) {
+  return async function(
     req: NextApiRequest,
     res: NextApiResponse
   ): Promise<any> {
-    if (req.method !== method) return res.status(405).end();
+    if (req.method && !methods.includes(req.method as any)) return res.status(405).end();
 
     if (isPrivate && !req.session.user)
       return res.status(401).json({ ok: false });
