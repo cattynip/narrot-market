@@ -14,11 +14,12 @@ export interface ResponseType {
 }
 
 function withHandler({ methods, handler, isPrivate = false }: IWithHandler) {
-  return async function(
+  return async function (
     req: NextApiRequest,
     res: NextApiResponse
   ): Promise<any> {
-    if (req.method && !methods.includes(req.method as any)) return res.status(405).end();
+    if (req.method && !methods.includes(req.method as any))
+      return res.status(405).end();
 
     if (isPrivate && !req.session.user)
       return res.status(401).json({ ok: false });

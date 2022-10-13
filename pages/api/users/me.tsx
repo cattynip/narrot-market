@@ -18,14 +18,13 @@ const handler = async (
       ok: true,
       profile
     });
-
   } catch (error) {
     console.log(error);
     return res.status(401).json({
       ok: false,
       profile: null,
-      error,
-    })
+      error
+    });
   }
 };
 

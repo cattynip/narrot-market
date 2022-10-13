@@ -25,7 +25,8 @@ const ItemUpload: NextPage = () => {
     formState: { errors }
   } = useForm<IProductUpload>();
 
-  const [uploadProduct, { loading, data }] = useMutation<UploadProductMutation>('/api/products');
+  const [uploadProduct, { loading, data }] =
+    useMutation<UploadProductMutation>('/api/products');
   const router = useRouter();
 
   const onValid = (data: IProductUpload) => {
@@ -38,7 +39,7 @@ const ItemUpload: NextPage = () => {
       console.log(data);
       router.replace(`/products/${data.productId}`);
     }
-  }, [data, router])
+  }, [data, router]);
 
   return (
     <Layout title="Upload Item" canGoBack>

@@ -4,19 +4,19 @@ import Layout from '@components/layout';
 import useUser from '@libs/client/useUser';
 import Link from 'next/link';
 import useSWR from 'swr';
-import { GetProductResponse } from './api/products';
+import { GetProductsResponse } from './api/products';
 
 // `index` means the default route of a router of its father.
 // All of the pages must have the type `NextPage` which Next.js provide for Typescript.
 
 const Home: NextPage = props => {
   const { user, isLoading } = useUser();
-  const {data} = useSWR<GetProductResponse>("/api/products");
+  const { data } = useSWR<GetProductsResponse>('/api/products');
 
   return (
     <Layout title="Home">
       <div className="flex flex-col space-y-5">
-        {data?.products?.map((product) => (
+        {data?.products?.map(product => (
           <Item
             title={product.name}
             price={product.price}
@@ -45,7 +45,6 @@ const Home: NextPage = props => {
               />
             </svg>
           </button>
-
         </Link>
       </div>
     </Layout>

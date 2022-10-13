@@ -137,7 +137,7 @@ const Enter: NextPage = props => {
                   placeholder="Your Email Address"
                   label="Email Address"
                   id="email"
-                  register={register("email")}
+                  register={register('email')}
                 />
               ) : null}
               {method === 'phone' ? (

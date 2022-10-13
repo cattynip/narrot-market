@@ -57,4 +57,6 @@ const BeautifulInput = forwardRef<BeautifulInputRef, BeautifulInputProps>(
   }
 );
 
+BeautifulInput.displayName = 'BeautifulInput';
+
 export default BeautifulInput;
