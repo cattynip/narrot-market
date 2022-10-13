@@ -1,17 +1,25 @@
 import type { NextPage } from 'next';
 import Layout from '@components/layout';
 import SimilarItems from '@components/smiliarItem';
+import useSWR from 'swr';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const ItemDetail: NextPage = () => {
+  const router = useRouter();
+  const { data } = useSWR(
+    router.query.id ? `/api/products/${router.query.id}` : null
+  );
+
   return (
-    <Layout title="Items - {ItemName}" canGoBack>
+    <Layout title={`Items - ${data?.product.name}`} canGoBack>
       <div>
         <div>
           <div className="relative">
             <div className="h-96 bg-slate-300 bg-gradient-to-b from-transparent to-gray-500" />
             <div className="absolute w-full bottom-6 px-7 font-extrabold text-white text-5xl flex justify-between">
-              <h1>Galaxy S50</h1>
-              <p>$140</p>
+              <h1>{data?.product.name}</h1>
+              <p>${data?.product.price}</p>
             </div>
           </div>
           <div className="px-5">
@@ -19,23 +27,19 @@ const ItemDetail: NextPage = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <div className="w-12 h-12 rounded-full bg-gray-500" />
-                  <p className="text-lg font-medium">Steve Jebs</p>
+                  <p className="text-lg font-medium">
+                    {data?.product?.user?.name}
+                  </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-sm">View profile &rarr;</p>
+                  <Link href={`/users/profile/${data?.product?.name}`}>
+                    <a className="text-gray-500 text-sm">View profile &rarr;</a>
+                  </Link>
                 </div>
               </div>
               <div className="mt-4">
                 <p className="text-gray-500 font-medium text-lg leading-5 tracking-wide">
-                  My money&apos;s in that office, right? If she start giving me
-                  some bullshit about it ain&apos;t there, and we got to go
-                  someplace else and get it, I&apos;m gonna shoot you in the
-                  head then and there. Then I&apos;m gonna shoot that bitch in
-                  the kneecaps, find out where my goddamn money is. She gonna
-                  tell me too. Hey, look at me when I&apos;m talking to you,
-                  motherfucker. You listen: we go in there, and that ni**a
-                  Winston or anybody else is in there, you the first
-                  motherfucker to get shot. You understand?
+                  {data?.product.description}
                 </p>
                 <div className="flex items-center justify-between mt-5 space-x-4">
                   <button className="transition-colors ease-in-out bg-orange-400 p-3 w-full text-white rounded-md hover:bg-orange-500 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 shadow-lg">
