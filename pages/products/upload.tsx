@@ -4,11 +4,18 @@ import { useForm } from 'react-hook-form';
 import { joinClass } from '@libs/client/utils';
 import BeautifulInput from '@components/beautifulInput';
 import useMutation from '@libs/client/useMutation';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 interface IProductUpload {
   name: string;
   price: number;
   description?: string;
+}
+
+interface UploadProductMutation {
+  ok: boolean;
+  productId: number;
 }
 
 const ItemUpload: NextPage = () => {
@@ -18,14 +25,20 @@ const ItemUpload: NextPage = () => {
     formState: { errors }
   } = useForm<IProductUpload>();
 
-  const [uploadProduct, { loading, data }] = useMutation(
-    '/api/products/upload'
-  );
+  const [uploadProduct, { loading, data }] = useMutation<UploadProductMutation>('/api/products');
+  const router = useRouter();
 
   const onValid = (data: IProductUpload) => {
     if (loading) return;
     uploadProduct(data);
   };
+
+  useEffect(() => {
+    if (data?.ok) {
+      console.log(data);
+      router.replace(`/product/${data.productId}`);
+    }
+  }, [data, router])
 
   return (
     <Layout title="Upload Item">
