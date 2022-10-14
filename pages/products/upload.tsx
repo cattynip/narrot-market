@@ -6,16 +6,12 @@ import BeautifulInput from '@components/beautifulInput';
 import useMutation from '@libs/client/useMutation';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { PostProductsReponse } from 'pages/api/products';
 
 interface IProductUpload {
   name: string;
   price: number;
   description?: string;
-}
-
-interface UploadProductMutation {
-  ok: boolean;
-  productId: number;
 }
 
 const ItemUpload: NextPage = () => {
@@ -26,7 +22,7 @@ const ItemUpload: NextPage = () => {
   } = useForm<IProductUpload>();
 
   const [uploadProduct, { loading, data }] =
-    useMutation<UploadProductMutation>('/api/products');
+    useMutation<PostProductsReponse>('/api/products');
   const router = useRouter();
 
   const onValid = (data: IProductUpload) => {

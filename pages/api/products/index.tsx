@@ -9,6 +9,11 @@ export interface GetProductsResponse {
   products: Product[];
 }
 
+export interface PostProductsReponse {
+  ok: boolean;
+  productId: number;
+}
+
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
