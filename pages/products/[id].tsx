@@ -4,10 +4,11 @@ import SimilarItems from '@components/smiliarItem';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { GetProductResponse } from 'pages/api/products/[id]';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR(
+  const { data } = useSWR<GetProductResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
 
@@ -32,7 +33,7 @@ const ItemDetail: NextPage = () => {
                   </p>
                 </div>
                 <div>
-                  <Link href={`/users/profile/${data?.product?.name}`}>
+                  <Link href={`/users/profile/${data?.product.user.name}`}>
                     <a className="text-gray-500 text-sm">View profile &rarr;</a>
                   </Link>
                 </div>
@@ -68,12 +69,16 @@ const ItemDetail: NextPage = () => {
             <div>
               <h2 className="font-extrabold text-2xl pb-3">Similar Items</h2>
               <div className="border-t-2 border-t-gray-300 pt-5 grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
-                {[...Array(50)].map((value, idx) => (
+                {data?.relatedProducts.map(product => (
                   <SimilarItems
-                    title="Galaxy S50"
-                    price={140}
-                    id={123}
-                    key={idx}
+                    title={product.name}
+                    price={product.price}
+                    id={product.id}
+                    userInfo={{
+                      name: product.user.name,
+                      avatar: product.user.name
+                    }}
+                    key={product.id}
                   />
                 ))}
               </div>
