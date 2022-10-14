@@ -5,12 +5,19 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { GetProductResponse } from 'pages/api/products/[id]';
+import useMutation from '@libs/client/useMutation';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
   const { data } = useSWR<GetProductResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
+
+  const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+
+  const onFavClick = () => {
+    toggleFav({});
+  };
 
   return (
     <Layout title={`Items - ${data?.product.name}`} canGoBack>
@@ -46,13 +53,16 @@ const ItemDetail: NextPage = () => {
                   <button className="transition-colors ease-in-out bg-orange-400 p-3 w-full text-white rounded-md hover:bg-orange-500 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 shadow-lg">
                     Talk to seller
                   </button>
-                  <button className="transition-colors p-3 shadow-lg rounded-md">
+                  <button
+                    onClick={onFavClick}
+                    className="transition-colors p-3 shadow-lg rounded-md"
+                  >
                     <svg
                       className="h-7 w-7"
                       xmlns="http://www.w3.org/2000/svg"
-                      fill="#f97316"
+                      fill={data?.isLiked ? '#f97316' : '#ffffff'}
                       viewBox="0 0 24 24"
-                      stroke="#f97316"
+                      stroke={data?.isLiked ? '#f97316' : '#6b7280'}
                       aria-hidden="true"
                     >
                       <path

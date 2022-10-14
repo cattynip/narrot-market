@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export interface GetProductResponse {
   ok: boolean;
+  created: boolean;
 }
 
 const handler = async (

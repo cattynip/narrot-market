@@ -31,6 +31,7 @@ export interface GetProductResponse {
   ok: boolean;
   product: ProductWithUser;
   relatedProducts: RelatedProduct[];
+  isLiked: boolean;
 }
 
 const handler = async (
@@ -38,10 +39,11 @@ const handler = async (
   res: NextApiResponse<ResponseType>
 ): Promise<any> => {
   const {
-    query: { id }
+    query: { id },
+    session: { user }
   } = req;
 
-  if (!id) return res.json({ ok: false });
+  if (!id || !user) return res.json({ ok: false });
 
   const cleanId = +id.toString();
 
@@ -92,10 +94,23 @@ const handler = async (
     }
   });
 
+  const isLiked = Boolean(
+    await client?.favorite.findFirst({
+      where: {
+        productId: foundProduct.id,
+        userId: user.id
+      },
+      select: {
+        id: true
+      }
+    })
+  );
+
   return res.json({
     ok: true,
     product: foundProduct,
-    relatedProducts
+    relatedProducts,
+    isLiked
   });
 };
 
