@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 interface ItemProps {
   title: string;
@@ -9,12 +9,17 @@ interface ItemProps {
   id: number;
 }
 
-const Item = ({ title, price, favorites, isFavorited, comments, id }: ItemProps) => {
+const Item = ({
+  title,
+  price,
+  favorites,
+  isFavorited,
+  comments,
+  id
+}: ItemProps) => {
   return (
-    <Link href={`/products/${id}`} >
-      <a
-        className="flex border-b py-4 px-4 cursor-pointer justify-between"
-      >
+    <Link href={`/products/${id}`}>
+      <a className="flex border-b py-4 px-4 cursor-pointer justify-between">
         <div className="flex space-x-4">
           <div className="w-20 h-20 bg-gray-400 rounded" />
           <div>
@@ -28,8 +33,8 @@ const Item = ({ title, price, favorites, isFavorited, comments, id }: ItemProps)
           <div className="flex justify-center items-center space-x-0.5">
             <svg
               className="w-5 h-5 mr-1"
-              fill={isFavorited ? "#f97316" : "#00000000"}
-              stroke={isFavorited ? "#f97316" : "#6b7280"}
+              fill={isFavorited ? '#f97316' : '#00000000'}
+              stroke={isFavorited ? '#f97316' : '#6b7280'}
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -61,7 +66,6 @@ const Item = ({ title, price, favorites, isFavorited, comments, id }: ItemProps)
           </div>
         </div>
       </a>
-
     </Link>
   );
 };

@@ -21,9 +21,11 @@ const Home: NextPage = props => {
             title={product.name}
             price={product.price}
             favorites={product._count.favorites}
-            isFavorited={Boolean(product.favorites.find((fav) => {
-              return fav.userId === user.id;
-            }))}
+            isFavorited={Boolean(
+              product.favorites.find(fav => {
+                return fav.userId === user.id;
+              })
+            )}
             comments={5000}
             id={product.id}
             key={product.id}

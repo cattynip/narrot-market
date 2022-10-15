@@ -36,12 +36,12 @@ const handler = async (
       include: {
         favorites: {
           select: {
-            userId: true,
+            userId: true
           }
         },
         _count: {
           select: {
-            favorites: true,
+            favorites: true
           }
         }
       }
@@ -49,7 +49,7 @@ const handler = async (
 
     return res.json({
       ok: true,
-      products,
+      products
     });
   }
 

@@ -1,54 +1,39 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Generate client
 generator client {
   // This is based on prisma client.
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
-// Set Database
 datasource db {
-  // This database is based on mysql and prisma.
   provider             = "mysql"
   referentialIntegrity = "prisma"
-  // Url comes from .env file.
   url                  = env("DATABASE_URL")
 }
 
-// Create a User.
 model User {
-  // Id for identifying. Default value will be decided by increasing.
-  id        Int        @id @default(autoincrement())
-  // The phone number and email of the user. And these values have to be unique.
-  phone     String?    @unique
-  email     String?    @unique
-  // The name of the user.
-  name      String
-  // The avatar of the user. It will be the route url.
-  avatar    String?
-  tokens    Token[]
-  products  Product[]
-  favorites Favorite[]
-  // The created time and updated time of the user. The default value of createdAt is when the user create this account.
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id         Int         @id @default(autoincrement())
+  phone      String?     @unique
+  email      String?     @unique
+  name       String
+  avatar     String?
+  tokens     Token[]
+  products   Product[]
+  favorites  Favorite[]
+  posts      Post[]
+  answers    Answer[]
+  wonderings Wondering[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
 
-// Set a Token.
 model Token {
-  // Id for indentifying. Default value will be decided by increasing.
   id        Int      @id @default(autoincrement())
   payload   String   @unique
-  // user and userId for connecting between user and token.
-  // relation indentify the User that is connected with this.
-  // This token will be deleted when the User that is connected with this token because of `onDelete: Cascade`.
-  // But value of `user` will not be applied to real server. It is for developers.
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  // Value of `userId` will be applied to real server.
   userId    Int
-  // The created time and updated time of the user. The default value of createdAt is when the user create this account.
   createdAt DateTime @default(now())
 }
 
@@ -69,6 +54,38 @@ model Favorite {
   id        Int      @id @default(autoincrement())
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id         Int         @id @default(autoincrement())
+  question   String      @db.MediumText
+  answers    Answer[]
+  wonderings Wondering[]
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Answer {
+  id        Int      @id @default(autoincrement())
+  answer    String   @db.MediumText
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Wondering {
+  id        Int      @id @default(autoincrement())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime @default(now())
