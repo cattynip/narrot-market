@@ -33,7 +33,7 @@ const Home: NextPage = props => {
           />
         ))}
 
-        <Badge href='/products/upload'>
+        <Badge href="/products/upload">
           <svg
             className="h-7 w-7"
             xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ const Home: NextPage = props => {
           </svg>
         </Badge>
       </div>
-    </Layout >
+    </Layout>
   );
 };
 

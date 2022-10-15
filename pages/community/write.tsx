@@ -1,16 +1,65 @@
 import type { NextPage } from 'next';
 import BeautifulButton from '@components/beautifulButton';
-import BeautifulTextarea from '@components/beautifulTextarea';
 import Layout from '@components/layout';
+import { useForm } from 'react-hook-form';
+import BeautifulInput from '@components/beautifulInput';
+import useMutation from '@libs/client/useMutation';
+import { PostPostReponse } from 'pages/api/posts';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+interface WriteForm {
+  question: string;
+}
 
 const CommunityWrite: NextPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<WriteForm>();
+  const [post, { data, loading, error }] =
+    useMutation<PostPostReponse>('/api/posts');
+  const router = useRouter();
+
+  const onValid = (validForm: WriteForm) => {
+    if (loading) return;
+    post(validForm);
+  };
+
+  useEffect(() => {
+    if (data && data.ok) {
+      router.push(`/community/${data?.createdPost.id}`);
+    }
+  }, [data, router]);
+
   return (
     <Layout title="Write New Post">
       <div>
-        <form>
+        <form onSubmit={handleSubmit(onValid)}>
           <div className="flex flex-col">
-            <BeautifulTextarea placeholder="Write Answer" id="" isRequired />
-            <BeautifulButton buttonText="Submit" />
+            <BeautifulInput
+              inputType="description"
+              placeholder="Write a question"
+              label="Question"
+              register={register('question', {
+                required: {
+                  value: true,
+                  message: 'Question is required.'
+                },
+                maxLength: {
+                  value: 200,
+                  message: 'Question is too long.'
+                },
+                minLength: {
+                  value: 5,
+                  message: 'Question is too short.'
+                }
+              })}
+              error={errors.question?.message}
+              isRequired
+            />
+            <BeautifulButton buttonText={loading ? 'Loading...' : 'Submit'} />
           </div>
         </form>
       </div>
