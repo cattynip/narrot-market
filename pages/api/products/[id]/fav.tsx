@@ -2,7 +2,7 @@ import withHandler, { ResponseType } from '@libs/server/withHandler';
 import { withApiSession } from '@libs/server/withSession';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export interface GetProductResponse {
+export interface GetFavProductResponse {
   ok: boolean;
   created: boolean;
 }

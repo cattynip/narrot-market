@@ -6,16 +6,21 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { GetProductResponse } from 'pages/api/products/[id]';
 import useMutation from '@libs/client/useMutation';
+import { GetFavProductResponse } from 'pages/api/products/[id]/fav';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR<GetProductResponse>(
+  const { data, mutate } = useSWR<GetProductResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
 
-  const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+  const [toggleFav] = useMutation<GetFavProductResponse>(
+    `/api/products/${router.query.id}/fav`
+  );
 
   const onFavClick = () => {
+    if (!data) return;
+    mutate({ ...data, isLiked: !data.isLiked }, true);
     toggleFav({});
   };
 
