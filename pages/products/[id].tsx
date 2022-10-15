@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Layout from '@components/layout';
 import SimilarItems from '@components/smiliarItem';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { GetProductResponse } from 'pages/api/products/[id]';
@@ -10,7 +10,8 @@ import { GetFavProductResponse } from 'pages/api/products/[id]/fav';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data, mutate } = useSWR<GetProductResponse>(
+  const {mutate} = useSWRConfig();
+  const { data, mutate: boundMutate } = useSWR<GetProductResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
 
@@ -20,7 +21,8 @@ const ItemDetail: NextPage = () => {
 
   const onFavClick = () => {
     if (!data) return;
-    mutate({ ...data, isLiked: !data.isLiked }, true);
+    boundMutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, true);
+    // mutate("/api/users/me", {ok: false}, false);
     toggleFav({});
   };
 
