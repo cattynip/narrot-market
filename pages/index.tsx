@@ -15,12 +15,15 @@ const Home: NextPage = props => {
 
   return (
     <Layout title="Home">
-      <div className="flex flex-col space-y-5">
+      <div className="flex flex-col">
         {data?.products?.map(product => (
           <Item
             title={product.name}
             price={product.price}
-            hearts={100000}
+            favorites={product._count.favorites}
+            isFavorited={Boolean(product.favorites.find((fav) => {
+              return fav.userId === user.id;
+            }))}
             comments={5000}
             id={product.id}
             key={product.id}

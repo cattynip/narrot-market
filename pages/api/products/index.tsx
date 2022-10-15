@@ -4,9 +4,22 @@ import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
 import { Product } from '@prisma/client';
 
+interface ProductFavoriteUser {
+  userId: number;
+}
+
+interface ProductFavoriteCount {
+  favorites: number;
+}
+
+export interface ProductProps extends Product {
+  favorites: ProductFavoriteUser[];
+  _count: ProductFavoriteCount;
+}
+
 export interface GetProductsResponse {
   ok: boolean;
-  products: Product[];
+  products: ProductProps[];
 }
 
 export interface PostProductsReponse {
@@ -19,11 +32,24 @@ const handler = async (
   res: NextApiResponse<ResponseType>
 ): Promise<any> => {
   if (req.method === 'GET') {
-    const products = await client.product.findMany({});
+    const products = await client.product.findMany({
+      include: {
+        favorites: {
+          select: {
+            userId: true,
+          }
+        },
+        _count: {
+          select: {
+            favorites: true,
+          }
+        }
+      }
+    });
 
     return res.json({
       ok: true,
-      products
+      products,
     });
   }
 
