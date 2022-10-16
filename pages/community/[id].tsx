@@ -1,12 +1,21 @@
 import type { NextPage } from 'next';
 import BeautifulButton from '@components/beautifulButton';
-import BeautifulTextarea from '@components/beautifulTextarea';
 import CommunityAnswer from '@components/communityAnswer';
 import Layout from '@components/layout';
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
+import { GetPostResponse } from 'pages/api/posts/[id]';
+import Link from 'next/link';
+import BeautifulInput from '@components/beautifulInput';
 
 const CommunityPostDetail: NextPage = () => {
+  const router = useRouter();
+  const { data } = useSWR<GetPostResponse>(
+    router.query.id ? `/api/posts/${router.query.id}` : null
+  );
+
   return (
-    <Layout title="Post - {PostName}" canGoBack>
+    <Layout title={`Post - ${data?.foundPost.question}`} canGoBack>
       <div>
         <div>
           <div className="px-1.5 rounded-md w-fit bg-gray-300">
@@ -15,16 +24,20 @@ const CommunityPostDetail: NextPage = () => {
           <div className="flex items-center justify-between pt-3">
             <div className="flex items-center space-x-2">
               <div className="w-12 h-12 rounded-full bg-gray-400" />
-              <p className="text-lg font-medium">Steve Jebs</p>
+              <p className="text-lg font-medium">{data?.foundPost.user.name}</p>
             </div>
             <div>
-              <p className="text-gray-500 text-sm">View profile &rarr;</p>
+              <Link href={`/users/profile/${data?.foundPost.user.name}`}>
+                <a>
+                  <p className="text-gray-500 text-sm">View profile &rarr;</p>
+                </a>
+              </Link>
             </div>
           </div>
         </div>
         <div className="py-3 space-x-1.5 flex items-center justify-start">
           <span className="text-orange-500 text-xl">Q.</span>
-          <h3>What is the best mandu restaurant?</h3>
+          <h3>{data?.foundPost.question}</h3>
         </div>
         <div className="flex justify-start space-x-5 items-center border-t-1 text-sm border-t-black py-2 px-1 border-b-2 border-b-gray-300">
           <div className="flex justify-center items-center space-x-1">
@@ -44,7 +57,7 @@ const CommunityPostDetail: NextPage = () => {
             </svg>
             <div className="space-x-1">
               <span>궁금해요</span>
-              <span>1</span>
+              <span>{data?.foundPost._count.wonderings}</span>
             </div>
           </div>
           <div className="flex justify-center items-center space-x-1">
@@ -64,21 +77,28 @@ const CommunityPostDetail: NextPage = () => {
             </svg>
             <div className="space-x-2">
               <span>답변</span>
-              <span>1</span>
+              <span>{data?.foundPost._count.answers}</span>
             </div>
           </div>
         </div>
-        {[...Array(10)].map((value, idx) => (
+
+        {data?.foundPost.answers.map(answer => (
           <CommunityAnswer
-            key={idx}
-            author="craftzcat"
+            key={answer.id}
+            author={answer.user.name}
             createdAtValue={2}
             createdAtType="h"
-            answer="The best mandu restaurant is the one next to my house."
+            answer={answer.answer}
           />
         ))}
+
         <div className="flex flex-col">
-          <BeautifulTextarea placeholder="Answer" id="" isRequired />
+          <BeautifulInput
+            inputType="description"
+            placeholder="Answer"
+            label="Answer"
+            isRequired
+          />
           <BeautifulButton buttonText="Apply" />
         </div>
       </div>

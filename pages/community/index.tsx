@@ -2,22 +2,27 @@ import type { NextPage } from 'next';
 import CommunityItem from '@components/communityItem';
 import Layout from '@components/layout';
 import Badge from '@components/badge';
+import useSWR from 'swr';
+import { GetPostsResponse } from 'pages/api/posts';
 
 const Community: NextPage = () => {
+  const { data } = useSWR<GetPostsResponse>('/api/posts/');
+
+  console.log(data);
+
   return (
     <Layout title="Community">
       <div>
-        {[...Array(50)].map((value, idx) => (
+        {data?.foundPosts.map(post => (
           <CommunityItem
             type="동네질문"
-            question="What is the best mandu restaurant?"
-            author="Craftzcat"
-            createdAtValue={18}
-            createdAtType="h"
-            curiouses={14}
-            answers={1}
-            id={123}
-            key={idx}
+            question={post.question}
+            author={post.user.name}
+            curiouses={post._count.wonderings}
+            answers={post._count.answers}
+            createdAt={post.createdAt}
+            id={post.id}
+            key={post.id}
           />
         ))}
 

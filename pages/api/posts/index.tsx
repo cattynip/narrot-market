@@ -4,9 +4,19 @@ import { withApiSession } from '@libs/server/withSession';
 import { Post } from '@prisma/client';
 import client from '@libs/server/client';
 
-export interface GetPostResponse {
+export interface GetPostsPost extends Post {
+  user: {
+    name: string;
+  };
+  _count: {
+    wonderings: number;
+    answers: number;
+  };
+}
+
+export interface GetPostsResponse {
   ok: boolean;
-  foundPosts: Post;
+  foundPosts: GetPostsPost[];
 }
 
 export interface PostPostReponse {
@@ -25,7 +35,21 @@ const handler = async (
   } = req;
 
   if (method === 'GET') {
-    const foundPosts = await client?.post.findMany({});
+    const foundPosts = await client?.post.findMany({
+      include: {
+        user: {
+          select: {
+            name: true
+          }
+        },
+        _count: {
+          select: {
+            wonderings: true,
+            answers: true
+          }
+        }
+      }
+    });
 
     return res.json({
       ok: true,

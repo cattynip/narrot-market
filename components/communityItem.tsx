@@ -2,10 +2,9 @@ interface CommunityItemProps {
   type: string;
   question: string;
   author: string;
-  createdAtValue: number;
-  createdAtType: string;
   curiouses: number;
   answers: number;
+  createdAt: Date;
   id: number;
 }
 
@@ -13,10 +12,9 @@ const CommunityItem = ({
   type,
   question,
   author,
-  createdAtValue,
-  createdAtType,
   curiouses,
   answers,
+  createdAt,
   id
 }: CommunityItemProps) => {
   return (
@@ -31,9 +29,7 @@ const CommunityItem = ({
         </div>
         <div className="flex justify-between items-center text-gray-500 text-sm  border-b-2 pb-1 px-1">
           <span>{author}</span>
-          <span>
-            {createdAtValue} {createdAtType}
-          </span>
+          <span>{createdAt.toString()}</span>
         </div>
         <div className="flex justify-start space-x-5 items-center border-t-1 text-sm border-t-black py-2 px-1">
           <div className="flex justify-center items-center space-x-1">
