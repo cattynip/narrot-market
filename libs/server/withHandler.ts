@@ -30,16 +30,13 @@ function withHandler({
     req: NextApiRequest,
     res: NextApiResponse
   ): Promise<any> {
-    const {
-      method,
-      session: { user },
-      query
-    } = req;
+    const { method, query } = req;
 
     if (method && !methods.includes(method as any))
       return res.status(405).end();
 
-    if (isPrivate && !user) return res.status(401).json({ ok: false });
+    if (isPrivate && !req.session.user)
+      return res.status(401).json({ ok: false });
 
     if (beChecked && !query) {
       return res.status(401).json({ ok: false });

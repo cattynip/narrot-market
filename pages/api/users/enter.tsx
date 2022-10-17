@@ -4,6 +4,7 @@ import withHandler, {
   ResponseType
 } from '@libs/server/withHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
+
 // import twilio from 'twilio';
 
 // const twilioClient = twilio(
@@ -37,6 +38,8 @@ const handler = async (
       }
     }
   });
+
+  console.log(`YOUR PAYLOAD : ${payload}`);
 
   if (phone) {
     // const messageInstance = await twilioClient.messages.create({
