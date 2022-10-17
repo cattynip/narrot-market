@@ -1,5 +1,8 @@
 import client from '@libs/server/client';
-import withHandler, { ResponseType } from '@libs/server/withHandler';
+import withHandler, {
+  FailResponseType,
+  ResponseType
+} from '@libs/server/withHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 // import twilio from 'twilio';
 
@@ -10,14 +13,15 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<ResponseType | FailResponseType>
 ) => {
   const { phone, email } = req.body;
   const user = phone ? { phone } : email ? { email } : { email };
-  if (!user) return res.status(400).json({ ok: false });
+  if (!user)
+    return res.status(400).json({ ok: false, reason: 'User is not exist.' });
   const payload = Math.floor(100000 + Math.random() * 900000) + '';
 
-  const token = await client.token.create({
+  await client.token.create({
     data: {
       payload,
       user: {

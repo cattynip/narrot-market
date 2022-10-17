@@ -2,6 +2,11 @@ import withHandler, { ResponseType } from '@libs/server/withHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
+import { User } from '@prisma/client';
+
+interface GetUsersMeResponse extends ResponseType {
+  profile: User | null;
+}
 
 const handler = async (
   req: NextApiRequest,
@@ -20,8 +25,7 @@ const handler = async (
   } catch (error) {
     return res.status(401).json({
       ok: false,
-      profile: null,
-      error
+      profile: null
     });
   }
 };

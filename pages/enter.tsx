@@ -50,7 +50,6 @@ const Enter: NextPage = props => {
 
   const onValid = (validForm: IEnterForm) => {
     if (loading) return;
-    console.log(validForm);
     enter(validForm);
   };
 

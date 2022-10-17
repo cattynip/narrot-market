@@ -1,49 +1,55 @@
-import withHandler, { ResponseType } from '@libs/server/withHandler';
+import withHandler, {
+  FailResponseType,
+  ResponseType
+} from '@libs/server/withHandler';
 import { withApiSession } from '@libs/server/withSession';
 import { Product } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export interface ProductUser {
-  id: number;
-  name: string;
-  avatar: string;
-}
-
 export interface ProductWithUser extends Product {
-  user: ProductUser;
+  user: {
+    id: number;
+    name: string;
+    avatar: string;
+  };
 }
 
-export interface RelatedProductUser {
-  avatar: string;
-  name: string;
-}
-
-export interface RelatedProduct {
+export interface RelatedProducts {
   id: number;
   userId: number;
   name: string;
   price: number;
   image: string;
-  user: RelatedProductUser;
+  user: {
+    name: string;
+    avatar: string;
+  };
 }
 
-export interface GetProductResponse {
+export interface GetProductResponse extends ResponseType {
   ok: boolean;
   product: ProductWithUser;
-  relatedProducts: RelatedProduct[];
+  relatedProducts: RelatedProducts[];
   isLiked: boolean;
 }
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<ResponseType | FailResponseType>
 ): Promise<any> => {
   const {
     query: { id },
     session: { user }
   } = req;
 
-  if (!id || !user) return res.json({ ok: false });
+  if (!id || !user)
+    return res.json({
+      ok: false,
+      reason: [
+        !id ? 'Id is not exist.' : 'Id is Ok.',
+        !user ? 'User is not exist.' : 'User is Ok.'
+      ]
+    });
 
   const cleanId = +id.toString();
 
@@ -62,7 +68,10 @@ const handler = async (
     }
   });
 
-  if (!foundProduct) return res.status(404).json({ ok: false });
+  if (!foundProduct)
+    return res
+      .status(404)
+      .json({ ok: false, reason: 'The Product is not found.' });
 
   const terms = foundProduct?.name.split(' ').map(word => ({
     name: {
@@ -118,6 +127,7 @@ export default withApiSession(
   withHandler({
     methods: ['GET'],
     handler,
-    isPrivate: true
+    isPrivate: true,
+    beChecked: true
   })
 );

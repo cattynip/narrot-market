@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { GetProductResponse } from 'pages/api/products/[id]';
 import useMutation from '@libs/client/useMutation';
-import { GetFavProductResponse } from 'pages/api/products/[id]/fav';
+import { GetProductFaveResponse } from 'pages/api/products/[id]/fav';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
@@ -15,7 +15,7 @@ const ItemDetail: NextPage = () => {
     router.query.id ? `/api/products/${router.query.id}` : null
   );
 
-  const [toggleFav] = useMutation<GetFavProductResponse>(
+  const [toggleFav] = useMutation<GetProductFaveResponse>(
     `/api/products/${router.query.id}/fav`
   );
 
@@ -93,7 +93,7 @@ const ItemDetail: NextPage = () => {
                     id={product.id}
                     userInfo={{
                       name: product.user.name,
-                      avatar: product.user.name
+                      avatar: product.user.avatar
                     }}
                     key={product.id}
                   />

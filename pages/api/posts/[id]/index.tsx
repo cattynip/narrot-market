@@ -1,7 +1,10 @@
-import withHandler, { ResponseType } from '@libs/server/withHandler';
+import withHandler, {
+  FailResponseType,
+  ResponseType
+} from '@libs/server/withHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiSession } from '@libs/server/withSession';
-import { Answer, Post } from '@prisma/client';
+import { Post } from '@prisma/client';
 
 export interface GetPostUser {
   id: number;
@@ -33,13 +36,14 @@ export interface GetPostResponse {
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<ResponseType | FailResponseType>
 ): Promise<any> => {
   const {
     query: { id }
   } = req;
 
-  if (!id) return res.status(401).json({ ok: false });
+  if (!id)
+    return res.status(401).json({ ok: false, reason: 'Id is not exist.' });
 
   const cleanId = +id?.toString();
 

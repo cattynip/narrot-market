@@ -1,10 +1,13 @@
-import withHandler, { ResponseType } from '@libs/server/withHandler';
+import withHandler, {
+  FailResponseType,
+  ResponseType
+} from '@libs/server/withHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiSession } from '@libs/server/withSession';
 import { Post } from '@prisma/client';
 import client from '@libs/server/client';
 
-export interface GetPostsPost extends Post {
+export interface GetPostPost extends Post {
   user: {
     name: string;
   };
@@ -16,7 +19,7 @@ export interface GetPostsPost extends Post {
 
 export interface GetPostsResponse {
   ok: boolean;
-  foundPosts: GetPostsPost[];
+  foundPosts: GetPostPost[];
 }
 
 export interface PostPostReponse {
@@ -26,7 +29,7 @@ export interface PostPostReponse {
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<ResponseType | FailResponseType>
 ): Promise<any> => {
   const {
     body,
@@ -59,30 +62,25 @@ const handler = async (
 
   if (method === 'POST') {
     if (!body.question || body.question.trim() === '')
-      return res.status(401).json({ ok: false });
+      return res
+        .status(401)
+        .json({ ok: false, reason: 'Question is not exist or blank.' });
 
-    try {
-      const createdPost = await client?.post.create({
-        data: {
-          question: body.question,
-          user: {
-            connect: {
-              id: user?.id
-            }
+    const createdPost = await client?.post.create({
+      data: {
+        question: body.question,
+        user: {
+          connect: {
+            id: user?.id
           }
         }
-      });
+      }
+    });
 
-      return res.json({
-        ok: true,
-        createdPost
-      });
-    } catch (error) {
-      return res.json({
-        ok: false,
-        error
-      });
-    }
+    return res.json({
+      ok: true,
+      createdPost
+    });
   }
 };
 

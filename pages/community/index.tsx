@@ -8,8 +8,6 @@ import { GetPostsResponse } from 'pages/api/posts';
 const Community: NextPage = () => {
   const { data } = useSWR<GetPostsResponse>('/api/posts/');
 
-  console.log(data);
-
   return (
     <Layout title="Community">
       <div>

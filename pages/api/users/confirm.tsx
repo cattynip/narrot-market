@@ -7,14 +7,12 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) => {
-  // The Session will be injected by `withIronSessionApiRoute`.
   const { token } = req.body;
 
   const foundToken = await client.token.findUnique({
     where: {
       payload: token
     },
-    // Include === populate in mongoose.
     include: {
       user: true
     }
@@ -26,7 +24,6 @@ const handler = async (
     id: foundToken.userId
   };
 
-  // If you go to Application > Cookies > http://localhost:300, I will see a cookie.
   await req.session.save();
 
   await client.token.deleteMany({

@@ -2,12 +2,12 @@ import withHandler, {
   FailResponseType,
   ResponseType
 } from '@libs/server/withHandler';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiSession } from '@libs/server/withSession';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-export interface GetProductFaveResponse {
+export interface GetPostResponse {
   ok: boolean;
-  isWondering: boolean;
+  created: boolean;
 }
 
 const handler = async (
@@ -19,35 +19,33 @@ const handler = async (
     session: { user }
   } = req;
 
-  if (!id || !user)
-    return res.json({
-      ok: false,
-      reason: [
-        !id ? 'Id is not exist.' : 'Id is Ok.',
-        !user ? 'User is not exist.' : 'User is Ok.'
-      ]
-    });
+  console.log('Hello');
+  if (!id || !user?.id)
+    return res
+      .status(401)
+      .json({ ok: false, reason: 'Id or User id is not exist.' });
 
-  const cleanId = +id.toString();
+  const cleanId = +id?.toString();
 
-  const isExist = await client?.favorite.findFirst({
+  const isExist = await client?.wondering.findFirst({
     where: {
-      productId: cleanId,
-      userId: user.id
-    }
+      userId: user.id,
+      postId: cleanId
+    },
+    select: { id: true }
   });
 
   if (!isExist) {
-    const createdFavorite = await client?.favorite.create({
+    await client?.wondering.create({
       data: {
-        user: {
-          connect: {
-            id: user.id
-          }
-        },
-        product: {
+        post: {
           connect: {
             id: cleanId
+          }
+        },
+        user: {
+          connect: {
+            id: user?.id
           }
         }
       }
@@ -55,19 +53,19 @@ const handler = async (
 
     return res.json({
       ok: true,
-      isWondering: true
+      created: true
     });
   }
 
-  const deletedFavorite = await client?.favorite.delete({
+  await client?.wondering.delete({
     where: {
-      id: isExist?.id
+      id: isExist.id
     }
   });
 
   return res.json({
     ok: true,
-    isWondering: false
+    created: false
   });
 };
 

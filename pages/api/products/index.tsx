@@ -4,25 +4,25 @@ import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
 import { Product } from '@prisma/client';
 
-interface ProductFavoriteUser {
+interface FavoritesInProduct {
   userId: number;
 }
 
-interface ProductFavoriteCount {
+interface ProductCount {
   favorites: number;
 }
 
-export interface ProductProps extends Product {
-  favorites: ProductFavoriteUser[];
-  _count: ProductFavoriteCount;
+export interface GetProductsProduct extends Product {
+  favorites: FavoritesInProduct[];
+  _count: ProductCount;
 }
 
 export interface GetProductsResponse {
   ok: boolean;
-  products: ProductProps[];
+  products: GetProductsProduct[];
 }
 
-export interface PostProductsReponse {
+export interface PostProductsResponse extends ResponseType {
   ok: boolean;
   productId: number;
 }

@@ -1,10 +1,14 @@
 import Link from 'next/link';
-import { RelatedProductUser } from 'pages/api/products/[id]';
+
+interface SimilarItemsUser {
+  name: string;
+  avatar: string;
+}
 
 interface SimilarItemsProps {
   title: string;
   price: number;
-  userInfo: RelatedProductUser;
+  userInfo: SimilarItemsUser;
   id: number;
 }
 
