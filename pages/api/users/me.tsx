@@ -4,7 +4,7 @@ import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
 import { User } from '@prisma/client';
 
-interface GetUsersMeResponse extends ResponseType {
+export interface GetUsersMeResponse extends ResponseType {
   profile: User | null;
 }
 
@@ -18,6 +18,7 @@ const handler = async (
         id: req.session.user?.id
       }
     });
+    console.log(profile);
     return res.status(200).json({
       ok: true,
       profile

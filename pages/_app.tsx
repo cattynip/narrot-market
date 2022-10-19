@@ -13,6 +13,7 @@ import useUser, { fetcher } from '@libs/client/useUser';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { user, isLoading } = useUser();
+
   return (
     <SWRConfig
       value={{

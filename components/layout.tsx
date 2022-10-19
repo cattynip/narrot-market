@@ -4,14 +4,18 @@ import Navigation from './navigation';
 
 interface LayoutProps {
   title?: string;
-  canGoBack?: boolean;
+  canGoBack?: boolean | string;
   children: React.ReactNode;
 }
 
 const Layout = ({ title, canGoBack, children }: LayoutProps) => {
   const router = useRouter();
   const goBack = () => {
-    router.back();
+    if (typeof canGoBack === 'string') {
+      router.replace(canGoBack);
+    } else {
+      router.back();
+    }
   };
 
   return (

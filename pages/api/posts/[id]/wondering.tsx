@@ -5,7 +5,7 @@ import withHandler, {
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiSession } from '@libs/server/withSession';
 
-export interface GetPostResponse {
+export interface GetPostWonderingResponse {
   ok: boolean;
   created: boolean;
 }

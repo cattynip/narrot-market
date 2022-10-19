@@ -83,7 +83,7 @@ model Answer {
 }
 
 model Wondering {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id @unique @default(autoincrement())
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)

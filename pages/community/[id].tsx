@@ -4,18 +4,46 @@ import CommunityAnswer from '@components/communityAnswer';
 import Layout from '@components/layout';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import { GetPostResponse } from 'pages/api/posts/[id]';
 import Link from 'next/link';
 import BeautifulInput from '@components/beautifulInput';
+import useMutation from '@libs/client/useMutation';
+import { GetPostWonderingResponse } from 'pages/api/posts/[id]/wondering';
+import { GetPostResponse } from 'pages/api/posts/[id]';
+import { joinClass } from '@libs/client/utils';
 
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR<GetPostResponse>(
+  const { data, mutate } = useSWR<GetPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );
+  const [wonder] = useMutation<GetPostWonderingResponse>(
+    `/api/posts/${router.query.id}/wondering`
+  );
+
+  const wonderButtonClick = () => {
+    if (!data) return;
+
+    mutate(
+      {
+        ...data,
+        foundPost: {
+          ...data?.foundPost,
+          _count: {
+            ...data?.foundPost._count,
+            wonderings:
+              data.foundPost._count.wonderings + (data.isWondering ? -1 : 1)
+          }
+        },
+        isWondering: !data.isWondering
+      },
+      false
+    );
+
+    wonder({});
+  };
 
   return (
-    <Layout title={`Post - ${data?.foundPost.question}`} canGoBack>
+    <Layout title="Post" canGoBack>
       <div>
         <div>
           <div className="px-1.5 rounded-md w-fit bg-gray-300">
@@ -24,10 +52,12 @@ const CommunityPostDetail: NextPage = () => {
           <div className="flex items-center justify-between pt-3">
             <div className="flex items-center space-x-2">
               <div className="w-12 h-12 rounded-full bg-gray-400" />
-              <p className="text-lg font-medium">{data?.foundPost.user.name}</p>
+              <p className="text-lg font-medium">
+                {data?.foundPost?.user?.name}
+              </p>
             </div>
             <div>
-              <Link href={`/users/profile/${data?.foundPost.user.name}`}>
+              <Link href={`/users/profile/${data?.foundPost?.user?.name}`}>
                 <a>
                   <p className="text-gray-500 text-sm">View profile &rarr;</p>
                 </a>
@@ -37,10 +67,16 @@ const CommunityPostDetail: NextPage = () => {
         </div>
         <div className="py-3 space-x-1.5 flex items-center justify-start">
           <span className="text-orange-500 text-xl">Q.</span>
-          <h3>{data?.foundPost.question}</h3>
+          <h3>{data?.foundPost?.question}</h3>
         </div>
         <div className="flex justify-start space-x-5 items-center border-t-1 text-sm border-t-black py-2 px-1 border-b-2 border-b-gray-300">
-          <div className="flex justify-center items-center space-x-1">
+          <button
+            className={joinClass(
+              'flex justify-center items-center space-x-1 cursor-pointer border-2 rounded-lg py-1 px-2',
+              data?.isWondering ? 'text-green-600 border-green-600' : ''
+            )}
+            onClick={wonderButtonClick}
+          >
             <svg
               className="w-4 h-4"
               fill="none"
@@ -57,9 +93,9 @@ const CommunityPostDetail: NextPage = () => {
             </svg>
             <div className="space-x-1">
               <span>궁금해요</span>
-              <span>{data?.foundPost._count.wonderings}</span>
+              <span>{data?.foundPost?._count?.wonderings}</span>
             </div>
-          </div>
+          </button>
           <div className="flex justify-center items-center space-x-1">
             <svg
               className="w-4 h-4"
@@ -77,12 +113,12 @@ const CommunityPostDetail: NextPage = () => {
             </svg>
             <div className="space-x-2">
               <span>답변</span>
-              <span>{data?.foundPost._count.answers}</span>
+              <span>{data?.foundPost?._count?.answers}</span>
             </div>
           </div>
         </div>
 
-        {data?.foundPost.answers.map(answer => (
+        {data?.foundPost?.answers.map(answer => (
           <CommunityAnswer
             key={answer.id}
             author={answer.user.name}
@@ -97,6 +133,7 @@ const CommunityPostDetail: NextPage = () => {
             inputType="description"
             placeholder="Answer"
             label="Answer"
+            id="answer"
             isRequired
           />
           <BeautifulButton buttonText="Apply" />

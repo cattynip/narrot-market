@@ -32,6 +32,7 @@ export interface GetPostPost extends Post {
 export interface GetPostResponse {
   ok: boolean;
   foundPost: GetPostPost;
+  isWondering: boolean;
 }
 
 const handler = async (
@@ -39,10 +40,11 @@ const handler = async (
   res: NextApiResponse<ResponseType | FailResponseType>
 ): Promise<any> => {
   const {
-    query: { id }
+    query: { id },
+    session: { user }
   } = req;
 
-  if (!id)
+  if (!id || !user?.id)
     return res.status(401).json({ ok: false, reason: 'Id is not exist.' });
 
   const cleanId = +id?.toString();
@@ -72,6 +74,11 @@ const handler = async (
           }
         }
       },
+      wonderings: {
+        select: {
+          userId: true
+        }
+      },
       _count: {
         select: {
           wonderings: true,
@@ -81,9 +88,22 @@ const handler = async (
     }
   });
 
+  const isWondering = Boolean(
+    await client?.wondering.findFirst({
+      where: {
+        postId: cleanId,
+        userId: user.id
+      },
+      select: {
+        id: true
+      }
+    })
+  );
+
   return res.json({
     ok: true,
-    foundPost
+    foundPost,
+    isWondering
   });
 };
 

@@ -24,6 +24,8 @@ const Home: NextPage = props => {
             favorites={product._count.favorites}
             isFavorited={Boolean(
               product.favorites.find(fav => {
+                if (!user.id) return false;
+
                 return fav.userId === user.id;
               })
             )}
