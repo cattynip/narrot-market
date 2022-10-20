@@ -1,14 +1,12 @@
 interface CommunityAnswerProps {
   author: string;
-  createdAtValue: number;
-  createdAtType: string;
+  createdAt: Date;
   answer: string;
 }
 
 const CommunityAnswer = ({
   author,
-  createdAtValue,
-  createdAtType,
+  createdAt,
   answer
 }: CommunityAnswerProps) => {
   return (
@@ -18,9 +16,7 @@ const CommunityAnswer = ({
           <div className="w-9 h-9 rounded-full bg-gray-400" />
           <div>
             <p className="text-sm font-medium">{author}</p>
-            <p className="text-gray-500 text-xs">
-              {createdAtValue} {createdAtType}
-            </p>
+            <p className="text-gray-500 text-xs">{createdAt.toString()}</p>
           </div>
         </div>
       </div>

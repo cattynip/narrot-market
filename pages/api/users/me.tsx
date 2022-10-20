@@ -18,7 +18,7 @@ const handler = async (
         id: req.session.user?.id
       }
     });
-    console.log(profile);
+
     return res.status(200).json({
       ok: true,
       profile

@@ -10,15 +10,71 @@ import useMutation from '@libs/client/useMutation';
 import { GetPostWonderingResponse } from 'pages/api/posts/[id]/wondering';
 import { GetPostResponse } from 'pages/api/posts/[id]';
 import { joinClass } from '@libs/client/utils';
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { PostPostAnswerReturn } from 'pages/api/posts/[id]/answer';
+import useUser from '@libs/client/useUser';
+
+interface AnswerForm {
+  answer: string;
+}
 
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
+  const user = useUser();
   const { data, mutate } = useSWR<GetPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );
-  const [wonder] = useMutation<GetPostWonderingResponse>(
-    `/api/posts/${router.query.id}/wondering`
-  );
+  const [answer, { data: answerData, loading: answerLoading }] =
+    useMutation<PostPostAnswerReturn>(`/api/posts/${router.query.id}/answer`);
+  const [wonder, { loading: wonderingLoading }] =
+    useMutation<GetPostWonderingResponse>(
+      `/api/posts/${router.query.id}/wondering`
+    );
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<AnswerForm>();
+
+  const onValid = (formData: AnswerForm) => {
+    answer({
+      answer: formData.answer
+    });
+
+    if (!data || !answerData || !user.user.avatar) return;
+
+    mutate(
+      {
+        ...data,
+        foundPost: {
+          ...data?.foundPost,
+          answers: [
+            ...data?.foundPost.answers,
+            {
+              ...answerData?.answer,
+              user: {
+                ...user.user,
+                id: user.user.id,
+                avatar: user.user.avatar!,
+                name: user.user.name
+              },
+              answer: formData.answer
+            }
+          ]
+        }
+      },
+      false
+    );
+  };
+
+  useEffect(() => {
+    if (answerData && answerData.ok) {
+      reset();
+    }
+  }, [answerData?.ok, reset]);
 
   const wonderButtonClick = () => {
     if (!data) return;
@@ -39,7 +95,9 @@ const CommunityPostDetail: NextPage = () => {
       false
     );
 
-    wonder({});
+    if (!wonderingLoading) {
+      wonder({});
+    }
   };
 
   return (
@@ -117,26 +175,38 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           </div>
         </div>
-
         {data?.foundPost?.answers.map(answer => (
           <CommunityAnswer
             key={answer.id}
             author={answer.user.name}
-            createdAtValue={2}
-            createdAtType="h"
             answer={answer.answer}
+            createdAt={answer.createdAt}
           />
         ))}
-
         <div className="flex flex-col">
-          <BeautifulInput
-            inputType="description"
-            placeholder="Answer"
-            label="Answer"
-            id="answer"
-            isRequired
-          />
-          <BeautifulButton buttonText="Apply" />
+          <form onSubmit={handleSubmit(onValid)}>
+            <BeautifulInput
+              inputType="description"
+              placeholder="Answer"
+              label="Answer"
+              id="answer"
+              isRequired
+              error={errors.answer?.message}
+              register={register('answer', {
+                required: {
+                  value: true,
+                  message: 'Answer is required.'
+                },
+                maxLength: {
+                  value: 500,
+                  message: 'Answer is too long.'
+                }
+              })}
+            />
+            <BeautifulButton
+              buttonText={answerLoading ? 'Uploading...' : 'Apply'}
+            />
+          </form>
         </div>
       </div>
     </Layout>

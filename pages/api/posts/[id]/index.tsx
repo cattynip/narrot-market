@@ -16,6 +16,7 @@ export interface GetPostAnswer {
   id: number;
   answer: string;
   user: GetPostUser;
+  createdAt: Date;
 }
 
 export interface GetPostCount {
@@ -65,6 +66,7 @@ const handler = async (
         select: {
           answer: true,
           id: true,
+          createdAt: true,
           user: {
             select: {
               id: true,
