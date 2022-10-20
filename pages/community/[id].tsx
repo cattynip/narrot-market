@@ -43,36 +43,12 @@ const CommunityPostDetail: NextPage = () => {
     answer({
       answer: formData.answer
     });
-
-    if (!data || !answerData || !user.user.avatar) return;
-
-    mutate(
-      {
-        ...data,
-        foundPost: {
-          ...data?.foundPost,
-          answers: [
-            ...data?.foundPost.answers,
-            {
-              ...answerData?.answer,
-              user: {
-                ...user.user,
-                id: user.user.id,
-                avatar: user.user.avatar!,
-                name: user.user.name
-              },
-              answer: formData.answer
-            }
-          ]
-        }
-      },
-      false
-    );
   };
 
   useEffect(() => {
     if (answerData && answerData.ok) {
       reset();
+      mutate();
     }
   }, [answerData?.ok, reset]);
 

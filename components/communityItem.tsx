@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 interface CommunityItemProps {
   type: string;
   question: string;
