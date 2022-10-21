@@ -4,14 +4,20 @@ import Layout from '@components/layout';
 import Badge from '@components/badge';
 import useSWR from 'swr';
 import { GetPostsResponse } from 'pages/api/posts';
+import useCoords from '@libs/client/useCoords';
 
 const Community: NextPage = () => {
-  const { data } = useSWR<GetPostsResponse>('/api/posts/');
+  const { latitude, longitude } = useCoords();
+  const { data } = useSWR<GetPostsResponse>(
+    latitude && longitude
+      ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
+      : null
+  );
 
   return (
     <Layout title="Community">
       <div>
-        {data?.foundPosts.map(post => (
+        {data?.foundPosts?.map(post => (
           <CommunityItem
             type="동네질문"
             question={post.question}

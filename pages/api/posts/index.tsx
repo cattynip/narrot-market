@@ -34,10 +34,19 @@ const handler = async (
   const {
     body,
     method,
+    query,
     session: { user }
   } = req;
 
   if (method === 'GET') {
+    if (!query.latitude || !query.longitude)
+      return res
+        .status(401)
+        .json({ ok: false, reason: 'Latitude or Longitude do not exist.' });
+
+    const latitude = parseFloat(query.latitude.toString());
+    const longitude = parseFloat(query.longitude.toString());
+
     const foundPosts = await client?.post.findMany({
       include: {
         user: {
@@ -50,6 +59,16 @@ const handler = async (
             wonderings: true,
             answers: true
           }
+        }
+      },
+      where: {
+        latitude: {
+          gte: latitude - 0.01,
+          lte: latitude + 0.01
+        },
+        longitude: {
+          gte: longitude - 0.01,
+          lte: longitude + 0.01
         }
       }
     });
