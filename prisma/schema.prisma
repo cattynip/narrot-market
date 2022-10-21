@@ -2,7 +2,6 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  // This is based on prisma client.
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
@@ -21,10 +20,15 @@ model User {
   avatar     String?
   tokens     Token[]
   products   Product[]
-  favorites  Favorite[]
   posts      Post[]
   answers    Answer[]
   wonderings Wondering[]
+  fav             Favorite[]
+  sales           Sale[]
+  purchases       Purchase[]
+  records Record[]
+  writtenReviews Review[] @relation(name: "writtenReviews")
+  receivedReviews Review[] @relation(name: "receivedReviews")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
@@ -45,7 +49,10 @@ model Product {
   name        String
   price       Float
   description String     @db.MediumText
-  favorites   Favorite[]
+  fav             Favorite[]
+  sales           Sale[]
+  purchases       Purchase[]
+  records Record[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
@@ -92,4 +99,52 @@ model Wondering {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id        Int      @id @unique @default(autoincrement())
+  review String @db.MediumText
+  createdBy      User     @relation(name: "writtenReviews", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById    Int
+  createdFor User @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sale {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Purchase {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Record {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  kind Kind
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Kind {
+  Purchase
+  Sale
+  Fav
 }
