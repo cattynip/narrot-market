@@ -26,6 +26,7 @@ const handler = async (
   } catch (error) {
     return res.status(401).json({
       ok: false,
+      error: error,
       profile: null
     });
   }
