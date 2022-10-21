@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "precommit": "yarn tsc --noEmit && yarn eslint . && yarn prettier --write ."
+    "format": "yarn tsc --noEmit && yarn eslint . && yarn prettier --write ."
   },
   "dependencies": {
     "@prisma/client": "^4.4.0",
