@@ -9,11 +9,11 @@ interface FavoritesInProduct {
 }
 
 interface ProductCount {
-  favorites: number;
+  fav: number;
 }
 
 export interface GetProductsProduct extends Product {
-  favorites: FavoritesInProduct[];
+  fav: FavoritesInProduct[];
   _count: ProductCount;
 }
 
@@ -34,14 +34,14 @@ const handler = async (
   if (req.method === 'GET') {
     const products = await client.product.findMany({
       include: {
-        favorites: {
+        fav: {
           select: {
             userId: true
           }
         },
         _count: {
           select: {
-            favorites: true
+            fav: true
           }
         }
       }

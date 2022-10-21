@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import Item from '@components/item';
 import Layout from '@components/layout';
 import useUser from '@libs/client/useUser';
-import Link from 'next/link';
 import useSWR from 'swr';
 import { GetProductsResponse } from './api/products';
 import Badge from '@components/badge';
@@ -11,7 +10,7 @@ import Badge from '@components/badge';
 // All of the pages must have the type `NextPage` which Next.js provide for Typescript.
 
 const Home: NextPage = props => {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const { data } = useSWR<GetProductsResponse>('/api/products');
 
   return (
@@ -21,9 +20,9 @@ const Home: NextPage = props => {
           <Item
             title={product.name}
             price={product.price}
-            favorites={product._count.favorites}
+            favorites={product._count.fav}
             isFavorited={Boolean(
-              product.favorites.find(fav => {
+              product.fav.find(fav => {
                 if (!user.id) return false;
 
                 return fav.userId === user.id;

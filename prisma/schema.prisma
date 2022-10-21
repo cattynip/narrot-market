@@ -13,24 +13,24 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  phone      String?     @unique
-  email      String?     @unique
-  name       String
-  avatar     String?
-  tokens     Token[]
-  products   Product[]
-  posts      Post[]
-  answers    Answer[]
-  wonderings Wondering[]
-  fav             Favorite[]
+  id              Int         @id @default(autoincrement())
+  phone           String?     @unique
+  email           String?     @unique
+  name            String
+  avatar          String?
+  tokens          Token[]
+  products        Product[]
+  posts           Post[]
+  answers         Answer[]
+  wonderings      Wondering[]
+  favs            Favorite[]
   sales           Sale[]
   purchases       Purchase[]
-  records Record[]
-  writtenReviews Review[] @relation(name: "writtenReviews")
-  receivedReviews Review[] @relation(name: "receivedReviews")
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  records         Record[]
+  writtenReviews  Review[]    @relation(name: "writtenReviews")
+  receivedReviews Review[]    @relation(name: "receivedReviews")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 }
 
 model Token {
@@ -49,10 +49,10 @@ model Product {
   name        String
   price       Float
   description String     @db.MediumText
-  fav             Favorite[]
-  sales           Sale[]
-  purchases       Purchase[]
-  records Record[]
+  fav         Favorite[]
+  sales       Sale[]
+  purchases   Purchase[]
+  records     Record[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
@@ -102,14 +102,14 @@ model Wondering {
 }
 
 model Review {
-  id        Int      @id @unique @default(autoincrement())
-  review String @db.MediumText
-  createdBy      User     @relation(name: "writtenReviews", fields: [createdById], references: [id], onDelete: Cascade)
-  createdById    Int
-  createdFor User @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
+  id           Int      @id @unique @default(autoincrement())
+  review       String   @db.MediumText
+  createdBy    User     @relation(name: "writtenReviews", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById  Int
+  createdFor   User     @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
   createdForId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Sale {
@@ -138,7 +138,7 @@ model Record {
   productId Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
-  kind Kind
+  kind      Kind
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
