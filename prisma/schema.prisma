@@ -104,6 +104,7 @@ model Wondering {
 model Review {
   id           Int      @id @unique @default(autoincrement())
   review       String   @db.MediumText
+  score        Int      @default(1)
   createdBy    User     @relation(name: "writtenReviews", fields: [createdById], references: [id], onDelete: Cascade)
   createdById  Int
   createdFor   User     @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
