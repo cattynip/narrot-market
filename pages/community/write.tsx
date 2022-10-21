@@ -7,12 +7,15 @@ import useMutation from '@libs/client/useMutation';
 import { PostPostReponse } from 'pages/api/posts';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import useCoords from '@libs/client/useCoords';
 
 interface WriteForm {
   question: string;
 }
 
 const CommunityWrite: NextPage = () => {
+  const { latitude, longitude } = useCoords();
+
   const {
     register,
     handleSubmit,
@@ -24,7 +27,11 @@ const CommunityWrite: NextPage = () => {
 
   const onValid = (validForm: WriteForm) => {
     if (loading) return;
-    post(validForm);
+    post({
+      ...validForm,
+      latitude,
+      longitude
+    });
   };
 
   useEffect(() => {

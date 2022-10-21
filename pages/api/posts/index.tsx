@@ -68,6 +68,8 @@ const handler = async (
 
     const createdPost = await client?.post.create({
       data: {
+        latitude: body.latitude,
+        longitude: body.longitude,
         question: body.question,
         user: {
           connect: {
