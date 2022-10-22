@@ -6,9 +6,6 @@ import useSWR from 'swr';
 import { GetProductsResponse } from './api/products';
 import Badge from '@components/badge';
 
-// `index` means the default route of a router of its father.
-// All of the pages must have the type `NextPage` which Next.js provide for Typescript.
-
 const Home: NextPage = props => {
   const { user } = useUser();
   const { data } = useSWR<GetProductsResponse>('/api/products');
