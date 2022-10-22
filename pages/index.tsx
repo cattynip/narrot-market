@@ -17,9 +17,9 @@ const Home: NextPage = props => {
           <Item
             title={product.name}
             price={product.price}
-            favorites={product._count.fav}
+            favorites={product._count.favs}
             isFavorited={Boolean(
-              product.fav.find(fav => {
+              product.favs.find(fav => {
                 if (!user.id) return false;
 
                 return fav.userId === user.id;

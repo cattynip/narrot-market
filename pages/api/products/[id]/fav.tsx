@@ -7,7 +7,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export interface GetProductFaveResponse {
   ok: boolean;
-  isWondering: boolean;
+  isFavorite: boolean;
 }
 
 const handler = async (
@@ -28,26 +28,27 @@ const handler = async (
       ]
     });
 
-  const cleanId = +id.toString();
+  const cleanProductId = +id.toString();
+  const cleanUserId = +user.id.toString();
 
   const isExist = await client?.favorite.findFirst({
     where: {
-      productId: cleanId,
-      userId: user.id
+      productId: cleanProductId,
+      userId: cleanUserId
     }
   });
 
   if (!isExist) {
-    const createdFavorite = await client?.favorite.create({
+    await client?.favorite.create({
       data: {
         user: {
           connect: {
-            id: user.id
+            id: cleanUserId
           }
         },
         product: {
           connect: {
-            id: cleanId
+            id: cleanProductId
           }
         }
       }
@@ -55,11 +56,11 @@ const handler = async (
 
     return res.json({
       ok: true,
-      isWondering: true
+      isFavorite: true
     });
   }
 
-  const deletedFavorite = await client?.favorite.delete({
+  await client?.favorite.delete({
     where: {
       id: isExist?.id
     }
@@ -67,7 +68,7 @@ const handler = async (
 
   return res.json({
     ok: true,
-    isWondering: false
+    isFavorite: false
   });
 };
 

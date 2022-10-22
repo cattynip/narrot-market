@@ -2,19 +2,17 @@ import withHandler, { ResponseType } from '@libs/server/withHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
-import { Product } from '@prisma/client';
-
-interface FavoritesInProduct {
-  userId: number;
-}
-
-interface ProductCount {
-  fav: number;
-}
+import { Favorite, Product } from '@prisma/client';
 
 export interface GetProductsProduct extends Product {
-  fav: FavoritesInProduct[];
-  _count: ProductCount;
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  favs: Favorite[];
+  _count: {
+    favs: number;
+  };
 }
 
 export interface GetProductsResponse {
@@ -33,12 +31,12 @@ const handler = async (
 ): Promise<any> => {
   if (req.method === 'GET') {
     const products = await client.product.findMany({
-      include: {
-        favs: {
-          select: {
-            userId: true
-          }
-        },
+      select: {
+        id: true,
+        image: true,
+        name: true,
+        price: true,
+        favs: true,
         _count: {
           select: {
             favs: true
@@ -59,6 +57,13 @@ const handler = async (
       session: { user }
     } = req;
 
+    if (!user?.id)
+      return res.status(401).json({
+        ok: false
+      });
+
+    const cleanUserId = +user?.id.toString();
+
     const createdProduct = await client.product.create({
       data: {
         name,
@@ -67,7 +72,24 @@ const handler = async (
         image: 'This field will be filled.',
         user: {
           connect: {
-            id: user?.id
+            id: cleanUserId
+          }
+        }
+      }
+    });
+
+    const cleanProductId = +createdProduct.id.toString();
+
+    await client.sale.create({
+      data: {
+        product: {
+          connect: {
+            id: cleanProductId
+          }
+        },
+        user: {
+          connect: {
+            id: cleanUserId
           }
         }
       }

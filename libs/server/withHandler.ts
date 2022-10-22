@@ -42,11 +42,13 @@ function withHandler({
       return res.status(401).json({ ok: false });
     }
 
-    try {
-      await handler(req, res);
-    } catch (error) {
-      return res.status(500).json({ error });
-    }
+    await handler(req, res);
+
+    // try {
+    //   await handler(req, res);
+    // } catch (error) {
+    //   return res.status(500).json({ error });
+    // }
   };
 }
 

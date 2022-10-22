@@ -3,33 +3,35 @@ import withHandler, {
   ResponseType
 } from '@libs/server/withHandler';
 import { withApiSession } from '@libs/server/withSession';
-import { Product } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export interface ProductWithUser extends Product {
-  user: {
-    id: number;
-    name: string;
-    avatar: string;
-  };
+export interface ProductWithUser {
+  id: number;
+  name: string;
+  avatar: string;
 }
 
-export interface RelatedProducts {
+export interface RelatedProduct {
   id: number;
   userId: number;
   name: string;
   price: number;
   image: string;
-  user: {
-    name: string;
-    avatar: string;
-  };
+  user: ProductWithUser;
+}
+
+export interface ProductProduct {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  user: ProductWithUser;
 }
 
 export interface GetProductResponse extends ResponseType {
   ok: boolean;
-  product: ProductWithUser;
-  relatedProducts: RelatedProducts[];
+  product: ProductProduct;
+  relatedProducts: RelatedProduct[];
   isLiked: boolean;
 }
 
@@ -51,13 +53,18 @@ const handler = async (
       ]
     });
 
-  const cleanId = +id.toString();
+  const cleanProductId = +id.toString();
+  const cleanUserId = +user.id.toString();
 
   const foundProduct = await client?.product.findUnique({
     where: {
-      id: cleanId
+      id: cleanProductId
     },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      price: true,
+      description: true,
       user: {
         select: {
           id: true,
@@ -84,7 +91,7 @@ const handler = async (
       OR: terms,
       AND: {
         id: {
-          not: foundProduct.id
+          not: cleanProductId
         }
       }
     },
@@ -96,6 +103,7 @@ const handler = async (
       userId: true,
       user: {
         select: {
+          id: true,
           avatar: true,
           name: true
         }
@@ -106,11 +114,8 @@ const handler = async (
   const isLiked = Boolean(
     await client?.favorite.findFirst({
       where: {
-        productId: foundProduct.id,
-        userId: user.id
-      },
-      select: {
-        id: true
+        productId: cleanProductId,
+        userId: cleanUserId
       }
     })
   );
