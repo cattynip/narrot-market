@@ -1,3 +1,4 @@
+import { kindTypes } from '@libs/client/generateKinds';
 import withHandler, {
   FailResponseType,
   ResponseType
@@ -38,9 +39,32 @@ const handler = async (
     }
   });
 
+  const recordId = await client?.record.findFirst({
+    where: {
+      productId: cleanProductId,
+      userId: cleanUserId
+    }
+  });
+
   if (!isExist) {
     await client?.favorite.create({
       data: {
+        user: {
+          connect: {
+            id: cleanUserId
+          }
+        },
+        product: {
+          connect: {
+            id: cleanProductId
+          }
+        }
+      }
+    });
+
+    await client?.record.create({
+      data: {
+        kind: 'Fav',
         user: {
           connect: {
             id: cleanUserId
@@ -63,6 +87,12 @@ const handler = async (
   await client?.favorite.delete({
     where: {
       id: isExist?.id
+    }
+  });
+
+  await client?.record.delete({
+    where: {
+      id: recordId?.id
     }
   });
 

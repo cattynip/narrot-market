@@ -20,7 +20,7 @@ const Home: NextPage = props => {
             favorites={product._count.favs}
             isFavorited={Boolean(
               product.favs.find(fav => {
-                if (!user.id) return false;
+                if (!user?.id) return false;
 
                 return fav.userId === user.id;
               })

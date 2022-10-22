@@ -2,7 +2,7 @@ import withHandler, { ResponseType } from '@libs/server/withHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
-import { Kind } from '@prisma/client';
+import { Favorite, Kind } from '@prisma/client';
 import { generatedKindType } from '@libs/client/generateKinds';
 
 interface FoundRecordsItem {
@@ -11,9 +11,9 @@ interface FoundRecordsItem {
     name: string;
     price: number;
     image: string;
-    records: { userId: number }[];
+    favs: Favorite[];
     _count: {
-      records: number;
+      favs: number;
     };
   };
 }
@@ -48,20 +48,13 @@ const handler = async (
       product: {
         select: {
           id: true,
+          image: true,
           name: true,
           price: true,
-          image: true,
-          records: {
-            where: {
-              kind: 'Fav'
-            },
-            select: {
-              userId: true
-            }
-          },
+          favs: true,
           _count: {
             select: {
-              records: true
+              favs: true
             }
           }
         }

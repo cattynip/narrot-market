@@ -50,13 +50,14 @@ export const checkKinds = ({
 export const translateToKorean = (
   kind: kindType | generatedKindType
 ): string => {
+  console.log(kind);
   if (!kind || typeof kind !== 'string') {
     return '';
-  } else if (kind === kindTypes[0] || generatedKindTypes[0]) {
+  } else if (kind === 'sold' || kind === 'sale') {
     return '판매';
-  } else if (kind === kindTypes[1] || generatedKindTypes[1]) {
+  } else if (kind === 'bought' || kind === 'purchase') {
     return '구매';
-  } else if (kind === kindTypes[2] || generatedKindTypes[2]) {
+  } else if (kind === 'loved' || kind === 'fav') {
     return '관심';
   } else {
     return '';

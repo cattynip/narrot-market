@@ -80,8 +80,24 @@ const handler = async (
 
     const cleanProductId = +createdProduct.id.toString();
 
-    await client.sale.create({
+    // await client.sale.create({
+    //   data: {
+    //     product: {
+    //       connect: {
+    //         id: cleanProductId
+    //       }
+    //     },
+    //     user: {
+    //       connect: {
+    //         id: cleanUserId
+    //       }
+    //     }
+    //   }
+    // });
+
+    await client.record.create({
       data: {
+        kind: 'Sale',
         product: {
           connect: {
             id: cleanProductId
