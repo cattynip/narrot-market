@@ -34,14 +34,14 @@ const handler = async (
   if (req.method === 'GET') {
     const products = await client.product.findMany({
       include: {
-        fav: {
+        favs: {
           select: {
             userId: true
           }
         },
         _count: {
           select: {
-            fav: true
+            favs: true
           }
         }
       }

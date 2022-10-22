@@ -10,7 +10,7 @@ interface FoundRecordsItem {
     image: string;
     price: number;
     id: number;
-    fav: { userId: number }[];
+    favs: { userId: number }[];
     _count: {
       fav: number;
     };
@@ -53,12 +53,12 @@ const handler = async (
           id: true
         },
         include: {
-          fav: {
+          favs: {
             select: { userId: true }
           },
           _count: {
             select: {
-              fav: true
+              favs: true
             }
           }
         }

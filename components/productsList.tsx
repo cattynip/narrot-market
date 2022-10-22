@@ -28,7 +28,7 @@ const ProductsList = ({ kind, userId }: IProductsListProps) => {
           price={item.product.price}
           favorites={item.product._count.fav}
           isFavorited={Boolean(
-            item.product.fav.find(fav => {
+            item.product.favs.find(fav => {
               if (!userId) return false;
 
               return fav.userId === userId;
