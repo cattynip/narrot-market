@@ -10,6 +10,7 @@ interface FoundRecordsItem {
     image: string;
     price: number;
     id: number;
+    fav: { userId: number }[];
     _count: {
       fav: number;
     };
@@ -32,13 +33,16 @@ const handler = async (
   if (!user?.id || !kind) return res.status(401).json({ ok: false });
 
   const cleanId = +user?.id.toString();
-  const cleanKind = (kind.toString().charAt(0).toUpperCase() +
-    kind.toString().slice(1)) as Kind;
+  const cleanKind = kind.toString();
+  const generatedKind = (cleanKind.charAt(0).toUpperCase() +
+    cleanKind.slice(1)) as Kind;
+
+  console.log(generatedKind);
 
   const foundItems = await client.record.findMany({
     where: {
       userId: cleanId,
-      kind: cleanKind
+      kind: generatedKind
     },
     include: {
       product: {
@@ -46,7 +50,12 @@ const handler = async (
           name: true,
           image: true,
           price: true,
-          id: true,
+          id: true
+        },
+        include: {
+          fav: {
+            select: { userId: true }
+          },
           _count: {
             select: {
               fav: true

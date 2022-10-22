@@ -49,7 +49,7 @@ model Product {
   name        String
   price       Float
   description String     @db.MediumText
-  fav         Favorite[]
+  favs        Favorite[]
   sales       Sale[]
   purchases   Purchase[]
   records     Record[]
