@@ -22,8 +22,8 @@ const BeautifulLabel = ({
       )}
     >
       {content}
-      <div className="flex space-x-4">
-        <div>{error}</div>
+      <div className="text-sm flex space-x-4">
+        <p>{error}</p>
         {isRequired ? (
           <div className="text-2xl mr-3 text-red-500 font-medium">*</div>
         ) : null}

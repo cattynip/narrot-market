@@ -13,12 +13,25 @@ export interface BeautifulInputProps {
   register?: UseFormRegisterReturn;
   id?: string;
   isRequired?: boolean;
+  defaultValue?: string | null;
 }
 
 export type BeautifulInputRef = HTMLInputElement;
 
 const BeautifulInput = forwardRef<BeautifulInputRef, BeautifulInputProps>(
-  ({ inputType, placeholder, label, error, register, id, isRequired }, ref) => {
+  (
+    {
+      inputType,
+      placeholder,
+      label,
+      error,
+      register,
+      id,
+      isRequired,
+      defaultValue
+    },
+    ref
+  ) => {
     return (
       <div>
         {label ? (
@@ -35,6 +48,7 @@ const BeautifulInput = forwardRef<BeautifulInputRef, BeautifulInputProps>(
             isRequired={isRequired ? true : false}
             error={error ? true : false}
             register={register}
+            defaultValue={defaultValue ? defaultValue : ''}
             id={id}
           />
         ) : (
@@ -43,6 +57,7 @@ const BeautifulInput = forwardRef<BeautifulInputRef, BeautifulInputProps>(
             placeholder={placeholder}
             required={isRequired}
             id={id}
+            defaultValue={defaultValue ? defaultValue : ''}
             {...register}
             {...ref}
             className={joinClass(

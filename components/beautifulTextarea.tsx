@@ -8,6 +8,7 @@ export interface BeautifulTextareaProps {
   error?: boolean;
   register?: UseFormRegisterReturn;
   id?: string;
+  defaultValue?: string;
 }
 
 export type BeautifulTextareaRef = HTMLTextAreaElement;
@@ -15,7 +16,7 @@ export type BeautifulTextareaRef = HTMLTextAreaElement;
 const BeautifulTextarea = forwardRef<
   BeautifulTextareaRef,
   BeautifulTextareaProps
->(({ placeholder, error, register, id, isRequired }, ref) => {
+>(({ placeholder, error, register, id, isRequired, defaultValue }, ref) => {
   return (
     <textarea
       className={joinClass(
@@ -24,6 +25,7 @@ const BeautifulTextarea = forwardRef<
           ? 'border-red-500 border-3 focus:ring-red-500 focus:border-red-500'
           : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'
       )}
+      defaultValue={defaultValue}
       placeholder={placeholder}
       required={isRequired}
       id={id}
