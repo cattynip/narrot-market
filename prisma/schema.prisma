@@ -16,7 +16,7 @@ model User {
   id              Int         @id @default(autoincrement())
   phone           String?     @unique
   email           String?     @unique
-  name            String
+  name            String      @unique
   avatar          String?
   tokens          Token[]
   products        Product[]

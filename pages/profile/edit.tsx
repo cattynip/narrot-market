@@ -3,21 +3,29 @@ import Layout from '@components/layout';
 import useUser from '@libs/client/useUser';
 import BeautifulInput from '@components/beautifulInput';
 import { useForm } from 'react-hook-form';
-import { PostEditUserBody } from 'pages/api/users/me/edit';
 import BeautifulButton from '@components/beautifulButton';
 import useMutation from '@libs/client/useMutation';
 import { useEffect } from 'react';
+import { PostEditUserBody, PostUserMeResponse } from 'pages/api/users/me';
+import { useRouter } from 'next/router';
+
+interface PostEditUserForm extends PostEditUserBody {
+  form: string;
+}
 
 const ProfileEdit: NextPage = () => {
   const { user } = useUser(true);
-  const [edit, { loading, data }] = useMutation('/api/user/me/edit');
+  const router = useRouter();
+  const [editProfile, { loading, data }] =
+    useMutation<PostUserMeResponse>('/api/users/me');
   const {
     register,
     handleSubmit,
     setValue,
     setError,
+    watch,
     formState: { errors }
-  } = useForm<PostEditUserBody>();
+  } = useForm<PostEditUserForm>();
 
   useEffect(() => {
     if (user?.name) {
@@ -33,15 +41,31 @@ const ProfileEdit: NextPage = () => {
     }
   }, [user, setValue]);
 
+  useEffect(() => {
+    if (data && !data.ok && data.error) {
+      if (watch().email === '') {
+        setError('phone', { message: data.error });
+      }
+
+      if (String(watch().phone) === '') {
+        setError('email', { message: data.error });
+      }
+    } else if (data && data.ok && !data.error) {
+      router.push('/profile');
+    }
+  }, [data, setError]);
+
   const onValid = (validForm: PostEditUserBody) => {
     if (
       (!validForm.email && validForm.phone) ||
       (validForm.email && !validForm.phone)
     ) {
-      console.log(validForm);
+      if (loading) return;
+      return editProfile(validForm);
     } else if (validForm.email && validForm.phone) {
       setError('email', { message: 'Only one field of two must exist.' });
       setError('phone', { message: 'Only one field of two must exist.' });
+      return;
     }
   };
 

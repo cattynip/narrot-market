@@ -4,6 +4,18 @@ import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
 import { User } from '@prisma/client';
 
+export interface PostUserMeResponse {
+  ok: boolean;
+  isEdited: boolean;
+  error?: string;
+}
+
+export interface PostEditUserBody {
+  name: string;
+  phone: number;
+  email: string;
+}
+
 export interface GetUsersMeResponse {
   ok: boolean;
   profile: User;
@@ -13,22 +25,124 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ): Promise<any> => {
-  const profile = await client.user.findUnique({
-    where: {
-      id: req.session.user?.id
-    }
-  });
-  console.log(profile);
+  const { method } = req;
 
-  return res.json({
-    ok: true,
-    profile
-  });
+  if (method === 'POST') {
+    const {
+      session: { user },
+      body: { name, phone, email }
+    } = req;
+
+    if (!user?.id)
+      return res.status(401).json({
+        ok: false
+      });
+
+    const cleanUserId = +user?.id.toString();
+
+    const currentUser = await client.user.findUnique({
+      where: {
+        id: cleanUserId
+      },
+      select: {
+        name: true,
+        email: true,
+        phone: true
+      }
+    });
+
+    console.log(name, phone, email);
+    console.log(currentUser);
+
+    if (name && currentUser?.name !== name) {
+      console.log('Hello');
+      const nameTaken = Boolean(
+        await client.user.findUnique({
+          where: {
+            name
+          },
+          select: {
+            id: true
+          }
+        })
+      );
+
+      if (nameTaken) {
+        return res
+          .status(401)
+          .json({ ok: false, error: 'Name already was taken.' });
+      }
+    }
+
+    if (email && currentUser?.email !== email) {
+      console.log('Hello');
+      const emailTaken = Boolean(
+        await client.user.findUnique({
+          where: {
+            email
+          },
+          select: {
+            id: true
+          }
+        })
+      );
+
+      if (emailTaken)
+        return res
+          .status(401)
+          .json({ ok: false, error: 'Email already was taken.' });
+    }
+
+    if (phone && String(currentUser?.phone) !== String(phone)) {
+      console.log('Hello');
+      const phoneTaken = Boolean(
+        await client.user.findUnique({
+          where: {
+            phone: phone + ''
+          },
+          select: {
+            id: true
+          }
+        })
+      );
+
+      if (phoneTaken)
+        return res
+          .status(401)
+          .json({ ok: false, error: 'Phone already was taken.' });
+    }
+
+    await client?.user.update({
+      where: {
+        id: cleanUserId
+      },
+      data: {
+        name,
+        phone: phone + '' === '' ? null : phone + '',
+        email: email === '' ? null : email
+      }
+    });
+
+    return res.json({ ok: true, edited: false });
+  }
+
+  if (method === 'GET') {
+    const profile = await client.user.findUnique({
+      where: {
+        id: req.session.user?.id
+      }
+    });
+
+    return res.json({
+      ok: true,
+      profile
+    });
+  }
 };
 
 export default withApiSession(
   withHandler({
-    methods: ['GET'],
+    methods: ['GET', 'POST'],
     handler,
     isPrivate: true
   })
