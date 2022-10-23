@@ -2,10 +2,10 @@ import NavigationElement from './navigationElement';
 
 const Navigation = () => {
   return (
-    <nav className="bg-white text-gray-800 border-t fixed bottom-0 px-10 py-3 flex justify-center items-center w-full right-0 space-x-14">
+    <nav className="bg-white text-gray-800 border-t fixed bottom-0 px-10 py-1.5 flex justify-center items-center w-full right-0 space-x-14">
       <NavigationElement href="/" name="Home">
         <svg
-          className="w-6 h-6"
+          className="w-5 h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -21,7 +21,7 @@ const Navigation = () => {
       </NavigationElement>
       <NavigationElement href="/community" name="Community">
         <svg
-          className="w-6 h-6"
+          className="w-5 h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ const Navigation = () => {
       </NavigationElement>
       <NavigationElement href="/chats" name="Chats">
         <svg
-          className="w-6 h-6"
+          className="w-5 h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -53,7 +53,7 @@ const Navigation = () => {
       </NavigationElement>
       <NavigationElement href="stream" name="Stream">
         <svg
-          className="w-6 h-6"
+          className="w-5 h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -69,7 +69,7 @@ const Navigation = () => {
       </NavigationElement>
       <NavigationElement href="/profile" name="Profile">
         <svg
-          className="w-6 h-6"
+          className="w-5 h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

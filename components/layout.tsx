@@ -42,7 +42,7 @@ const Layout = ({ title, canGoBack, children }: LayoutProps) => {
         {title ? <span>{title}</span> : null}
       </div>
 
-      <div className="py-16">{children}</div>
+      <div className="py-14">{children}</div>
 
       <Navigation />
     </div>

@@ -2,7 +2,6 @@ import { randomId } from '@libs/client/randoms';
 import { joinClass } from '@libs/client/utils';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
-import { setFlagsFromString } from 'v8';
 import BeautifulLabel from './beautifulLabel';
 import BeautifulTextarea from './beautifulTextarea';
 

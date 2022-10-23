@@ -1,23 +1,15 @@
-import { joinClass } from '../libs/client/utils';
-
 interface ChatsBubbleProps {
   content: string;
-  isMe?: boolean;
+  authorName: string;
+  authorAvatar: string;
 }
 
-const ChatsBubble = ({ content, isMe }: ChatsBubbleProps) => {
+const ChatsBubble = ({ content, authorName }: ChatsBubbleProps) => {
   return (
-    <div
-      className={joinClass(
-        'flex items-center space-x-3 my-3',
-        isMe ? 'justify-end' : 'justify-start'
-      )}
-    >
-      {!isMe ? <div className="w-11 h-11 bg-gray-400 rounded-full" /> : null}
-      <div className="border-2 border-gray-300 px-3 py-1.5 rounded-lg shadow-lg max-w-md">
-        <p className="text-sm">{content}</p>
-      </div>
-      {isMe ? <div className="w-11 h-11 bg-gray-400 rounded-full" /> : null}
+    <div className="flex items-center space-x-3 mt-3 justify-start">
+      <div className="w-6 h-6 bg-gray-400 rounded-full" />
+      <span className="text-gray-500 font-bold text-xs">{authorName}</span>
+      <p className="text-md text-gray-800">{content}</p>
     </div>
   );
 };
