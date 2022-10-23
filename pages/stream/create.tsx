@@ -47,7 +47,7 @@ const StreamCreate: NextPage = () => {
               inputType="number"
               label="Price"
               placeholder="$666"
-              register={register('price')}
+              register={register('price', { valueAsNumber: true })}
               isRequired
             />
           </div>
