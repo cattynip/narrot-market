@@ -13,12 +13,18 @@ const StreamDetail: NextPage = () => {
 
   return (
     <Layout title={`Stream - ${data?.foundStream.name}`} canGoBack>
-      <div className="space-y-4">
-        <div className="fixed top-12 left-0 p-4 w-full bg-white">
-          <div className="w-full rounded-md shadow-sm bg-slate-500 aspect-video" />
-          <h3 className="text-2xl text-gray-800 font-semibold mt-3 text-center">
-            {data?.foundStream.name}
-          </h3>
+      <div>
+        <div className="w-full shadow-sm bg-slate-300 aspect-video" />
+        <div className="border-b-2">
+          <div className="mt-5 flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-gray-900">
+              {data?.foundStream.name}
+            </h1>
+            <h2 className="text-2xl font-semibold text-gray-900 align-middle">
+              ${data?.foundStream.price}
+            </h2>
+          </div>
+          <p className="my-3 text-gray-700">{data?.foundStream.description}</p>
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-901 my-2 mt-3">

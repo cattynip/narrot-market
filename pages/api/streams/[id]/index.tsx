@@ -17,6 +17,7 @@ interface StreamMessage {
 interface GetStreamStream {
   name: string;
   description: string;
+  price: number;
   user: StreamUser;
   message: StreamMessage;
 }
@@ -47,6 +48,7 @@ const handler = async (
     select: {
       name: true,
       description: true,
+      price: true,
       messages: {
         select: {
           message: true,
