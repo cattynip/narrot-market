@@ -5,6 +5,7 @@ import useUser from '@libs/client/useUser';
 import useSWR from 'swr';
 import { GetReviewsResponse } from 'pages/api/reviews';
 import Review from '@components/review';
+import Link from 'next/link';
 
 const Profile: NextPage = () => {
   const { user } = useUser(false);
@@ -19,9 +20,13 @@ const Profile: NextPage = () => {
               <div className="w-20 h-20 bg-gray-500 rounded-full" />
               <h1 className="font-extrabold text-4xl">{user?.name}</h1>
             </div>
-            <span className="text-sm text-gray-500 transition-colors hover:text-gray-700 cursor-pointer">
-              Edit profile &rarr;
-            </span>
+            <Link href="/profile/edit">
+              <a>
+                <span className="text-sm text-gray-500 transition-colors hover:text-gray-700 cursor-pointer">
+                  Edit profile &rarr;
+                </span>
+              </a>
+            </Link>
           </div>
           <div className="flex justify-around py-8">
             {[
