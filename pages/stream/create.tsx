@@ -1,64 +1,71 @@
 import type { NextPage } from 'next';
-import BeautifulTextarea from '@components/beautifulTextarea';
 import Layout from '@components/layout';
+import BeautifulInput from '@components/beautifulInput';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import { PostStreamBody, PostStreamReturn } from 'pages/api/streams';
+import useMutation from '@libs/client/useMutation';
+import { useEffect } from 'react';
+import BeautifulButton from '@components/beautifulButton';
 
 const StreamCreate: NextPage = () => {
+  const router = useRouter();
+  const [createStream, { data, loading, error }] =
+    useMutation<PostStreamReturn>('/api/streams/');
+  const { register, handleSubmit } = useForm<PostStreamBody>();
+
+  const onValid = (validForm: PostStreamBody) => {
+    if (loading) return;
+    createStream({
+      name: validForm.name,
+      price: validForm.price,
+      description: validForm.description
+    });
+  };
+
+  useEffect(() => {
+    if (data && data?.ok && !error) {
+      router.push(`/stream/${data.createdStreamId}`);
+    }
+  }, [data, router, error]);
+
   return (
     <Layout title="Create Stream">
-      <div>
+      <form onSubmit={handleSubmit(onValid)}>
         <div>
           <div>
-            <label htmlFor="name" className="cursor-pointer">
-              Name
-            </label>
-            <div>
-              <input
-                className="w-full focus:placeholder:text-transparent placeholder:transition-colors transition focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 shadow-lg focus:outline-none rounded-md border-gray-400 focus:border-orange-500 mt-2"
-                type="text"
-                placeholder="Super Mega Product!"
-              />
-            </div>
-          </div>
-          <div className="py-3">
-            <label htmlFor="price" className="cursor-pointer">
-              Price
-            </label>
-            <div className="w-full flex justify-center items-center">
-              <div className="shadow-lg flex justify-center items-center p-2 px-4 rounded-l-md border-r-black">
-                <span>$</span>
-              </div>
-              <div className="w-full">
-                <input
-                  type="text"
-                  placeholder="0.00"
-                  id="price"
-                  className="focus:ring-2 focus:ring-offset-2 focus:ring-orange-500  placeholder:transition focus:placeholder:text-transparent transition shadow-lg border-none w-full"
-                />
-              </div>
-              <div className="shadow-lg flex justify-center items-center p-2 border-l-black rounded-r-md">
-                <span>USD</span>
-              </div>
-            </div>
+            <BeautifulInput
+              inputType="text"
+              label="Name"
+              placeholder="Name"
+              register={register('name')}
+              isRequired
+            />
           </div>
           <div>
-            <label htmlFor="description" className="cursor-pointer">
-              Description
-            </label>
-            <div>
-              <BeautifulTextarea
-                placeholder="This product is amazing!"
-                isRequired
-                id="description"
-              />
-            </div>
+            <BeautifulInput
+              inputType="number"
+              label="Price"
+              placeholder="$666"
+              register={register('price')}
+              isRequired
+            />
+          </div>
+          <div>
+            <BeautifulInput
+              inputType="description"
+              label="Description"
+              placeholder="Description"
+              register={register('description')}
+            />
           </div>
         </div>
         <div className="mt-4">
-          <button className="text-white bg-orange-400 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none w-full py-2 text-sm rounded-md transition hover:bg-orange-500 shadow-lg">
-            Upload Product
-          </button>
+          <BeautifulButton
+            buttonText={loading ? 'Creating...' : 'Create a New Stream'}
+          />
         </div>
-      </div>
+      </form>
     </Layout>
   );
 };
