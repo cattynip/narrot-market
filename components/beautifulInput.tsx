@@ -1,5 +1,6 @@
+import { randomId } from '@libs/client/randoms';
 import { joinClass } from '@libs/client/utils';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { setFlagsFromString } from 'v8';
 import BeautifulLabel from './beautifulLabel';
@@ -32,6 +33,14 @@ const BeautifulInput = forwardRef<BeautifulInputRef, BeautifulInputProps>(
     },
     ref
   ) => {
+    const [inputId, setInputId] = useState<string | undefined>(id);
+
+    useEffect(() => {
+      if (!id || !inputId) {
+        setInputId(randomId({}).id);
+      }
+    }, []);
+
     return (
       <div>
         {label ? (
@@ -39,7 +48,7 @@ const BeautifulInput = forwardRef<BeautifulInputRef, BeautifulInputProps>(
             content={label}
             error={error}
             isRequired={isRequired}
-            htmlFor={id}
+            htmlFor={inputId}
           />
         ) : null}
         {inputType === 'description' ? (
@@ -56,7 +65,7 @@ const BeautifulInput = forwardRef<BeautifulInputRef, BeautifulInputProps>(
             type={inputType}
             placeholder={placeholder}
             required={isRequired}
-            id={id}
+            id={inputId}
             defaultValue={defaultValue ? defaultValue : ''}
             {...register}
             {...ref}

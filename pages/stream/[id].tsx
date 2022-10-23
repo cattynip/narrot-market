@@ -10,7 +10,7 @@ const StreamDetail: NextPage = () => {
         <div className="fixed top-12 left-0 p-4 w-full bg-white">
           <div className="w-full rounded-md shadow-sm bg-slate-500 aspect-video" />
           <h3 className="text-2xl text-gray-800 font-semibold mt-3 text-center">
-            Let&apos;s try potatos
+            iPhone 15
           </h3>
         </div>
         <div>
