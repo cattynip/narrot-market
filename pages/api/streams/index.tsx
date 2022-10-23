@@ -70,7 +70,7 @@ const handler = async (
 
     return res.json({
       ok: true,
-      createdStreamId: createdStream
+      createdStreamId: createdStream.id
     });
   }
 };

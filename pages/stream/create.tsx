@@ -25,7 +25,7 @@ const StreamCreate: NextPage = () => {
 
   useEffect(() => {
     if (data && data?.ok && !error) {
-      router.push(`/stream/${data.createdStreamId}`);
+      router.push(`/stream/${data.createdStreamId.toString()}`);
     }
   }, [data, router, error]);
 
