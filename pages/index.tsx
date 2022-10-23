@@ -7,7 +7,7 @@ import { GetProductsResponse } from './api/products';
 import Badge from '@components/badge';
 
 const Home: NextPage = props => {
-  const { user } = useUser();
+  const { user } = useUser(true);
   const { data } = useSWR<GetProductsResponse>('/api/products');
 
   return (

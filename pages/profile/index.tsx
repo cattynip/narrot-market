@@ -7,7 +7,7 @@ import { GetReviewsResponse } from 'pages/api/reviews';
 import Review from '@components/review';
 
 const Profile: NextPage = () => {
-  const { user } = useUser();
+  const { user } = useUser(false);
   const { data } = useSWR<GetReviewsResponse>('/api/reviews');
 
   return (

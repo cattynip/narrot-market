@@ -21,7 +21,6 @@ interface AnswerForm {
 
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
-  const user = useUser();
   const { data, mutate } = useSWR<GetPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );

@@ -4,32 +4,26 @@ import client from '@libs/server/client';
 import { withApiSession } from '@libs/server/withSession';
 import { User } from '@prisma/client';
 
-export interface GetUsersMeResponse extends ResponseType {
-  profile: User | null;
+export interface GetUsersMeResponse {
+  ok: boolean;
+  profile: User;
 }
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ): Promise<any> => {
-  try {
-    const profile = await client.user.findUnique({
-      where: {
-        id: req.session.user?.id
-      }
-    });
+  const profile = await client.user.findUnique({
+    where: {
+      id: req.session.user?.id
+    }
+  });
+  console.log(profile);
 
-    return res.status(200).json({
-      ok: true,
-      profile
-    });
-  } catch (error) {
-    return res.status(401).json({
-      ok: false,
-      error: error,
-      profile: null
-    });
-  }
+  return res.json({
+    ok: true,
+    profile
+  });
 };
 
 export default withApiSession(

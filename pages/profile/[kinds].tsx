@@ -11,7 +11,7 @@ import {
 import ProductsList from '@components/productsList';
 
 const ProfileBought: NextPage = () => {
-  const { user } = useUser();
+  const { user } = useUser(true);
   const router = useRouter();
   const kinds = router.query.kinds;
 
