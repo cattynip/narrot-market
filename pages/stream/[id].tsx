@@ -4,12 +4,68 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import { GetStreamReturn } from 'pages/api/streams/[id]';
 import ChatsBubble from '@components/chatsBubble';
+import BeautifulInput from '@components/beautifulInput';
+import { useForm } from 'react-hook-form';
+import useMutation from '@libs/client/useMutation';
+import { useEffect } from 'react';
+import message, { StreamMessageReturn } from 'pages/api/streams/[id]/message';
+import useUser from '@libs/client/useUser';
+
+interface SendMessageForm {
+  message: string;
+}
 
 const StreamDetail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR<GetStreamReturn>(
+  const user = useUser(true);
+  const { data, mutate } = useSWR<GetStreamReturn>(
     router.query.id ? `/api/streams/${router.query.id}` : null
   );
+  const {
+    register,
+    handleSubmit,
+    reset: resetField
+  } = useForm<SendMessageForm>();
+  const [sendMessage, { data: messageData, loading }] =
+    useMutation<StreamMessageReturn>(`/api/streams/${router.query.id}/message`);
+
+  const onValid = (validForm: SendMessageForm) => {
+    sendMessage({ message: validForm.message });
+
+    resetField();
+  };
+
+  useEffect(() => {
+    if (loading) return;
+
+    if (messageData?.ok) {
+      resetField();
+    }
+
+    if (data?.ok && messageData?.ok && user.user && user.user.avatar) {
+      mutate(
+        {
+          ...data,
+          foundStream: {
+            ...data.foundStream,
+            messages: [
+              ...data.foundStream.messages,
+              {
+                message: messageData.message.message,
+                id: messageData.message.id,
+                user: {
+                  avatar: user.user?.avatar,
+                  name: user.user?.name,
+                  id: user.user?.id
+                }
+              }
+            ]
+          }
+        },
+        false
+      );
+    }
+  }, [messageData]);
 
   return (
     <Layout title={`Stream - ${data?.foundStream.name}`} canGoBack>
@@ -26,65 +82,29 @@ const StreamDetail: NextPage = () => {
           </div>
           <p className="my-3 text-gray-700">{data?.foundStream.description}</p>
         </div>
-        <div>
+        <div className="">
           <h2 className="text-2xl font-bold text-gray-901 my-2 mt-3">
             Live Chat
           </h2>
-          <div className="h-[50vh] overflow-y-scroll space-y-4">
-            <ChatsBubble
-              authorName="Seol SO"
-              authorAvatar="Hello"
-              content="Hi how much are you selling them for?"
-            />
-            <ChatsBubble
-              authorName="Seol SO"
-              authorAvatar="Hello"
-              content="Hi how much are you selling them for?"
-            />
-            <ChatsBubble
-              authorName="Seol SO"
-              authorAvatar="Hello"
-              content="Hi how much are you selling them for?"
-            />
-            <ChatsBubble
-              authorName="Seol SO"
-              authorAvatar="Hello"
-              content="Hi how much are you selling them for?"
-            />
-            <ChatsBubble
-              authorName="Seol SO"
-              authorAvatar="Hello"
-              content="Hi how much are you selling them for?"
-            />
-            <ChatsBubble
-              authorName="Seol SO"
-              authorAvatar="Hello"
-              content="Hi how much are you selling them for?"
-            />
-            <ChatsBubble
-              authorName="Seol SO"
-              authorAvatar="Hello"
-              content="Hi how much are you selling them for?"
-            />
-            <ChatsBubble
-              authorName="Seol SO"
-              authorAvatar="Hello"
-              content="Hi how much are you selling them for?"
-            />
-          </div>
-          <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
-            <div className="flex relative max-w-md items-center  w-full mx-auto">
-              <input
-                type="text"
-                className="shadow-sm rounded-full w-full border-gray-300 focus:ring-orange-500 focus:outline-none pr-12 focus:border-orange-500"
+          <div className="h-[40vh] overflow-y-scroll space-y-4">
+            {data?.foundStream?.messages?.map(message => (
+              <ChatsBubble
+                content={message.message}
+                author={message.user}
+                key={message.user.id}
+                reserve
               />
-              <div className="absolute inset-y-0 flex py-1.5 pr-1.5 right-0">
-                <button className="flex focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 items-center bg-orange-500 rounded-full px-3 hover:bg-orange-600 text-sm text-white">
-                  &rarr;
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
+          <form onSubmit={handleSubmit(onValid)}>
+            <BeautifulInput
+              inputType="text"
+              placeholder="Hello~"
+              isChatInput
+              register={register('message', { required: true })}
+              isRequired
+            />
+          </form>
         </div>
       </div>
     </Layout>

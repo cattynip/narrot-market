@@ -9,8 +9,7 @@ const ChatsDetail: NextPage = () => {
         {[...Array(20)].map((_value, idx) => (
           <ChatsBubble
             content="Hello~!"
-            authorAvatar=""
-            authorName="Seol So"
+            author={{ name: '', avatar: '', id: 12 }}
             key={idx}
           />
         ))}

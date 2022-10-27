@@ -12,6 +12,7 @@ interface StreamUser {
 interface StreamMessage {
   message: string;
   user: StreamUser;
+  id: number;
 }
 
 interface GetStreamStream {
@@ -19,7 +20,7 @@ interface GetStreamStream {
   description: string;
   price: number;
   user: StreamUser;
-  message: StreamMessage;
+  messages: StreamMessage[];
 }
 
 export interface GetStreamReturn extends ResponseType {
@@ -52,6 +53,7 @@ const handler = async (
       messages: {
         select: {
           message: true,
+          id: true,
           user: {
             select: {
               avatar: true,

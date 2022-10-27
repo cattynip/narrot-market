@@ -13,7 +13,6 @@ import { joinClass } from '@libs/client/utils';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { PostPostAnswerReturn } from 'pages/api/posts/[id]/answer';
-import useUser from '@libs/client/useUser';
 
 interface AnswerForm {
   answer: string;
