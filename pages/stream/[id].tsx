@@ -7,7 +7,6 @@ import ChatsBubble from '@components/chatsBubble';
 import BeautifulInput from '@components/beautifulInput';
 import { useForm } from 'react-hook-form';
 import useMutation from '@libs/client/useMutation';
-import { useEffect } from 'react';
 import { StreamMessageReturn } from 'pages/api/streams/[id]/message';
 import useUser from '@libs/client/useUser';
 
@@ -19,49 +18,47 @@ const StreamDetail: NextPage = () => {
   const router = useRouter();
   const user = useUser(true);
   const { data, mutate } = useSWR<GetStreamReturn>(
-    router.query.id ? `/api/streams/${router.query.id}` : null
+    router.query.id ? `/api/streams/${router.query.id}` : null,
+    {
+      refreshInterval: 1000
+    }
   );
   const {
     register,
     handleSubmit,
     reset: resetField
   } = useForm<SendMessageForm>();
-  const [sendMessage, { data: messageData, loading }] =
-    useMutation<StreamMessageReturn>(`/api/streams/${router.query.id}/message`);
+  const [sendMessage] = useMutation<StreamMessageReturn>(
+    `/api/streams/${router.query.id}/message`
+  );
 
   const onValid = (validForm: SendMessageForm) => {
-    sendMessage({ message: validForm.message });
-
     resetField();
+    mutate(
+      prev =>
+        prev &&
+        ({
+          ...prev,
+          foundStream: {
+            ...prev.foundStream,
+            messages: [
+              ...prev.foundStream.messages,
+              {
+                message: validForm.message,
+                id: Date.now(),
+                user: {
+                  avatar: user.user?.avatar,
+                  name: user.user?.name,
+                  id: user.user?.id
+                }
+              }
+            ]
+          }
+        } as any),
+      false
+    );
+    sendMessage({ message: validForm.message });
   };
-
-  useEffect(() => {
-    if (loading) return;
-
-    // if (data?.ok && messageData?.ok && user.user && user.user.avatar) {
-    // mutate(
-    //   {
-    //     ...data,
-    //     foundStream: {
-    //       ...data.foundStream,
-    //       messages: [
-    //         ...data.foundStream.messages,
-    //         {
-    //           message: messageData.message.message,
-    //           id: messageData.message.id,
-    //           user: {
-    //             avatar: user.user?.avatar,
-    //             name: user.user?.name,
-    //             id: user.user?.id
-    //           }
-    //         }
-    //       ]
-    //     }
-    //   },
-    //   false
-    // );
-    mutate();
-  }, [messageData, mutate]);
 
   return (
     <Layout
