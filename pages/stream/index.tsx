@@ -11,7 +11,7 @@ const Stream: NextPage = () => {
   return (
     <Layout title="Stream">
       <div className="px-4 space-y-4 divide-y-2">
-        {data?.foundStreams.map(stream => (
+        {data?.foundStreams?.map(stream => (
           <StreamItem
             title={stream.name}
             streamId={stream.id}

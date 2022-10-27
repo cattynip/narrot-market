@@ -6,9 +6,15 @@ interface LayoutProps {
   title?: string;
   canGoBack?: boolean | string;
   children: React.ReactNode;
+  isNavbar?: boolean;
 }
 
-const Layout = ({ title, canGoBack, children }: LayoutProps) => {
+const Layout = ({
+  title,
+  canGoBack,
+  children,
+  isNavbar = true
+}: LayoutProps) => {
   const router = useRouter();
   const goBack = () => {
     if (typeof canGoBack === 'string') {
@@ -44,7 +50,7 @@ const Layout = ({ title, canGoBack, children }: LayoutProps) => {
 
       <div className="py-14">{children}</div>
 
-      <Navigation />
+      {isNavbar ? <Navigation /> : null}
     </div>
   );
 };

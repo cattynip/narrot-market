@@ -26,10 +26,10 @@ const ChatsBubble = ({ content, author, reserve }: ChatsBubbleProps) => {
           <div
             className={joinClass(
               'flex justify-center items-center',
-              reserve ? 'flex-row-reverse' : ''
+              reserve ? 'flex-row-reverse space-x-3' : ''
             )}
           >
-            <div className={joinClass('w-6 h-6 bg-gray-400 rounded-full')} />
+            <div className="w-6 h-6 bg-gray-400 rounded-full mx-2" />
             <span className="text-gray-500 font-bold text-xs">
               {author.name}
             </span>

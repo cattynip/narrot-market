@@ -8,7 +8,7 @@ import BeautifulInput from '@components/beautifulInput';
 import { useForm } from 'react-hook-form';
 import useMutation from '@libs/client/useMutation';
 import { useEffect } from 'react';
-import message, { StreamMessageReturn } from 'pages/api/streams/[id]/message';
+import { StreamMessageReturn } from 'pages/api/streams/[id]/message';
 import useUser from '@libs/client/useUser';
 
 interface SendMessageForm {
@@ -38,49 +38,49 @@ const StreamDetail: NextPage = () => {
   useEffect(() => {
     if (loading) return;
 
-    if (messageData?.ok) {
-      resetField();
-    }
-
-    if (data?.ok && messageData?.ok && user.user && user.user.avatar) {
-      mutate(
-        {
-          ...data,
-          foundStream: {
-            ...data.foundStream,
-            messages: [
-              ...data.foundStream.messages,
-              {
-                message: messageData.message.message,
-                id: messageData.message.id,
-                user: {
-                  avatar: user.user?.avatar,
-                  name: user.user?.name,
-                  id: user.user?.id
-                }
-              }
-            ]
-          }
-        },
-        false
-      );
-    }
-  }, [messageData]);
+    // if (data?.ok && messageData?.ok && user.user && user.user.avatar) {
+    // mutate(
+    //   {
+    //     ...data,
+    //     foundStream: {
+    //       ...data.foundStream,
+    //       messages: [
+    //         ...data.foundStream.messages,
+    //         {
+    //           message: messageData.message.message,
+    //           id: messageData.message.id,
+    //           user: {
+    //             avatar: user.user?.avatar,
+    //             name: user.user?.name,
+    //             id: user.user?.id
+    //           }
+    //         }
+    //       ]
+    //     }
+    //   },
+    //   false
+    // );
+    mutate();
+  }, [messageData, mutate]);
 
   return (
-    <Layout title={`Stream - ${data?.foundStream.name}`} canGoBack>
+    <Layout
+      title={`Stream - ${data?.foundStream?.name}`}
+      canGoBack
+      isNavbar={false}
+    >
       <div>
         <div className="w-full shadow-sm bg-slate-300 aspect-video" />
         <div className="border-b-2">
           <div className="mt-5 flex items-center justify-between">
             <h1 className="text-3xl font-bold text-gray-900">
-              {data?.foundStream.name}
+              {data?.foundStream?.name}
             </h1>
             <h2 className="text-2xl font-semibold text-gray-900 align-middle">
-              ${data?.foundStream.price}
+              ${data?.foundStream?.price}
             </h2>
           </div>
-          <p className="my-3 text-gray-700">{data?.foundStream.description}</p>
+          <p className="my-3 text-gray-700">{data?.foundStream?.description}</p>
         </div>
         <div className="">
           <h2 className="text-2xl font-bold text-gray-901 my-2 mt-3">
@@ -91,8 +91,8 @@ const StreamDetail: NextPage = () => {
               <ChatsBubble
                 content={message.message}
                 author={message.user}
-                key={message.user.id}
-                reserve
+                key={message.id}
+                reserve={message.user.id === user.user?.id ? true : false}
               />
             ))}
           </div>
