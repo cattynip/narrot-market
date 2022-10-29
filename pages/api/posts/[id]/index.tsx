@@ -63,6 +63,7 @@ const handler = async (
         }
       },
       answers: {
+        take: 10,
         select: {
           answer: true,
           id: true,

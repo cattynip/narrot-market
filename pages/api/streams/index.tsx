@@ -29,11 +29,20 @@ const handler = async (
   const { method } = req;
 
   if (method === 'GET') {
+    const { page } = req.query;
+
+    if (!page || +page <= 0) return res.status(401).json({ ok: false });
+
+    const cleanPage = +page - 1;
+    const streamPerPage = 10;
+
     const foundStreams = await client?.stream.findMany({
       select: {
         id: true,
         name: true
-      }
+      },
+      take: streamPerPage,
+      skip: cleanPage * streamPerPage
     });
 
     return res.json({

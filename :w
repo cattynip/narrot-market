@@ -6,7 +6,7 @@ import { GetStreamsReturn } from 'pages/api/streams';
 import Badge from '@components/badge';
 
 const Stream: NextPage = () => {
-  const { data } = useSWR<GetStreamsReturn>('/api/streams?page=1');
+  const { data } = useSWR<GetStreamsReturn>('/api/streams?page=2');
 
   return (
     <Layout title="Stream">
