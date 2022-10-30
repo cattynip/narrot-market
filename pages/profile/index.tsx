@@ -17,7 +17,14 @@ const Profile: NextPage = () => {
         <div>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-20 h-20 bg-gray-500 rounded-full" />
+              {user?.avatar ? (
+                <img
+                  className="w-20 h-20 bg-gray-500 rounded-full"
+                  src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${user?.avatar}/public`}
+                />
+              ) : (
+                <div className="w-20 h-20 bg-gray-500 rounded-full" />
+              )}
               <h1 className="font-extrabold text-4xl">{user?.name}</h1>
             </div>
             <Link href="/profile/edit">
