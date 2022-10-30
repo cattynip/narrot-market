@@ -6,10 +6,14 @@ import { useForm } from 'react-hook-form';
 import BeautifulButton from '@components/beautifulButton';
 import useMutation from '@libs/client/useMutation';
 import { useEffect, useState } from 'react';
-import { PostEditUserBody, PostUserMeResponse } from 'pages/api/users/me';
+import { PostUserMeResponse } from 'pages/api/users/me';
 import { useRouter } from 'next/router';
 
-interface PostEditUserForm extends PostEditUserBody {
+interface PostEditUserForm {
+  name: string;
+  phone: number;
+  email: string;
+  avatar?: FileList;
   form: string;
 }
 
@@ -56,16 +60,23 @@ const ProfileEdit: NextPage = () => {
     }
   }, [data, setError]);
 
-  const onValid = async (validForm: PostEditUserBody) => {
+  const onValid = async (validForm: PostEditUserForm) => {
     if (loading) return;
     if (
       (!validForm.email && validForm.phone) ||
       (validForm.email && !validForm.phone)
     ) {
-      if (avatar && avatar.length > 0) {
-        const cloudflareData = await (await fetch(`/api/files/`)).json();
-        // Upload file to CF URL
-        editProfile({ ...validForm, avatarUrl: '' });
+      if (avatar && avatar.length > 0 && user?.id) {
+        const { id, uploadURL } = await (await fetch(`/api/files/`)).json();
+        const form = new FormData();
+        form.append('file', avatar[0], user.id + '');
+
+        await fetch(uploadURL, {
+          method: 'POST',
+          body: form
+        });
+
+        editProfile({ ...validForm, avatarUrl: id });
       } else {
         editProfile(validForm);
       }

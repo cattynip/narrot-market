@@ -14,7 +14,7 @@ export interface PostEditUserBody {
   name: string;
   phone: number;
   email: string;
-  avatar?: FileList;
+  avatarUrl?: string;
 }
 
 export interface GetUsersMeResponse {
@@ -31,7 +31,7 @@ const handler = async (
   if (method === 'POST') {
     const {
       session: { user },
-      body: { name, phone, email }
+      body: { name, phone, email, avatarUrl }
     } = req;
 
     if (!user?.id)
@@ -52,11 +52,7 @@ const handler = async (
       }
     });
 
-    console.log(name, phone, email);
-    console.log(currentUser);
-
     if (name && currentUser?.name !== name) {
-      console.log('Hello');
       const nameTaken = Boolean(
         await client.user.findUnique({
           where: {
@@ -76,7 +72,6 @@ const handler = async (
     }
 
     if (email && currentUser?.email !== email) {
-      console.log('Hello');
       const emailTaken = Boolean(
         await client.user.findUnique({
           where: {
@@ -95,7 +90,6 @@ const handler = async (
     }
 
     if (phone && String(currentUser?.phone) !== String(phone)) {
-      console.log('Hello');
       const phoneTaken = Boolean(
         await client.user.findUnique({
           where: {
@@ -120,7 +114,8 @@ const handler = async (
       data: {
         name,
         phone: phone + '' === '' ? null : phone + '',
-        email: email === '' ? null : email
+        email: email === '' ? null : email,
+        avatar: avatarUrl + ''
       }
     });
 
