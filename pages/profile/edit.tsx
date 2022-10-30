@@ -47,7 +47,7 @@ const ProfileEdit: NextPage = () => {
 
     if (user?.avatar) {
       setImageUrl(
-        `https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${user?.avatar}/public`
+        `https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${user?.avatar}/avatar`
       );
     }
   }, [user, setValue]);
