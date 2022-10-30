@@ -56,13 +56,19 @@ const ProfileEdit: NextPage = () => {
     }
   }, [data, setError]);
 
-  const onValid = (validForm: PostEditUserBody) => {
+  const onValid = async (validForm: PostEditUserBody) => {
+    if (loading) return;
     if (
       (!validForm.email && validForm.phone) ||
       (validForm.email && !validForm.phone)
     ) {
-      if (loading) return;
-      return editProfile(validForm);
+      if (avatar && avatar.length > 0) {
+        const cloudflareData = await (await fetch(`/api/files/`)).json();
+        // Upload file to CF URL
+        editProfile({ ...validForm, avatarUrl: '' });
+      } else {
+        editProfile(validForm);
+      }
     } else if (validForm.email && validForm.phone) {
       setError('email', { message: 'Only one field of two must exist.' });
       setError('phone', { message: 'Only one field of two must exist.' });
