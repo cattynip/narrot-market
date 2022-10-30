@@ -14,6 +14,7 @@ export interface PostEditUserBody {
   name: string;
   phone: number;
   email: string;
+  avatar?: FileList;
 }
 
 export interface GetUsersMeResponse {

@@ -5,7 +5,7 @@ import BeautifulInput from '@components/beautifulInput';
 import { useForm } from 'react-hook-form';
 import BeautifulButton from '@components/beautifulButton';
 import useMutation from '@libs/client/useMutation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { PostEditUserBody, PostUserMeResponse } from 'pages/api/users/me';
 import { useRouter } from 'next/router';
 
@@ -18,6 +18,7 @@ const ProfileEdit: NextPage = () => {
   const router = useRouter();
   const [editProfile, { loading, data }] =
     useMutation<PostUserMeResponse>('/api/users/me');
+  const [imageUrl, setImageUrl] = useState<string>('');
   const {
     register,
     handleSubmit,
@@ -69,15 +70,39 @@ const ProfileEdit: NextPage = () => {
     }
   };
 
+  const avatar = watch('avatar');
+
+  useEffect(() => {
+    if (avatar && avatar?.length > 0) {
+      const file = avatar[0];
+      setImageUrl(URL.createObjectURL(file));
+    }
+  }, [avatar]);
+
   return (
     <Layout title="Edit Profile">
-      <form onSubmit={handleSubmit(onValid)} className="space-y-4">
+      <form onSubmit={handleSubmit(onValid)} className="space-y-4 pt-3">
         <div className="flex justify-start items-center space-x-3">
-          <div className="w-20 h-20 bg-gray-500 rounded-full" />
+          {imageUrl ? (
+            <img
+              className="w-20 h-20 bg-gray-500 rounded-full"
+              src={imageUrl}
+            />
+          ) : (
+            <div className="w-20 h-20 bg-gray-500 rounded-full"></div>
+          )}
           <label htmlFor="change" className="font-bold text-2xl cursor-pointer">
             Change Photo
           </label>
-          <input className="hidden" type="file" id="change" accept="image/*" />
+          <input
+            className="hidden"
+            type="file"
+            id="change"
+            accept="image/*"
+            {...register('avatar', {
+              required: { value: true, message: 'Avatar Image is reuqired.' }
+            })}
+          />
         </div>
         <div>
           <BeautifulInput
