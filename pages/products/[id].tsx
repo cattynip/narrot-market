@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Layout from '@components/layout';
 import SimilarItems from '@components/smiliarItem';
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { GetProductResponse } from 'pages/api/products/[id]';
@@ -10,7 +10,6 @@ import { GetProductFaveResponse } from 'pages/api/products/[id]/fav';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { mutate } = useSWRConfig();
   const { data, mutate: boundMutate } = useSWR<GetProductResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
@@ -31,7 +30,16 @@ const ItemDetail: NextPage = () => {
       <div>
         <div>
           <div className="relative">
-            <div className="h-96 bg-slate-300 bg-gradient-to-b from-transparent to-gray-500" />
+            {data?.product?.image ? (
+              <div className="h-96 w-full overflow-hidden relative">
+                <img
+                  className="absolute -top-10"
+                  src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${data?.product.image}/public`}
+                />
+              </div>
+            ) : (
+              <div className="h-96 bg-slate-300 bg-gradient-to-b from-transparent to-gray-500" />
+            )}
             <div className="absolute w-full bottom-6 px-7 font-extrabold text-white text-5xl flex justify-between">
               <h1>{data?.product.name}</h1>
               <p>${data?.product.price}</p>
@@ -41,7 +49,14 @@ const ItemDetail: NextPage = () => {
             <div className="flex flex-col pt-7 mb-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <div className="w-12 h-12 rounded-full bg-gray-500" />
+                  {data?.product.user.avatar ? (
+                    <img
+                      className="w-12 h-12 rounded-full bg-gray-500"
+                      src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${data?.product.user.avatar}/avatar`}
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-gray-500" />
+                  )}
                   <p className="text-lg font-medium">
                     {data?.product?.user?.name}
                   </p>

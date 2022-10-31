@@ -25,6 +25,7 @@ export interface ProductProduct {
   name: string;
   price: number;
   description: string;
+  image: string;
   user: ProductWithUser;
 }
 
@@ -65,6 +66,7 @@ const handler = async (
       name: true,
       price: true,
       description: true,
+      image: true,
       user: {
         select: {
           id: true,

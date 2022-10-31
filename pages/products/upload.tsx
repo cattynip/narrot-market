@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { joinClass } from '@libs/client/utils';
 import BeautifulInput from '@components/beautifulInput';
 import useMutation from '@libs/client/useMutation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PostProductsResponse } from 'pages/api/products';
 
@@ -12,37 +12,64 @@ interface IProductUpload {
   name: string;
   price: number;
   description?: string;
+  photo: FileList;
 }
 
 const ItemUpload: NextPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useForm<IProductUpload>();
 
   const [uploadProduct, { loading, data }] =
     useMutation<PostProductsResponse>('/api/products');
+  const [imageUrl, setImageUrl] = useState<string>('');
   const router = useRouter();
 
-  const onValid = (data: IProductUpload) => {
+  const onValid = async (data: IProductUpload) => {
+    console.log(loading);
     if (loading) return;
-    uploadProduct(data);
+    const { uploadURL } = await (await fetch(`/api/files/`)).json();
+    const form = new FormData();
+    form.append('file', data.photo[0]);
+
+    const {
+      result: { id }
+    } = await (
+      await fetch(uploadURL, {
+        method: 'POST',
+        body: form
+      })
+    ).json();
+
+    uploadProduct({ ...data, productImage: id });
   };
 
   useEffect(() => {
     if (data?.ok) {
-      console.log(data);
       router.replace(`/products/${data.productId}`);
     }
   }, [data, router]);
 
+  const photo = watch('photo');
+
+  useEffect(() => {
+    if (photo && photo.length > 0) {
+      const file = photo[0];
+      setImageUrl(URL.createObjectURL(file));
+    }
+  }, [photo]);
+
   return (
     <Layout title="Upload Item" canGoBack>
-      <form onSubmit={handleSubmit(onValid)}>
+      <form onSubmit={handleSubmit(onValid)} className="pt-4">
         <div>
-          <div>
-            <label className="w-full flex items-center justify-center border-2 border-gray-500 border-dashed p-4 rounded-md transition-colors hover:border-orange-500 hover:text-orange-500 cursor-pointer">
+          <label className="w-full flex items-center justify-center border-2 border-gray-500 border-dashed p-4 rounded-md transition-colors hover:border-orange-500 hover:text-orange-500 cursor-pointer">
+            {imageUrl ? (
+              <img src={imageUrl} />
+            ) : (
               <svg
                 className="h-10 w-10 cursor-pointer"
                 stroke="currentColor"
@@ -57,9 +84,16 @@ const ItemUpload: NextPage = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <input type="file" className="hidden" />
-            </label>
-          </div>
+            )}
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*"
+              {...register('photo', {
+                required: { value: true, message: 'The photo is required.' }
+              })}
+            />
+          </label>
         </div>
         <div>
           <div>

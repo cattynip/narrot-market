@@ -53,7 +53,7 @@ const handler = async (
 
   if (req.method === 'POST') {
     const {
-      body: { name, price, description },
+      body: { name, price, description, productImage },
       session: { user }
     } = req;
 
@@ -69,7 +69,7 @@ const handler = async (
         name,
         price: +price,
         description,
-        image: 'This field will be filled.',
+        image: productImage,
         user: {
           connect: {
             id: cleanUserId
