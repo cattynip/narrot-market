@@ -4,6 +4,7 @@ import withHandler, {
 } from '@libs/server/withHandler';
 import { withApiSession } from '@libs/server/withSession';
 import { NextApiRequest, NextApiResponse } from 'next';
+import client from '@libs/server/client';
 
 export interface ProductWithUser {
   id: number;

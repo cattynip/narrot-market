@@ -5,6 +5,8 @@ import useUser from '@libs/client/useUser';
 import useSWR from 'swr';
 import { GetProductsResponse } from './api/products';
 import Badge from '@components/badge';
+import Image from 'next/image';
+import bodwellLogo from '../public/local.png';
 
 const Home: NextPage = props => {
   const { user } = useUser(true);
@@ -48,6 +50,7 @@ const Home: NextPage = props => {
             />
           </svg>
         </Badge>
+        <Image src={bodwellLogo} placeholder="blur" quality={10} />
       </div>
     </Layout>
   );

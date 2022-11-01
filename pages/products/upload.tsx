@@ -33,7 +33,7 @@ const ItemUpload: NextPage = () => {
     if (loading) return;
     const { uploadURL } = await (await fetch(`/api/files/`)).json();
     const form = new FormData();
-    form.append('file', data.photo[0]);
+    form.append('file', data.photo[0], data.name.trim().replace(/ /g, ''));
 
     const {
       result: { id }
