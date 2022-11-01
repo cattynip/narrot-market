@@ -33,9 +33,11 @@ const ItemDetail: NextPage = () => {
           <div className="relative">
             {data?.product?.image ? (
               <div className="h-96 w-full overflow-hidden relative">
-                <img
-                  className="absolute -top-10"
-                  src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${data?.product.image}/public`}
+                <Image
+                  className="object-cover"
+                  src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${data?.product.image}/detail`}
+                  width={576}
+                  height={384}
                 />
               </div>
             ) : (
