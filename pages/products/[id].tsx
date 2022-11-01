@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { GetProductResponse } from 'pages/api/products/[id]';
 import useMutation from '@libs/client/useMutation';
 import { GetProductFaveResponse } from 'pages/api/products/[id]/fav';
+import Image from 'next/image';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
@@ -50,9 +51,11 @@ const ItemDetail: NextPage = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   {data?.product.user.avatar ? (
-                    <img
+                    <Image
                       className="w-12 h-12 rounded-full bg-gray-500"
                       src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${data?.product.user.avatar}/avatar`}
+                      width={48}
+                      height={48}
                     />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-gray-500" />
