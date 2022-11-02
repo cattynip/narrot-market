@@ -130,7 +130,7 @@ const handler = async (
     });
 
     return res.json({
-      ok: true,
+      ok: profile ? true : false,
       profile
     });
   }

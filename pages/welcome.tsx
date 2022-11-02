@@ -7,6 +7,7 @@ import useMutation from '@libs/client/useMutation';
 import { joinClass } from '@libs/client/utils';
 import BeautifulError from '@components/beautifulError';
 import { useRouter } from 'next/router';
+import useUser from '@libs/client/useUser';
 
 interface IEnterForm {
   email?: string;
@@ -29,6 +30,7 @@ const Enter: NextPage = props => {
   const { register, reset, handleSubmit } = useForm<IEnterForm>();
   const { register: tokenRegister, handleSubmit: tokenHandleSubmit } =
     useForm<IConfirmForm>();
+  const user = useUser(true);
 
   const [enter, { loading, data, error }] =
     useMutation<EnterMutation>('/api/users/enter');

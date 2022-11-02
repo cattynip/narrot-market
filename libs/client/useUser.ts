@@ -17,9 +17,9 @@ function useUser(isPublic: boolean): UseUserResponse {
   const router = useRouter();
 
   useEffect(() => {
-    if (data && !data.ok && isPublic) {
-      router.replace('/enter');
-    } else if (location.pathname === '/enter') {
+    if (data?.ok === false && router.pathname !== '/welcome') {
+      router.replace('/welcome');
+    } else if (router.pathname === '/welcome') {
       router.back();
     }
   }, [data, router]);
