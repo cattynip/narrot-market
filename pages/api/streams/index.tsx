@@ -59,13 +59,37 @@ const handler = async (
 
     if (!user?.id || !name || !price) return res.json({ ok: false });
 
+    const {
+      result: {
+        uid,
+        rtmps: { streamKey, url }
+      }
+    } = await (
+      await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_AC}/stream/live_inputs`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.CF_STREAM_ID}`
+          },
+          body: `{"meta": {"name":"${name}"},"recording": { "mode": "automatic", "timeoutSeconds": 20}}`
+        }
+      )
+    ).json();
+
     const cleanUserId = +user.id.toString();
+
+    console.log(cleanUserId);
 
     const createdStream = await client?.stream.create({
       data: {
         name,
         price: +price,
         description,
+        cloudflareId: uid + '',
+        cloudflareKey: streamKey + '',
+        cloudflareUrl: url + '',
         user: {
           connect: {
             id: cleanUserId
