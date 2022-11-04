@@ -6,6 +6,7 @@ import client from '@libs/server/client';
 interface GetStreamsStream {
   id: number;
   name: string;
+  cloudflareId: string;
 }
 
 export interface GetStreamsReturn extends ResponseType {
@@ -39,7 +40,8 @@ const handler = async (
     const foundStreams = await client?.stream.findMany({
       select: {
         id: true,
-        name: true
+        name: true,
+        cloudflareId: true
       },
       take: streamPerPage,
       skip: cleanPage * streamPerPage

@@ -14,6 +14,7 @@ const Stream: NextPage = () => {
         {data?.foundStreams?.map(stream => (
           <StreamItem
             title={stream.name}
+            videoId={stream.cloudflareId}
             streamId={stream.id}
             key={stream.id}
           />

@@ -48,7 +48,7 @@ const Layout = ({
         {title ? <span>{title}</span> : null}
       </div>
 
-      <div className="py-14">{children}</div>
+      <div className={isNavbar ? 'py-14' : 'pt-14'}>{children}</div>
 
       {isNavbar ? <Navigation /> : null}
     </div>

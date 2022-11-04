@@ -66,7 +66,16 @@ const StreamDetail: NextPage = () => {
       canGoBack
       isNavbar={false}
     >
-      <div className="w-full shadow-sm bg-slate-300 aspect-video" />
+      <div className="w-full shadow-sm bg-slate-300 aspect-video">
+        <iframe
+          className="w-full h-full"
+          src={`https://iframe.videodelivery.net/${data?.foundStream.cloudflareId}`}
+          height="720"
+          width="1280"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+          allowFullScreen={true}
+        />
+      </div>
       <div className="border-b-2">
         <div className="mt-5 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">
