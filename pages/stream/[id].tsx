@@ -66,18 +66,26 @@ const StreamDetail: NextPage = () => {
       canGoBack
       isNavbar={false}
     >
-      <div>
-        <div className="w-full shadow-sm bg-slate-300 aspect-video" />
-        <div className="border-b-2">
-          <div className="mt-5 flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-gray-900">
-              {data?.foundStream?.name}
-            </h1>
-            <h2 className="text-2xl font-semibold text-gray-900 align-middle">
-              ${data?.foundStream?.price}
-            </h2>
-          </div>
+      <div className="w-full shadow-sm bg-slate-300 aspect-video" />
+      <div className="border-b-2">
+        <div className="mt-5 flex items-center justify-between">
+          <h1 className="text-3xl font-bold text-gray-900">
+            {data?.foundStream?.name}
+          </h1>
+          <h2 className="text-2xl font-semibold text-gray-900 align-middle">
+            ${data?.foundStream?.price}
+          </h2>
+        </div>
+        <div>
           <p className="my-3 text-gray-700">{data?.foundStream?.description}</p>
+          {data?.foundStream.cloudflareKey ? (
+            <div className="text-gray-400 text-sm">
+              <p>Stream ID : {data?.foundStream?.cloudflareId}</p>
+              <p>Stream URL : {data?.foundStream?.cloudflareUrl}</p>
+              <p>Stream KEY : {data?.foundStream?.cloudflareKey}</p>
+            </div>
+          ) : null}
+          <div></div>
         </div>
         <div className="">
           <h2 className="text-2xl font-bold text-gray-901 my-2 mt-3">

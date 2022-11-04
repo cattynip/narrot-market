@@ -20,6 +20,9 @@ interface GetStreamStream {
   description: string;
   price: number;
   user: StreamUser;
+  cloudflareId: string;
+  cloudflareUrl?: string;
+  cloudflareKey?: string;
   messages: StreamMessage[];
 }
 
@@ -32,24 +35,23 @@ const handler = async (
   res: NextApiResponse<ResponseType>
 ): Promise<any> => {
   const {
-    query: { id }
+    query: { id },
+    session: { user }
   } = req;
 
-  if (!id)
+  if (!id || !user?.id)
     return res.status(401).json({
       ok: false
     });
 
+  const cleanUserId = +user?.id.toString();
   const cleanStreamId = +id?.toString();
 
   const foundStream = await client?.stream.findUnique({
     where: {
       id: cleanStreamId
     },
-    select: {
-      name: true,
-      description: true,
-      price: true,
+    include: {
       messages: {
         select: {
           message: true,
@@ -72,6 +74,13 @@ const handler = async (
       }
     }
   });
+
+  const isOwner = foundStream?.user?.id === cleanUserId;
+
+  if (foundStream && isOwner) {
+    foundStream.cloudflareKey === 'Not Allowed';
+    foundStream.cloudflareUrl === 'Not Allowed';
+  }
 
   return res.json({
     ok: true,
