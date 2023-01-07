@@ -14,7 +14,7 @@ const GlobalButton = ({
   return (
     <button
       className={joinClass([
-        'w-full rounded-lg bg-orange-400 text-white transition-all duration-200 hover:bg-orange-500',
+        'w-full rounded-lg bg-orange-400 py-2.5 text-white transition-all duration-200 hover:bg-orange-500',
         className ? className : ''
       ])}
       {...buttonProps}

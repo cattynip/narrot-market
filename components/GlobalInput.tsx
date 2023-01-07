@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
 import joinClass from '../libs/joinClass';
 
-type TGlobalInputFor = 'email' | 'phone';
+type TGlobalInputFor = 'email' | 'phone' | 'description';
 
 interface IGlobalInput {
   inputFor: TGlobalInputFor;
@@ -30,7 +30,7 @@ const GlobalInput = ({
           required
           {...inputProps}
         />
-      ) : (
+      ) : inputFor === 'phone' ? (
         <div className="mt-2 flex rounded-lg shadow-md">
           <span className="rounded-lg rounded-r-none border-2 border-r-0 border-gray-300 py-2.5 px-2">
             {extraInformation?.supportText}
@@ -43,7 +43,12 @@ const GlobalInput = ({
             {...inputProps}
           />
         </div>
-      )}
+      ) : inputFor === 'description' ? (
+        <textarea
+          className="mt-2 w-full rounded-md border-2 border-gray-300 py-2.5 px-3 shadow-md transition-all duration-200 hover:border-orange-300 focus:border-orange-600 focus:outline-none focus:placeholder:opacity-0"
+          cols={4}
+        />
+      ) : null}
     </>
   );
 };
