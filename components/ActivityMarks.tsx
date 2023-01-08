@@ -4,25 +4,35 @@ import Icon from './Icon';
 interface IActivityMarks {
   activities: {
     type: TIconDs;
-    isHighlighted: boolean;
+    isMarked: boolean;
     value: number;
   }[];
 }
 
 interface IActivityMarksComponent {
   type: TIconDs;
-  isHighlighted: boolean;
+  isMarked: boolean;
   value: number;
 }
 
 const ActivityMarksComponent = ({
   type,
-  isHighlighted,
+  isMarked,
   value
 }: IActivityMarksComponent) => {
   return (
     <div className="flex items-center justify-start space-x-1">
-      <Icon d={type} size={5} isHighlighted={isHighlighted} />
+      <Icon
+        d={type}
+        size={20}
+        hightColor={{
+          variable: isMarked,
+          highlightType: {
+            true: 'empty',
+            false: 'orangeHighlight'
+          }
+        }}
+      />
       <span>{value}</span>
     </div>
   );
@@ -35,7 +45,7 @@ const ActivityMarks = ({ activities }: IActivityMarks) => {
         <ActivityMarksComponent
           key={activityIndex}
           type={activity.type}
-          isHighlighted={activity.isHighlighted}
+          isMarked={activity.isMarked}
           value={activity.value}
         />
       ))}

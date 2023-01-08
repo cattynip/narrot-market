@@ -41,12 +41,12 @@ const CommunityDetail: NextPage = () => {
           activities={[
             {
               type: 'wondering',
-              isHighlighted: false,
+              isMarked: false,
               value: 24
             },
             {
               type: 'answer',
-              isHighlighted: true,
+              isMarked: true,
               value: 65
             }
           ]}

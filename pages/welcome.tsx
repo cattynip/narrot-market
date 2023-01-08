@@ -75,19 +75,27 @@ const Welcome: NextPage = () => {
             <button className="flex w-full items-center justify-center rounded-md border-2 border-blue-400 bg-blue-400 py-2 transition-colors hover:border-blue-500 hover:bg-blue-500">
               <Icon
                 d={'twitter'}
-                size={6}
-                isHighlighted={false}
-                fill="#ffffff"
-                stroke="#ffffff"
+                size={24}
+                hightColor={{
+                  variable: true,
+                  highlightType: {
+                    true: 'whiteHightlight',
+                    false: 'whiteHightlight'
+                  }
+                }}
               />
             </button>
             <button className="flex w-full items-center justify-center rounded-md border-2 border-gray-500 bg-white py-2 transition-colors hover:bg-slate-200">
               <Icon
                 d={'github'}
-                size={6}
-                isHighlighted={false}
-                fill="#000000"
-                stroke="#000000"
+                size={24}
+                hightColor={{
+                  variable: true,
+                  highlightType: {
+                    true: 'blackHightlight',
+                    false: 'blackHightlight'
+                  }
+                }}
               />
             </button>
           </div>

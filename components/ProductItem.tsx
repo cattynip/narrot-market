@@ -36,12 +36,32 @@ const ProductItem = ({
         </div>
       </div>
       <div className="mt-auto flex space-x-2">
-        <div className="text-md flex items-center justify-items-center space-x-1">
-          <Icon d={'heart'} isHighlighted={favourite.isFavourite} size={5} />
+        <div className="text-md flex items-center justify-items-center space-x-2">
+          <Icon
+            d="heart"
+            size={19}
+            hightColor={{
+              variable: favourite.isFavourite,
+              highlightType: {
+                true: 'orangeHighlight',
+                false: 'empty'
+              }
+            }}
+          />
           <span>{favourite.value}</span>
         </div>
         <div className="text-md flex items-center justify-items-center space-x-1">
-          <Icon d={'comment'} isHighlighted={comment.isCommented} size={5} />
+          <Icon
+            d={'comment'}
+            size={19}
+            hightColor={{
+              variable: comment.isCommented,
+              highlightType: {
+                true: 'orangeHighlight',
+                false: 'empty'
+              }
+            }}
+          />
           <span>{comment.value}</span>
         </div>
       </div>

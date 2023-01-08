@@ -10,7 +10,17 @@ const ItemsUpload: NextPage = () => {
       <div>
         <GlobalLabel content="Images" isRequired={true} />
         <div className="mt-2 flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 shadow-md transition-colors duration-150 hover:border-orange-300 hover:text-orange-500 focus:border-orange-500">
-          <Icon d={'picture'} size={12} isHighlighted={false} />
+          <Icon
+            d={'picture'}
+            size={50}
+            hightColor={{
+              variable: true,
+              highlightType: {
+                true: 'blackHightlight',
+                false: 'blackHightlight'
+              }
+            }}
+          />
           <input className="hidden" type="file" />
         </div>
       </div>

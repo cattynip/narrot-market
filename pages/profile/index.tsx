@@ -17,10 +17,31 @@ const Profile: NextPage = () => {
         </div>
         <div className="flex items-center justify-between space-x-2">
           <GlobalButton className="px-2">
-            <Icon d="pencil" size={5} isHighlighted={false} stroke="#ffffff" />
+            <Icon
+              d="pencil"
+              size={20}
+              hightColor={{
+                variable: true,
+                highlightType: {
+                  true: 'whiteStrokeTransparentFill',
+                  false: 'whiteHightlight'
+                }
+              }}
+            />
           </GlobalButton>
           <GlobalButton className="px-2">
-            <Icon d="fire" size={5} isHighlighted={false} stroke="#ffffff" />
+            <Icon
+              d="fire"
+              size={20}
+              hightColor={{
+                variable: true,
+                highlightType: {
+                  true: 'whiteStrokeTransparentFill',
+                  false: 'whiteHightlight'
+                }
+              }}
+              stroke="#ffffff"
+            />
           </GlobalButton>
         </div>
       </div>

@@ -57,9 +57,13 @@ const CommunityItem = ({
             {
               ...wondering,
               type: 'wondering',
-              isHighlighted: wondering.isWondered
+              isMarked: wondering.isWondered
             },
-            { ...answer, type: 'answer', isHighlighted: answer.isAnswered }
+            {
+              ...answer,
+              type: 'answer',
+              isMarked: answer.isAnswered
+            }
           ]}
         />
       </div>

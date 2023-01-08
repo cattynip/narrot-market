@@ -35,7 +35,17 @@ const ItemDetail: NextPage = () => {
           <div className="flex items-center justify-between space-x-2">
             <GlobalButton className="flex-1 py-2">Talk to seller</GlobalButton>
             <button className="rounded-lg border-2 border-gray-300 p-1.5 shadow-lg">
-              <Icon d={'heart'} size={6} isHighlighted={true} />
+              <Icon
+                d={'heart'}
+                size={24}
+                hightColor={{
+                  variable: true,
+                  highlightType: {
+                    true: 'orangeHighlight',
+                    false: 'empty'
+                  }
+                }}
+              />
             </button>
           </div>
         </div>

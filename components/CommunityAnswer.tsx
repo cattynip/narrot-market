@@ -55,12 +55,12 @@ const CommunityAnswer = ({
             {
               type: 'like',
               value: liked.value,
-              isHighlighted: liked.isLiked
+              isMarked: liked.isLiked
             },
             {
               type: 'help',
               value: helped.value,
-              isHighlighted: helped.isHelped
+              isMarked: helped.isHelped
             }
           ]}
         />

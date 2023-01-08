@@ -15,9 +15,13 @@ const Stream: NextPage = () => {
         <Icon
           d="stream"
           size={7}
-          isHighlighted={false}
-          fill="#ffffff"
-          stroke="#ffffff"
+          hightColor={{
+            variable: true,
+            highlightType: {
+              true: 'whiteHightlight',
+              false: 'whiteHightlight'
+            }
+          }}
         />
       </HelpButton>
     </div>

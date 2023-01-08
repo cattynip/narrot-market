@@ -37,7 +37,17 @@ const Community: NextPage = () => {
         ))}
       </div>
       <HelpButton>
-        <Icon d={'pencil'} size={7} isHighlighted={false} stroke="#ffffff" />
+        <Icon
+          d={'pencil'}
+          size={24}
+          hightColor={{
+            variable: true,
+            highlightType: {
+              true: 'whiteStrokeTransparentFill',
+              false: 'whiteHightlight'
+            }
+          }}
+        />
       </HelpButton>
     </div>
   );

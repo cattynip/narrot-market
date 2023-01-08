@@ -21,8 +21,14 @@ const ProfileReview = ({ user, star, review }: IProfileReview) => {
               <Icon
                 key={starIndex}
                 d="star"
-                size={5}
-                isHighlighted={starIndex < star}
+                size={16}
+                hightColor={{
+                  variable: starIndex < star,
+                  highlightType: {
+                    true: 'orangeHighlight',
+                    false: 'empty'
+                  }
+                }}
               />
             ))}
           </div>

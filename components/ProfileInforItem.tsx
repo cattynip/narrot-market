@@ -12,10 +12,14 @@ const ProfileInforItem = ({ icon, title }: IProfileInforItem) => {
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-400 transition-colors hover:bg-orange-500">
         <Icon
           d={icon}
-          size={10}
-          isHighlighted={false}
-          stroke="#ffffff"
-          fill="#ffffff"
+          size={40}
+          hightColor={{
+            variable: true,
+            highlightType: {
+              true: 'whiteHightlight',
+              false: 'whiteHightlight'
+            }
+          }}
         />
       </div>
       <h3 className="text-lg font-semibold">{title}</h3>
