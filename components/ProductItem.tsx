@@ -23,7 +23,7 @@ const ProductItem = ({
   comment
 }: IProductItem) => {
   return (
-    <div className="mt-2 flex w-full items-center justify-between border-t-2 border-gray-300 py-3">
+    <div className="flex w-full items-center justify-between border-t-2 border-gray-300 py-3">
       <div className="flex items-center justify-items-center">
         <ProductImage
           src={imageSrc}

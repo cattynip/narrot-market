@@ -23,12 +23,15 @@ const Icon = ({
       aria-hidden="true"
       {...svgProps}
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        d={IconDs[d]}
-      />
+      {IconDs[d].map((iconPath, iconPathIndex) => (
+        <path
+          key={iconPathIndex}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d={iconPath}
+        />
+      ))}
     </svg>
   );
 };
