@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
-import GlobalButton from '../../components/GlobalButton';
-import Icon from '../../components/Icon';
-import SmilarItem from '../../components/SmilarItem';
+import GlobalButton from '@components/GlobalButton';
+import Icon from '@components/Icon';
+import SmilarItem from '@components/SmilarItem';
 
 const ItemDetail: NextPage = () => {
   return (

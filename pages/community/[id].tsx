@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
-import ActivityMarks from '../../components/ActivityMarks';
-import CommunityAnswer from '../../components/CommunityAnswer';
-import ParticipaterList from '../../components/ParticipaterList';
+import ActivityMarks from '@components/ActivityMarks';
+import CommunityAnswer from '@components/CommunityAnswer';
+import ParticipaterList from '@components/ParticipaterList';
 
 const CommunityDetail: NextPage = () => {
   return (

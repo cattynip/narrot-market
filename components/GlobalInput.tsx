@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import joinClass from '../libs/joinClass';
+import joinClass from '@libs/joinClass';
 
 type TGlobalInputFor = 'text' | 'email' | 'phone' | 'description';
 

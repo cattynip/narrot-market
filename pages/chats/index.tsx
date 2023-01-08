@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import ChatsItem from '../components/ChatsItem';
+import ChatsItem from '@components/ChatsItem';
 
 const Chats: NextPage = () => {
   return (

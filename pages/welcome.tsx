@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import GlobalButton from '../components/GlobalButton';
-import GlobalInput from '../components/GlobalInput';
-import GlobalLabel from '../components/GlobalLabel';
-import Icon from '../components/Icon';
-import joinClass from '../libs/joinClass';
+import GlobalButton from '@components/GlobalButton';
+import GlobalInput from '@components/GlobalInput';
+import GlobalLabel from '@components/GlobalLabel';
+import Icon from '@components/Icon';
+import joinClass from '@libs/joinClass';
 
 type TMethod = 'email' | 'phone';
 

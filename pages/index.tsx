@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
-import HelpButton from '../components/HelpButton';
-import Icon from '../components/Icon';
-import ProductItem from '../components/ProductItem';
+import HelpButton from '@components/HelpButton';
+import Icon from '@components/Icon';
+import ProductItem from '@components/ProductItem';
 
 const Home: NextPage = () => {
   return (

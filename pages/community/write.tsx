@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
-import GlobalButton from '../../components/GlobalButton';
-import GlobalInput from '../../components/GlobalInput';
-import GlobalLabel from '../../components/GlobalLabel';
+import GlobalButton from '@components/GlobalButton';
+import GlobalInput from '@components/GlobalInput';
+import GlobalLabel from '@components/GlobalLabel';
 
 const CommunityWrite: NextPage = () => {
   return (

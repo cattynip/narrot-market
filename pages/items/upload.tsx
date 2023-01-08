@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
-import GlobalButton from '../../components/GlobalButton';
-import GlobalInput from '../../components/GlobalInput';
-import GlobalLabel from '../../components/GlobalLabel';
-import Icon from '../../components/Icon';
+import GlobalButton from '@components/GlobalButton';
+import GlobalInput from '@components/GlobalInput';
+import GlobalLabel from '@components/GlobalLabel';
+import Icon from '@components/Icon';
 
 const ItemsUpload: NextPage = () => {
   return (
