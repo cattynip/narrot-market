@@ -2,7 +2,7 @@ import GlobalInput from './GlobalInput';
 
 const ChatsInput = () => {
   return (
-    <div className="fixed bottom-0 left-0 flex h-24 w-full items-center justify-center bg-gradient-to-t from-gray-400 to-transparent">
+    <div className="fixed bottom-16 left-0 flex h-24 w-full items-center justify-center">
       <GlobalInput
         inputFor="text"
         className="mx-auto w-11/12"

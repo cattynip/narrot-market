@@ -20,7 +20,8 @@ const SnipColorSet: ISnipColroSet = {
   orangeHighlight: ['orange', 'orange'],
   whiteHightlight: ['white', 'white'],
   blackHightlight: ['white', 'black'],
-  whiteStrokeTransparentFill: ['transparent', 'white']
+  whiteStrokeTransparentFill: ['transparent', 'white'],
+  blackStrokeTransparentFill: ['transparent', 'black']
 };
 type TSnipColorSet =
   | 'empty'

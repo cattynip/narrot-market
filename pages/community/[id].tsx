@@ -2,10 +2,11 @@ import { NextPage } from 'next';
 import ActivityMarks from '@components/ActivityMarks';
 import CommunityAnswer from '@components/CommunityAnswer';
 import ParticipaterList from '@components/ParticipaterList';
+import PageLayout from '@components/PageLayout';
 
 const CommunityDetail: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="What is the best restaurant in the world?">
       <div className="flex items-center justify-between">
         <div className="flex items-center justify-start space-x-4 pb-3">
           <span className="fon text-4xl font-bold text-orange-500">Q.</span>
@@ -90,7 +91,7 @@ const CommunityDetail: NextPage = () => {
           />
         ))}
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

@@ -1,11 +1,12 @@
 import GlobalButton from '@components/GlobalButton';
 import GlobalInput from '@components/GlobalInput';
 import GlobalLabel from '@components/GlobalLabel';
+import PageLayout from '@components/PageLayout';
 import type { NextPage } from 'next';
 
 const ProfileEdit: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="Edit Profile">
       <div className="flex items-center justify-start space-x-5 border-b-2 pb-5">
         <div className="h-24 w-24 rounded-full bg-slate-500" />
         <GlobalButton className="w-auto p-3">Change Avatar</GlobalButton>
@@ -27,7 +28,7 @@ const ProfileEdit: NextPage = () => {
         </div>
       </div>
       <div></div>
-    </div>
+    </PageLayout>
   );
 };
 

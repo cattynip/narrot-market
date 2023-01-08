@@ -1,11 +1,12 @@
 import HelpButton from '@components/HelpButton';
 import Icon from '@components/Icon';
+import PageLayout from '@components/PageLayout';
 import StreamItem from '@components/StreamItem';
 import { NextPage } from 'next';
 
 const Stream: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="Streams">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {[...Array(20)].map((stream, streamIndex) => (
           <StreamItem key={streamIndex} title="New iPhone 23 Unboxing" />
@@ -14,7 +15,7 @@ const Stream: NextPage = () => {
       <HelpButton>
         <Icon
           d="stream"
-          size={7}
+          size={27}
           hightColor={{
             variable: true,
             highlightType: {
@@ -24,7 +25,7 @@ const Stream: NextPage = () => {
           }}
         />
       </HelpButton>
-    </div>
+    </PageLayout>
   );
 };
 

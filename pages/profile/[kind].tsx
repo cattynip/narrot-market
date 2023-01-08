@@ -1,9 +1,10 @@
+import PageLayout from '@components/PageLayout';
 import ProductItem from '@components/ProductItem';
 import { NextPage } from 'next';
 
 const ProfileDetail: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="Kind">
       <div>
         {[...Array(40)].map((_profileItem, profileItemIndex) => (
           <ProductItem
@@ -22,7 +23,7 @@ const ProfileDetail: NextPage = () => {
           />
         ))}
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

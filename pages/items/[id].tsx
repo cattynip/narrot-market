@@ -2,10 +2,11 @@ import { NextPage } from 'next';
 import GlobalButton from '@components/GlobalButton';
 import Icon from '@components/Icon';
 import SmilarItem from '@components/SmilarItem';
+import PageLayout from '@components/PageLayout';
 
 const ItemDetail: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="Galzy S50">
       <div>
         <div className="relative flex h-80 w-full items-end justify-between bg-slate-400 bg-gradient-to-t from-black to-transparent px-4 pb-4 text-6xl font-black text-white">
           <h1>Galzy S50</h1>
@@ -65,7 +66,7 @@ const ItemDetail: NextPage = () => {
           ))}
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

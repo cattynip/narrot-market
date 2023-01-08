@@ -1,3 +1,4 @@
+import PageLayout from '@components/PageLayout';
 import type { NextPage } from 'next';
 import CommunityItem from '../../components/CommunityItem';
 import HelpButton from '../../components/HelpButton';
@@ -5,7 +6,7 @@ import Icon from '../../components/Icon';
 
 const Community: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="Community">
       <div>
         {[...Array(10)].map((_value, communityItemIndex) => (
           <CommunityItem
@@ -49,7 +50,7 @@ const Community: NextPage = () => {
           }}
         />
       </HelpButton>
-    </div>
+    </PageLayout>
   );
 };
 

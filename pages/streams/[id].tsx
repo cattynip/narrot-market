@@ -1,10 +1,11 @@
 import ChatsBubble from '@components/ChatsBubble';
 import ChatsInput from '@components/ChatsInput';
+import PageLayout from '@components/PageLayout';
 import { NextPage } from 'next';
 
 const StreamDetail: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="New iPhone 23 Unboxing">
       <div className="sticky top-0 w-full">
         <div className="mx-auto aspect-video w-full rounded-lg bg-slate-500" />
       </div>
@@ -49,7 +50,7 @@ const StreamDetail: NextPage = () => {
         </div>
       </div>
       <ChatsInput />
-    </div>
+    </PageLayout>
   );
 };
 

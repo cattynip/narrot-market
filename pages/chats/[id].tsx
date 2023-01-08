@@ -1,10 +1,11 @@
 import ChatsBubble from '@components/ChatsBubble';
 import ChatsInput from '@components/ChatsInput';
+import PageLayout from '@components/PageLayout';
 import { NextPage } from 'next';
 
 const ChatsDetail: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="Cattynip">
       <div className="mb-20">
         {[...Array(30)].map((chat, chatIndex) => (
           <ChatsBubble
@@ -15,7 +16,7 @@ const ChatsDetail: NextPage = () => {
         ))}
       </div>
       <ChatsInput />
-    </div>
+    </PageLayout>
   );
 };
 

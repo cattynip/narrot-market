@@ -1,12 +1,13 @@
 import GlobalButton from '@components/GlobalButton';
 import Icon from '@components/Icon';
+import PageLayout from '@components/PageLayout';
 import ProfileInforItem from '@components/ProfileInforItem';
 import ProfileReview from '@components/ProfileReview';
 import { NextPage } from 'next';
 
 const Profile: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="Profile">
       <div className="flex items-center justify-between border-b-2 pb-5">
         <div className="flex items-center justify-start space-x-5">
           <div className="h-24 w-24 rounded-full bg-slate-500" />
@@ -62,7 +63,7 @@ const Profile: NextPage = () => {
           />
         ))}
       </div>
-    </div>
+    </PageLayout>
   );
 };
 
