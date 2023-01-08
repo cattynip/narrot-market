@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
 import joinClass from '../libs/joinClass';
 
-type TGlobalInputFor = 'email' | 'phone' | 'description';
+type TGlobalInputFor = 'text' | 'email' | 'phone' | 'description';
 
 interface IGlobalInput {
   inputFor: TGlobalInputFor;
@@ -19,14 +19,18 @@ const GlobalInput = ({
 }: IGlobalInput & HTMLAttributes<HTMLInputElement>) => {
   return (
     <>
-      {inputFor === 'email' ? (
+      {inputFor === 'email' || inputFor === 'text' ? (
         <input
           className={joinClass([
             'mt-2 w-full rounded-lg border-2 border-gray-300 px-3 py-2.5 shadow-md transition-all duration-200 hover:border-orange-300 focus:border-orange-600 focus:outline-none focus:placeholder:opacity-0',
             className ? className : ''
           ])}
-          type="email"
-          placeholder="support@narrot.market"
+          type={inputFor}
+          placeholder={
+            inputFor === 'email'
+              ? 'support@narrot.market'
+              : 'Super Mega Product'
+          }
           required
           {...inputProps}
         />

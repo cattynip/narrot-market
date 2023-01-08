@@ -15,7 +15,11 @@ const ItemsUpload: NextPage = () => {
         </div>
       </div>
       <div>
-        <GlobalLabel content="Price" isRequired={true} />
+        <GlobalLabel content="Name" isRequired />
+        <GlobalInput inputFor="text" />
+      </div>
+      <div>
+        <GlobalLabel content="Price" isRequired />
         <GlobalInput
           inputFor="phone"
           extraInformation={{ supportText: 'USD' }}
