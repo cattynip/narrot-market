@@ -22,7 +22,7 @@ const Community: NextPage = () => {
             }}
             answer={{
               value: 65,
-              isAnswered: false,
+              isAnswered: true,
               participater: [
                 { avatar: '/' },
                 { avatar: '/' },

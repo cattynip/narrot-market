@@ -1,4 +1,5 @@
-import Icon from './Icon';
+import ActivityMarks from './ActivityMarks';
+import ParticipaterList from './ParticipaterList';
 
 interface ICommunityItem {
   question: string;
@@ -37,34 +38,30 @@ const CommunityItem = ({
         <span className="text-gray-500">{ago}</span>
       </div>
       <div className="flex items-center justify-between">
-        <div className="flex items-center justify-start space-x-3">
-          <div className="flex space-x-2">
-            <div
-              className="h-6 w-6
-          rounded-full bg-slate-400"
-            />
-            <span className="text-gray-500">{user.name}</span>
-          </div>
-          <span className="text-gray-400">│</span>
-          <div className="flex items-center -space-x-2">
-            {answer.participater.map((_value, participaterValue) => (
-              <div
-                key={participaterValue}
-                className="h-6 w-6 rounded-full bg-slate-400"
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex items-center justify-start space-x-2">
-          <div className="flex items-center justify-start space-x-2">
-            <Icon d="question" size={5} isHighlighted={wondering.isWondered} />
-            <span>{wondering.value}</span>
-          </div>
-          <div className="flex items-center justify-start space-x-2">
-            <Icon d="answer" size={5} isHighlighted={answer.isAnswered} />
-            <span>{answer.value}</span>
-          </div>
-        </div>
+        <ParticipaterList
+          mainUser={user}
+          participaters={[
+            { avatar: '/' },
+            { avatar: '/' },
+            { avatar: '/' },
+            { avatar: '/' },
+            { avatar: '/' },
+            { avatar: '/' },
+            { avatar: '/' },
+            { avatar: '/' },
+            { avatar: '/' }
+          ]}
+        />
+        <ActivityMarks
+          activities={[
+            {
+              ...wondering,
+              type: 'wondering',
+              isHighlighted: wondering.isWondered
+            },
+            { ...answer, type: 'answer', isHighlighted: answer.isAnswered }
+          ]}
+        />
       </div>
     </div>
   );
