@@ -13,6 +13,7 @@ const Community: NextPage = () => {
             key={communityItemIndex}
             question="What is the best restaurant in the world?"
             ago="18h"
+            isFirst={communityItemIndex === 0}
             user={{
               name: 'Seol SO',
               avatar: '/'
@@ -37,7 +38,7 @@ const Community: NextPage = () => {
           />
         ))}
       </div>
-      <HelpButton>
+      <HelpButton linkTo="/community/write">
         <Icon
           d={'pencil'}
           size={24}

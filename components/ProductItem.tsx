@@ -5,6 +5,7 @@ interface IProductItem {
   title: string;
   price: number;
   imageSrc: string;
+  isFirst: boolean;
   favourite: {
     value: number;
     isFavourite: boolean;
@@ -19,11 +20,16 @@ const ProductItem = ({
   title,
   price,
   imageSrc,
+  isFirst,
   favourite,
   comment
 }: IProductItem) => {
   return (
-    <div className="flex w-full items-center justify-between border-t-2 border-gray-300 py-3">
+    <div
+      className={`flex w-full items-center justify-between ${
+        isFirst ? '-mt-5' : 'border-t-2 border-gray-300'
+      } py-3`}
+    >
       <div className="flex items-center justify-items-center">
         <ProductImage
           src={imageSrc}

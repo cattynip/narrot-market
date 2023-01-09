@@ -12,6 +12,7 @@ const ProfileDetail: NextPage = () => {
             title="iPhone 20"
             price={699}
             imageSrc="/"
+            isFirst={profileItemIndex === 0}
             favourite={{
               value: 24,
               isFavourite: true

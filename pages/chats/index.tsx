@@ -11,6 +11,7 @@ const Chats: NextPage = () => {
           opponent={{ name: 'Cattynip', avatar: '/' }}
           lastChatTime="4min"
           lastChatContent="Hello, my name is Cattynip."
+          isFirst={chatIndex === 0}
         />
       ))}
     </PageLayout>

@@ -4,6 +4,7 @@ import PageLayout from '@components/PageLayout';
 import ProfileInforItem from '@components/ProfileInforItem';
 import ProfileReview from '@components/ProfileReview';
 import { NextPage } from 'next';
+import Link from 'next/link';
 
 const Profile: NextPage = () => {
   return (
@@ -17,19 +18,21 @@ const Profile: NextPage = () => {
           </div>
         </div>
         <div className="flex items-center justify-between space-x-2">
-          <GlobalButton className="px-2">
-            <Icon
-              d="pencil"
-              size={20}
-              hightColor={{
-                variable: true,
-                highlightType: {
-                  true: 'whiteStrokeTransparentFill',
-                  false: 'whiteHightlight'
-                }
-              }}
-            />
-          </GlobalButton>
+          <Link href={'/profile/edit'}>
+            <GlobalButton className="px-2">
+              <Icon
+                d="pencil"
+                size={20}
+                hightColor={{
+                  variable: true,
+                  highlightType: {
+                    true: 'whiteStrokeTransparentFill',
+                    false: 'whiteHightlight'
+                  }
+                }}
+              />
+            </GlobalButton>
+          </Link>
           <GlobalButton className="px-2">
             <Icon
               d="fire"

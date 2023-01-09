@@ -12,7 +12,7 @@ const Stream: NextPage = () => {
           <StreamItem key={streamIndex} title="New iPhone 23 Unboxing" />
         ))}
       </div>
-      <HelpButton>
+      <HelpButton linkTo="/streams/create">
         <Icon
           d="stream"
           size={27}

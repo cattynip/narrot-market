@@ -13,6 +13,10 @@ const ProfileEdit: NextPage = () => {
       </div>
       <div className="space-y-3 pt-5">
         <div>
+          <GlobalLabel content="Name" isRequired />
+          <GlobalInput inputFor="text" placeholder="Cattynip" />
+        </div>
+        <div>
           <GlobalLabel content="Email Address" isRequired />
           <GlobalInput inputFor="email" />
         </div>

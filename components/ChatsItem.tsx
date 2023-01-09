@@ -5,11 +5,21 @@ interface IChatsItem {
   };
   lastChatTime: string;
   lastChatContent: string;
+  isFirst: boolean;
 }
 
-const ChatsItem = ({ opponent, lastChatTime, lastChatContent }: IChatsItem) => {
+const ChatsItem = ({
+  opponent,
+  lastChatTime,
+  lastChatContent,
+  isFirst
+}: IChatsItem) => {
   return (
-    <div className="flex items-center justify-between border-t-2 py-3">
+    <div
+      className={`flex items-center justify-between ${
+        isFirst ? '-mt-5' : 'border-t-2'
+      } py-3`}
+    >
       <div className="flex items-center justify-start space-x-3">
         <div className="h-12 w-12 rounded-full bg-slate-400" />
         <div>

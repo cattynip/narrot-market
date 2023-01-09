@@ -13,6 +13,7 @@ const Home: NextPage = () => {
           title="New iPhone 14"
           imageSrc="/"
           price={56}
+          isFirst={productItemIndex === 0}
           favourite={{
             value: 34,
             isFavourite: true
@@ -23,7 +24,7 @@ const Home: NextPage = () => {
           }}
         />
       ))}
-      <HelpButton>
+      <HelpButton linkTo="/items/upload">
         <Icon
           d="plus"
           size={30}
