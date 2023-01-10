@@ -1,3 +1,4 @@
+import withHandler from '@libs/server/withHandler';
 import { NextApiHandler } from 'next';
 
 const UserEnterHandler: NextApiHandler = async (req, res) => {
@@ -7,4 +8,4 @@ const UserEnterHandler: NextApiHandler = async (req, res) => {
   });
 };
 
-export default UserEnterHandler;
+export default withHandler('POST', UserEnterHandler);
