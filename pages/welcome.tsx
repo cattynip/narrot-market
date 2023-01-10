@@ -5,14 +5,42 @@ import GlobalInput from '@components/GlobalInput';
 import GlobalLabel from '@components/GlobalLabel';
 import Icon from '@components/Icon';
 import joinClass from '@libs/joinClass';
+import { useForm } from 'react-hook-form';
+import { useStyleRegistry } from 'styled-jsx';
+
+interface WelcomeForm {
+  email?: string;
+  phone?: string;
+}
 
 type TMethod = 'email' | 'phone';
 
 const Welcome: NextPage = () => {
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const { register, watch, reset, handleSubmit } = useForm<WelcomeForm>();
   const [method, setMethod] = useState<TMethod>('email');
 
-  const onEmailClick = () => setMethod('email');
-  const onPhoneClick = () => setMethod('phone');
+  const onEmailClick = () => {
+    reset();
+    setMethod('email');
+  };
+
+  const onPhoneClick = () => {
+    reset();
+    setMethod('phone');
+  };
+
+  const onValid = async (data: WelcomeForm) => {
+    setSubmitting(true);
+    await fetch('/api/users/enter', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    setSubmitting(false);
+  };
 
   return (
     <div>
@@ -43,7 +71,7 @@ const Welcome: NextPage = () => {
             </button>
           </div>
         </div>
-        <form className="py-3">
+        <form onSubmit={handleSubmit(onValid)} className="py-3">
           <GlobalLabel
             content={
               method === 'email' ? 'Get login link' : 'Get one-time password'
@@ -52,16 +80,21 @@ const Welcome: NextPage = () => {
           />
           <div>
             {method === 'email' ? (
-              <GlobalInput inputFor="email" />
+              <GlobalInput inputFor="email" register={register('email')} />
             ) : (
               <GlobalInput
                 inputFor="phone"
+                register={register('phone')}
                 extraInformation={{ supportText: '+82' }}
               />
             )}
           </div>
           <GlobalButton className="mt-4 py-2.5">
-            {method === 'email' ? 'Get login link' : 'Get one-time password'}
+            {submitting
+              ? 'Loading...'
+              : method === 'email'
+              ? 'Get login link'
+              : 'Get one-time password'}
           </GlobalButton>
         </form>
         <div>
