@@ -1,5 +1,5 @@
 import { ImageProps } from 'next/image';
-import joinClass from '../libs/joinClass';
+import joinClass from '@libs/client/joinClass';
 
 interface IProductImage {
   src: string;

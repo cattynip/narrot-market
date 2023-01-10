@@ -4,9 +4,9 @@ import GlobalButton from '@components/GlobalButton';
 import GlobalInput from '@components/GlobalInput';
 import GlobalLabel from '@components/GlobalLabel';
 import Icon from '@components/Icon';
-import joinClass from '@libs/joinClass';
+import joinClass from '@libs/client/joinClass';
+import useMutation from '@libs/client/useMutation';
 import { useForm } from 'react-hook-form';
-import { useStyleRegistry } from 'styled-jsx';
 
 interface WelcomeForm {
   email?: string;
@@ -16,8 +16,9 @@ interface WelcomeForm {
 type TMethod = 'email' | 'phone';
 
 const Welcome: NextPage = () => {
-  const [submitting, setSubmitting] = useState<boolean>(false);
-  const { register, watch, reset, handleSubmit } = useForm<WelcomeForm>();
+  const [enter, { loading: enterLoading, data: enterData, error: enterError }] =
+    useMutation('/api/users/enter');
+  const { register, reset, handleSubmit } = useForm<WelcomeForm>();
   const [method, setMethod] = useState<TMethod>('email');
 
   const onEmailClick = () => {
@@ -30,16 +31,9 @@ const Welcome: NextPage = () => {
     setMethod('phone');
   };
 
-  const onValid = async (data: WelcomeForm) => {
-    setSubmitting(true);
-    await fetch('/api/users/enter', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    setSubmitting(false);
+  const onValid = (data: WelcomeForm) => {
+    enter(data);
+    console.log(enterData);
   };
 
   return (
@@ -90,7 +84,7 @@ const Welcome: NextPage = () => {
             )}
           </div>
           <GlobalButton className="mt-4 py-2.5">
-            {submitting
+            {enterLoading
               ? 'Loading...'
               : method === 'email'
               ? 'Get login link'

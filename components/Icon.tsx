@@ -1,5 +1,5 @@
 import { SVGAttributes } from 'react';
-import IconDs, { TIconDs } from '@libs/iconDs';
+import IconDs, { TIconDs } from '@libs/client/iconDs';
 
 const ColorObj = {
   transparent: 'none',

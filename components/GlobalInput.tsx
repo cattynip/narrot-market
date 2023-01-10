@@ -1,4 +1,4 @@
-import joinClass from '@libs/joinClass';
+import joinClass from '@libs/client/joinClass';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
 type TGlobalInputFor = 'text' | 'email' | 'phone' | 'description';
@@ -10,6 +10,7 @@ interface IGlobalInput {
   };
   className?: string;
   register?: UseFormRegisterReturn;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   [key: string]: any;
 }
 

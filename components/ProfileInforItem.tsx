@@ -1,4 +1,4 @@
-import { TIconDs } from '@libs/iconDs';
+import { TIconDs } from '@libs/client/iconDs';
 import Link from 'next/link';
 import Icon from './Icon';
 
