@@ -4,11 +4,7 @@ const options = {
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
     'prettier'
-  ],
-  rules: {
-    '@typescript-eslint/no-unused-vars': 'warn',
-    '@typescript-eslint/no-explicit-any': 'warn'
-  }
+  ]
 };
 
 module.exports = options;
