@@ -3,8 +3,11 @@ import HelpButton from '@components/HelpButton';
 import Icon from '@components/Icon';
 import ProductItem from '@components/ProductItem';
 import PageLayout from '@components/PageLayout';
+import useUser from '@libs/client/useUser';
 
 const Home: NextPage = () => {
+  const user = useUser();
+
   return (
     <PageLayout title="Home">
       {[...Array(10)].map((_productItem, productItemIndex) => (

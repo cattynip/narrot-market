@@ -9,6 +9,7 @@ import useMutation from '@libs/client/useMutation';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import ErrorMessage from '@components/ErrorMessage';
+import useUser from '@libs/client/useUser';
 
 interface WelcomeForm {
   name: string;
@@ -23,9 +24,9 @@ interface TokenForm {
 type TMethod = 'email' | 'phone';
 
 const Welcome: NextPage = () => {
-  const [enter, { loading: enterLoading, data: enterData, error: enterError }] =
+  const [enter, { loading: enterLoading, data: enterData }] =
     useMutation('/api/users/enter');
-  const [token, { loading: tokenLoading, data: tokenData, error: tokenError }] =
+  const [token, { loading: tokenLoading, data: tokenData }] =
     useMutation('/api/users/token');
 
   const {
@@ -40,6 +41,8 @@ const Welcome: NextPage = () => {
   const [isEntered, setIsEntered] = useState<boolean>(false);
   const router = useRouter();
 
+  const user = useUser();
+
   const onEmailClick = () => {
     enterReset();
     setMethod('email');
@@ -52,15 +55,13 @@ const Welcome: NextPage = () => {
 
   const enterOnValid = (data: WelcomeForm) => {
     enter(data);
-    console.log(enterData);
   };
 
   const tokenOnValid = (data: TokenForm) => {
     token(data);
-    console.log(tokenData);
-    console.log(tokenData?.token);
+    console.log(data);
 
-    if (tokenData?.ok) {
+    if (tokenData?.token) {
       return router.push('/');
     }
   };
@@ -76,6 +77,12 @@ const Welcome: NextPage = () => {
       return true;
     });
   }, [enterData]);
+
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
 
   return (
     <div>
@@ -121,7 +128,6 @@ const Welcome: NextPage = () => {
             <GlobalButton className="mt-5">
               {tokenLoading ? 'Loading...' : 'Confirm'}
             </GlobalButton>
-            <ErrorMessage message={tokenError ? tokenData.message : ''} />
           </form>
         ) : (
           <form
@@ -158,7 +164,6 @@ const Welcome: NextPage = () => {
                 />
               )}
             </div>
-            <ErrorMessage message={tokenError ? tokenData.message : ''} />
             <GlobalButton className="mt-4 py-2.5">
               {enterLoading
                 ? 'Loading...'
