@@ -1,7 +1,7 @@
-import { withIronSessionApiRoute } from 'iron-session/next';
 import client from '@libs/server/client';
 import withHandler from '@libs/server/withHandler';
 import { NextApiHandler } from 'next';
+import withSession from '@libs/server/withSession';
 
 const UserSearchHandler: NextApiHandler = async (req, res) => {
   const foundUser = await client.user.findUnique({
@@ -22,7 +22,4 @@ const UserSearchHandler: NextApiHandler = async (req, res) => {
   });
 };
 
-export default withIronSessionApiRoute(withHandler('GET', UserSearchHandler), {
-  cookieName: 'narrotsession',
-  password: process.env.SESSION_PASSWORD
-});
+export default withSession(withHandler('GET', UserSearchHandler));

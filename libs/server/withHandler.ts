@@ -2,7 +2,7 @@ import { NextApiHandler } from 'next';
 
 type THandlerMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-interface ServerHandlerResponseType {
+export interface ServerHandlerResponseType {
   ok: boolean;
   /* eslint-disable @typescript-eslint/no-explicit-any */
   [key: string]: any;

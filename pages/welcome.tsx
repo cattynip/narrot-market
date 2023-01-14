@@ -57,9 +57,10 @@ const Welcome: NextPage = () => {
 
   const tokenOnValid = (data: TokenForm) => {
     token(data);
-    console.log(data);
+    console.log(tokenData);
+    console.log(tokenData?.token);
 
-    if (tokenData?.token === true) {
+    if (tokenData?.ok) {
       return router.push('/');
     }
   };
