@@ -6,7 +6,7 @@ import withSession from '@libs/server/withSession';
 const UserSearchHandler: NextApiHandler = async (req, res) => {
   const foundUser = await client.user.findUnique({
     where: {
-      id: req.session?.user.id
+      id: req.session.user?.id
     }
   });
 
@@ -22,4 +22,10 @@ const UserSearchHandler: NextApiHandler = async (req, res) => {
   });
 };
 
-export default withSession(withHandler('GET', UserSearchHandler));
+export default withSession(
+  withHandler({
+    method: 'GET',
+    handler: UserSearchHandler,
+    isPrivate: true
+  })
+);

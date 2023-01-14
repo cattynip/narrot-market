@@ -8,17 +8,31 @@ export interface ServerHandlerResponseType {
   [key: string]: any;
 }
 
-const withHandler = (
-  method: THandlerMethod,
-  fn: NextApiHandler
-): NextApiHandler<ServerHandlerResponseType> => {
+interface IWithHandlerConfiguration {
+  method: THandlerMethod;
+  handler: NextApiHandler;
+  isPrivate?: boolean;
+}
+
+const withHandler = ({
+  method,
+  handler,
+  isPrivate = false
+}: IWithHandlerConfiguration): NextApiHandler<ServerHandlerResponseType> => {
   return async (req, res) => {
     if (req.method !== method) {
       return res.status(405).end();
     }
 
     try {
-      await fn(req, res);
+      if (isPrivate && !req.session.user) {
+        return res.status(401).json({
+          ok: false,
+          message: 'Please log in first.'
+        });
+      }
+
+      await handler(req, res);
     } catch (error) {
       console.log(error);
       return res.status(500).end();

@@ -11,4 +11,12 @@ declare global {
   }
 }
 
+declare module 'iron-session' {
+  interface SessionData {
+    user?: {
+      id: number;
+    };
+  }
+}
+
 export {};

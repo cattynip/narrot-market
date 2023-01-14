@@ -55,4 +55,9 @@ const UserTokenHandler: NextApiHandler = async (req, res) => {
   });
 };
 
-export default withSession(withHandler('POST', UserTokenHandler));
+export default withSession(
+  withHandler({
+    method: 'POST',
+    handler: UserTokenHandler
+  })
+);

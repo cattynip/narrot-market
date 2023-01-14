@@ -113,4 +113,7 @@ const UserEnterHandler: NextApiHandler = async (req, res) => {
   });
 };
 
-export default withHandler('POST', UserEnterHandler);
+export default withHandler({
+  method: 'POST',
+  handler: UserEnterHandler
+});
