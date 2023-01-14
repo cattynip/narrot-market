@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import useSWR from 'swr';
 
 interface IUseUserReturn {
-  ok: boolean;
-  message?: string;
   user: {
     id: number;
     phone?: string;
@@ -13,28 +12,21 @@ interface IUseUserReturn {
     createdAt: Date;
     updatedAt: Date;
   };
+  isLoading: boolean;
 }
 
 const useUser = (): IUseUserReturn => {
-  const [user, setUser] = useState({});
+  const { data, isLoading } = useSWR('/api/users/search');
   const router = useRouter();
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    fetch('/api/users/search', {
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!data?.ok) {
-          return router.replace('/welcome');
-        }
+    console.log(data);
+    if (data && !data.ok) {
+      router.push('/welcome');
+    }
+  }, [data, router]);
 
-        setUser(data);
-      });
-  }, []);
-
-  return user;
+  return { user: data?.profile, isLoading: isLoading };
 };
 
 export default useUser;
