@@ -1,5 +1,5 @@
-import { HTMLAttributes } from 'react';
-import joinClass from '@libs/joinClass';
+import joinClass from '@libs/client/joinClass';
+import type { UseFormRegisterReturn } from 'react-hook-form';
 
 type TGlobalInputFor = 'text' | 'email' | 'phone' | 'description';
 
@@ -9,14 +9,18 @@ interface IGlobalInput {
     supportText: string;
   };
   className?: string;
+  register?: UseFormRegisterReturn;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  [key: string]: any;
 }
 
 const GlobalInput = ({
   inputFor,
   extraInformation,
   className,
+  register,
   ...inputProps
-}: IGlobalInput & HTMLAttributes<HTMLInputElement>) => {
+}: IGlobalInput) => {
   return (
     <>
       {inputFor === 'email' || inputFor === 'text' ? (
@@ -32,6 +36,7 @@ const GlobalInput = ({
               : 'Super Mega Product'
           }
           required
+          {...register}
           {...inputProps}
         />
       ) : inputFor === 'phone' ? (
@@ -44,6 +49,7 @@ const GlobalInput = ({
             placeholder="010-1234-5678"
             type="number"
             required
+            {...register}
             {...inputProps}
           />
         </div>
@@ -51,6 +57,8 @@ const GlobalInput = ({
         <textarea
           className="mt-2 w-full rounded-md border-2 border-gray-300 py-2.5 px-3 shadow-md transition-all duration-200 hover:border-orange-300 focus:border-orange-600 focus:outline-none focus:placeholder:opacity-0"
           cols={4}
+          {...register}
+          {...inputProps}
         />
       ) : null}
     </>
