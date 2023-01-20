@@ -13,7 +13,7 @@ datasource db {
 }
 
 model Minimum {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime @default(now())
@@ -21,24 +21,24 @@ model Minimum {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  phone     String?
-  email     String?
-  avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Token     Token[]
-  Minimums Minimum[]
-  Products Product[]
-  Posts Post[]
-  Wonderings Wondering[]
-  Answers Answer[]
-  Likes Like[]
-  Helps Help[]
-  ChattingRooms ChattingRoom[]
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  phone                String?
+  email                String?
+  avatar               String?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  Token                Token[]
+  Minimums             Minimum[]
+  Products             Product[]
+  Posts                Post[]
+  Wonderings           Wondering[]
+  Answers              Answer[]
+  Likes                Like[]
+  Helps                Help[]
+  ChattingRooms        ChattingRoom[]
   StreamingChatBubbles StreamingChatBubble[]
-  Streams Stream[]
+  Streams              Stream[]
 
   @@unique([phone, email])
   @@unique([id, name, avatar])
@@ -54,33 +54,32 @@ model Token {
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-  name String @db.Char(55)
-  price Float @db.Double
+  id          Int    @id @default(autoincrement())
+  name        String @db.Char(55)
+  price       Float  @db.Double
   description String @db.LongText
-  streams Stream[] 
-  user      User     @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
-  userId Int
-  userName String
-  userAvatar String
+  user        User   @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
+  userId      Int
+  userName    String
+  userAvatar  String
 }
 
 model Post {
-  id Int @id @default(autoincrement())
-  question String @db.Char(55)
-  description String @db.LongText
-  wonderings Wondering[]
-  answers Answer[]
-  user      User     @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
-  userId    Int
-  userName String
-  userAvatar String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int         @id @default(autoincrement())
+  question    String      @db.Char(55)
+  description String      @db.LongText
+  wonderings  Wondering[]
+  answers     Answer[]
+  user        User        @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
+  userId      Int
+  userName    String
+  userAvatar  String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
 model Wondering {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -90,24 +89,24 @@ model Wondering {
 }
 
 model Answer {
-  id Int @id @default(autoincrement())
-  answer String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId    Int
-  user      User     @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
-  userId    Int
-  userName String
+  id         Int      @id @default(autoincrement())
+  answer     String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId     Int
+  user       User     @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
+  userId     Int
+  userName   String
   userAvatar String
-  likes Like[]
-  helps Help[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  likes      Like[]
+  helps      Help[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Like {
-  id Int @id @default(autoincrement())
-  answer      Answer     @relation(fields: [answerId], references: [id], onDelete: Cascade)
-  answerId    Int
+  id        Int      @id @default(autoincrement())
+  answer    Answer   @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  answerId  Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime @default(now())
@@ -115,9 +114,9 @@ model Like {
 }
 
 model Help {
-  id Int @id @default(autoincrement())
-  answer      Answer     @relation(fields: [answerId], references: [id], onDelete: Cascade)
-  answerId    Int
+  id        Int      @id @default(autoincrement())
+  answer    Answer   @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  answerId  Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime @default(now())
@@ -125,38 +124,37 @@ model Help {
 }
 
 model ChattingRoom {
-  id Int @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int                   @id @default(autoincrement())
+  createUser   User                  @relation(fields: [createUserId], references: [id], onDelete: Cascade)
+  createUserId Int
+  chatContents StreamingChatBubble[]
+  stream       Stream                @relation(fields: [streamId], references: [id], onDelete: Cascade)
+  streamId     Int
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
 }
 
 model StreamingChatBubble {
-  id Int @id @default(autoincrement())
-  content String
-  user      User     @relation(fields: [userId, userAvatar], references: [id, avatar], onDelete: Cascade)
-  userId    Int
-  userAvatar String
-  stream      Stream     @relation(fields: [streamId], references: [id], onDelete: Cascade)
-  streamId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId, streamId])
+  id             Int          @id @default(autoincrement())
+  content        String
+  user           User         @relation(fields: [userId, userAvatar], references: [id, avatar], onDelete: Cascade)
+  userId         Int
+  userAvatar     String
+  ChattingRoom   ChattingRoom @relation(fields: [chattingRoomId], references: [id])
+  chattingRoomId Int
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
 model Stream {
-  id Int @id @default(autoincrement())
-  title String @db.Char(55)
-  chatContents StreamingChatBubble[]
-  description String @db.LongText
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
-  user      User     @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
- userId    Int
-  userName String
-  userAvatar String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int            @id @default(autoincrement())
+  title        String         @db.Char(55)
+  description  String         @db.LongText
+  user         User           @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
+  userId       Int
+  userName     String
+  userAvatar   String
+  chattingRoom ChattingRoom[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
