@@ -20,13 +20,12 @@ const useUser = (): IUseUserReturn => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(data);
     if (data && !data.ok) {
       router.push('/welcome');
     }
   }, [data, router]);
 
-  return { user: data?.profile, isLoading: isLoading };
+  return { user: data?.user, isLoading: isLoading };
 };
 
 export default useUser;

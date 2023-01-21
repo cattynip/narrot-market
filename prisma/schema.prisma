@@ -22,15 +22,16 @@ model Minimum {
 
 model User {
   id                   Int                   @id @default(autoincrement())
-  name                 String
+  name                 String                @unique
   phone                String?
   email                String?
-  avatar               String?
+  avatar               String?               @default("/")
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   Token                Token[]
   Minimums             Minimum[]
   Products             Product[]
+  Favourites           Favourite[]
   Posts                Post[]
   Wonderings           Wondering[]
   Answers              Answer[]
@@ -54,14 +55,26 @@ model Token {
 }
 
 model Product {
-  id          Int    @id @default(autoincrement())
-  name        String @db.Char(55)
-  price       Float  @db.Double
-  description String @db.LongText
-  user        User   @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
+  id          Int         @id @default(autoincrement())
+  name        String      @db.Char(55)
+  price       Float       @db.Double
+  description String      @db.LongText
+  favourites  Favourite[]
+  comments    Int         @default(0)
+  user        User        @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
   userId      Int
   userName    String
   userAvatar  String
+}
+
+model Favourite {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Post {
