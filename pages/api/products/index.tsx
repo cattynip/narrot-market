@@ -2,6 +2,27 @@ import client from '@libs/server/client';
 import withHandler from '@libs/server/withHandler';
 import { NextApiHandler } from 'next';
 
+interface IProduct {
+  id: number;
+  name: string;
+  price: number;
+  descriptoin: string;
+  userId: number;
+  userName: string;
+  userAvatar: string;
+  favourites: IFavourtie[];
+}
+
+interface IFavourtie {
+  id: string;
+  userId: number;
+}
+
+export interface IAPIProductsReturn {
+  ok: boolean;
+  datas: IProduct[];
+}
+
 const ProductGet: NextApiHandler = async (req, res) => {
   const products = await client.product.findMany({
     where: {},

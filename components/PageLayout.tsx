@@ -1,7 +1,7 @@
 import NavBar from './NavBar';
 
 interface IPageLayout {
-  title: string;
+  title?: string;
   children: React.ReactNode;
 }
 

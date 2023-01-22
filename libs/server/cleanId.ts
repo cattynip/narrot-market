@@ -1,5 +1,5 @@
 const cleanId = (id: string): number => {
-  return +cleanId.toString();
+  return +id.toString();
 };
 
 export default cleanId;
