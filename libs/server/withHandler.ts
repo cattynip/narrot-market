@@ -1,4 +1,5 @@
 import { NextApiHandler } from 'next';
+import withSession from './withSession';
 
 type THandlerMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -9,7 +10,7 @@ export interface ServerHandlerResponseType {
 }
 
 interface IWithHandlerConfiguration {
-  method: THandlerMethod;
+  method: THandlerMethod | THandlerMethod[];
   handler: NextApiHandler;
   isPrivate?: boolean;
 }
@@ -20,21 +21,37 @@ const withHandler = ({
   isPrivate = false
 }: IWithHandlerConfiguration): NextApiHandler<ServerHandlerResponseType> => {
   return async (req, res) => {
-    if (req.method !== method) {
-      return res.status(405).end();
+    if (!req.method) {
+      return res.status(500).end();
+    }
+
+    if (typeof method === 'string') {
+      if (method !== req.method) {
+        return res.status(405).end();
+      }
+    }
+
+    if (typeof method !== 'string') {
+      if (!method.includes(req.method as any)) {
+        return res.status(405).end();
+      }
+    }
+
+    if (isPrivate && !req.session.user) {
+      return res.status(401).json({
+        ok: false,
+        message: 'Please log in first.'
+      });
     }
 
     try {
-      if (isPrivate && !req.session.user) {
-        return res.status(401).json({
-          ok: false,
-          message: 'Please log in first.'
-        });
+      if (isPrivate) {
+        withSession(await handler(req, res));
+      } else {
+        await handler(req, res);
       }
-
-      await handler(req, res);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return res.status(500).end();
     }
   };

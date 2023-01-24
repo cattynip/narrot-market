@@ -1,7 +1,6 @@
 import client from '@libs/server/client';
 import withHandler from '@libs/server/withHandler';
 import { NextApiHandler } from 'next';
-import withSession from '@libs/server/withSession';
 
 declare module 'iron-session' {
   interface IronSessionData {
@@ -55,9 +54,7 @@ const UserTokenHandler: NextApiHandler = async (req, res) => {
   });
 };
 
-export default withSession(
-  withHandler({
-    method: 'POST',
-    handler: UserTokenHandler
-  })
-);
+export default withHandler({
+  method: 'POST',
+  handler: UserTokenHandler
+});

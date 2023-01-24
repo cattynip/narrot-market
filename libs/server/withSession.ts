@@ -1,4 +1,5 @@
 import { withIronSessionApiRoute } from 'iron-session/next';
+import { NextApiHandler } from 'next';
 
 const cookieOpts = {
   cookieName: 'narrotsession',
@@ -6,7 +7,7 @@ const cookieOpts = {
 };
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const withSession = (fn: any) => {
+const withSession = (fn: any): NextApiHandler => {
   return withIronSessionApiRoute(fn, cookieOpts);
 };
 

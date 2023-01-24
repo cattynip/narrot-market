@@ -1,5 +1,6 @@
 import client from '@libs/server/client';
 import withHandler from '@libs/server/withHandler';
+import withSession from '@libs/server/withSession';
 import { NextApiHandler } from 'next';
 
 interface IProduct {
@@ -47,7 +48,10 @@ const ProductGet: NextApiHandler = async (req, res) => {
   });
 };
 
-export default withHandler({
-  method: 'GET',
-  handler: ProductGet
-});
+export default withSession(
+  withHandler({
+    method: 'GET',
+    handler: ProductGet,
+    isPrivate: true
+  })
+);

@@ -4,9 +4,13 @@ import { NextApiHandler } from 'next';
 import withSession from '@libs/server/withSession';
 
 const UserSearchHandler: NextApiHandler = async (req, res) => {
+  const {
+    session: { user }
+  } = req;
+
   const foundUser = await client.user.findUnique({
     where: {
-      id: req.session.user?.id
+      id: user?.id
     }
   });
 

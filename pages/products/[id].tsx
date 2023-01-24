@@ -10,9 +10,9 @@ import { useRouter } from 'next/router';
 import isUserIn from '@libs/client/isUserIn';
 import useUser from '@libs/client/useUser';
 import Link from 'next/link';
-import similar, {
-  IAPISimilarProductReturn
-} from '@pages/api/products/[id]/similar';
+import { IAPISimilarProductReturn } from '@pages/api/products/[id]/similar';
+import { IAPIGetProductFavReturn } from '@pages/api/products/[id]/fav';
+import useMutation from '@libs/client/useMutation';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
@@ -23,10 +23,13 @@ const ItemDetail: NextPage = () => {
   );
   const { data: similarData, isLoading: isSimilarDataLoading } =
     useSWR<IAPISimilarProductReturn>(id ? `/api/products/${id}/similar` : '');
+  const { data: favData } = useSWR<IAPIGetProductFavReturn>(
+    id ? `/api/products/${id}/fav` : ''
+  );
+  const [fav] = useMutation(`/api/products/${id}/fav`);
   const { user } = useUser();
 
   useEffect(() => {
-    console.log(similarData);
     if (!data) {
       return;
     }
@@ -35,6 +38,12 @@ const ItemDetail: NextPage = () => {
       router.push('/');
     }
   }, [data, router, similarData]);
+
+  const onFavButtonClick = () => {
+    fav({
+      favId: favData?.foundFav?.id
+    });
+  };
 
   return (
     <PageLayout title={data?.foundProduct.name}>
@@ -58,7 +67,10 @@ const ItemDetail: NextPage = () => {
           </p>
           <div className="flex items-center justify-between space-x-2">
             <GlobalButton className="flex-1 py-2">Talk to seller</GlobalButton>
-            <button className="rounded-lg border-2 border-gray-300 p-1.5 shadow-lg">
+            <button
+              className="rounded-lg border-2 border-gray-300 p-1.5 shadow-lg"
+              onClick={onFavButtonClick}
+            >
               <Icon
                 d={'heart'}
                 size={24}

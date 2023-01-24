@@ -1,6 +1,7 @@
 import cleanId from '@libs/server/cleanId';
 import client from '@libs/server/client';
 import withHandler from '@libs/server/withHandler';
+import withSession from '@libs/server/withSession';
 import { NextApiHandler } from 'next';
 
 interface SimilarProduct {
@@ -14,7 +15,7 @@ export interface IAPISimilarProductReturn {
   similarProducts: SimilarProduct[];
 }
 
-const ProductGet: NextApiHandler = async (req, res) => {
+const SimilarProductsGet: NextApiHandler = async (req, res) => {
   const {
     query: { id: productId }
   } = req;
@@ -64,7 +65,10 @@ const ProductGet: NextApiHandler = async (req, res) => {
   });
 };
 
-export default withHandler({
-  method: 'GET',
-  handler: ProductGet
-});
+export default withSession(
+  withHandler({
+    method: 'GET',
+    handler: SimilarProductsGet,
+    isPrivate: true
+  })
+);
