@@ -4,14 +4,11 @@ import Icon from '@components/Icon';
 import ProductItem from '@components/ProductItem';
 import PageLayout from '@components/PageLayout';
 import useSWR from 'swr';
-import useUser from '@libs/client/useUser';
 import { IAPIProductsReturn } from './api/products';
-import isUserIn from '@libs/client/isUserIn';
 
 const Home: NextPage = () => {
   const { data, isLoading: productLoading } =
     useSWR<IAPIProductsReturn>('/api/products/');
-  const { user } = useUser();
 
   return (
     <PageLayout title="Home">
@@ -26,13 +23,11 @@ const Home: NextPage = () => {
               price={productItem.price}
               isFirst={productItemIndex === 0}
               favourite={{
-                value: productItem.favourites.length,
-                isFavourite: productLoading
-                  ? false
-                  : isUserIn(productItem.favourites, user?.id)
+                value: productItem._count.favourites,
+                isFavourite: false
               }}
               comment={{
-                value: 102,
+                value: productItem.comments,
                 isCommented: false
               }}
             />

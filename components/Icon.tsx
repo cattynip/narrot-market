@@ -31,7 +31,7 @@ type TSnipColorSet =
   | 'whiteStrokeTransparentFill';
 
 export interface IHightColor {
-  variable: boolean;
+  variable?: boolean;
   highlightType: {
     true: TSnipColorSet;
     false: TSnipColorSet;
@@ -41,7 +41,7 @@ export interface IHightColor {
 interface IIcon {
   d: TIconDs;
   size: number;
-  hightColor: IHightColor;
+  hightColor?: IHightColor;
 }
 
 const Icon = ({

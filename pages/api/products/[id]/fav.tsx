@@ -20,11 +20,10 @@ export interface IAPIPostProductFavReturn {
 const MakeProductFav: NextApiHandler = async (req, res) => {
   const {
     query: { id },
-    session: { user },
-    method: reqMethod
+    session: { user }
   } = req;
 
-  if (!id || typeof id !== 'string') {
+  if (!id || typeof id !== 'string' || !user?.id) {
     return res.status(402).json({
       ok: false,
       message: ''
@@ -33,77 +32,51 @@ const MakeProductFav: NextApiHandler = async (req, res) => {
 
   const cleanProductId = cleanId(id);
 
-  if (reqMethod === 'GET') {
-    const foundFav = await client.favourite.findFirst({
-      where: {
-        productId: cleanProductId,
-        userId: user?.id
-      },
-      select: {
-        id: true
+  const foundFav = await client.favourite.findFirst({
+    where: {
+      productId: cleanProductId,
+      userId: user.id
+    },
+    select: { id: true }
+  });
+
+  console.log(foundFav);
+
+  if (!foundFav) {
+    await client.favourite.create({
+      data: {
+        product: {
+          connect: {
+            id: cleanProductId
+          }
+        },
+        user: {
+          connect: {
+            id: user.id
+          }
+        }
       }
     });
 
-    if (!foundFav) {
-      return res.status(404).json({
-        ok: false,
-        message: 'Favourite is not found.'
-      });
-    }
-
     return res.status(200).json({
-      ok: true,
-      foundFav
+      ok: true
     });
   }
 
-  if (reqMethod === 'POST') {
-    if (!req.body?.favId) {
-      await client.favourite.create({
-        data: {
-          product: {
-            connect: {
-              id: cleanProductId
-            }
-          },
-          user: {
-            connect: {
-              id: user?.id
-            }
-          }
-        }
-      });
-
-      return res.status(202).json({
-        ok: true,
-        message: 'Created Successfully'
-      });
+  await client.favourite.delete({
+    where: {
+      id: foundFav.id
     }
+  });
 
-    if (req.body.favId) {
-      const {
-        body: { favId }
-      } = req;
-
-      const cleanFavId = cleanId(favId);
-
-      await client.favourite.delete({
-        where: {
-          id: cleanFavId
-        }
-      });
-
-      return res.status(202).json({
-        ok: true,
-        message: 'Delete Successfully'
-      });
-    }
-  }
+  return res.status(200).json({
+    ok: true
+  });
 };
 
 export default withSession(
   withHandler({
-    method: ['GET', 'POST'],
+    method: 'POST',
     handler: MakeProductFav,
     isPrivate: true
   })

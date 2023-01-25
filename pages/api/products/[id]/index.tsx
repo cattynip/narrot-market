@@ -10,22 +10,21 @@ interface FoundProduct {
   description: string;
   userName: string;
   userAvatar: string;
-  favourites: {
-    userId: number;
-  }[];
 }
 
 export interface IAPIProductReturn {
   ok: boolean;
   foundProduct: FoundProduct;
+  isFav: boolean;
 }
 
 const ProductGet: NextApiHandler = async (req, res) => {
   const {
-    query: { id: productId }
+    query: { id: productId },
+    session: { user }
   } = req;
 
-  if (!productId || typeof productId !== 'string') {
+  if (!productId || typeof productId !== 'string' || !user?.id) {
     return res.status(402).json({
       ok: false,
       message: ''
@@ -43,12 +42,7 @@ const ProductGet: NextApiHandler = async (req, res) => {
       price: true,
       description: true,
       userName: true,
-      userAvatar: true,
-      favourites: {
-        select: {
-          userId: true
-        }
-      }
+      userAvatar: true
     }
   });
 
@@ -59,9 +53,22 @@ const ProductGet: NextApiHandler = async (req, res) => {
     });
   }
 
+  const isFav = Boolean(
+    await client.favourite.findFirst({
+      where: {
+        productId: cleanProductId,
+        userId: user?.id
+      },
+      select: {
+        id: true
+      }
+    })
+  );
+
   return res.status(200).json({
     ok: true,
-    foundProduct
+    foundProduct,
+    isFav
   });
 };
 

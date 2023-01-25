@@ -8,15 +8,13 @@ interface IProduct {
   name: string;
   price: number;
   descriptoin: string;
+  comments: number;
   userId: number;
   userName: string;
   userAvatar: string;
-  favourites: IFavourtie[];
-}
-
-interface IFavourtie {
-  id: string;
-  userId: number;
+  _count: {
+    favourites: number;
+  };
 }
 
 export interface IAPIProductsReturn {
@@ -26,19 +24,8 @@ export interface IAPIProductsReturn {
 
 const ProductGet: NextApiHandler = async (req, res) => {
   const products = await client.product.findMany({
-    where: {},
-    select: {
-      id: true,
-      name: true,
-      price: true,
-      description: true,
-      comments: true,
-      favourites: {
-        select: {
-          id: true,
-          userId: true
-        }
-      }
+    include: {
+      _count: true
     }
   });
 
