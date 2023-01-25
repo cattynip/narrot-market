@@ -3,28 +3,36 @@ import type { NextPage } from 'next';
 import CommunityItem from '../../components/CommunityItem';
 import HelpButton from '../../components/HelpButton';
 import Icon from '../../components/Icon';
+import useSWR from 'swr';
+import { IAPICommunitiesReturn } from '@pages/api/communities';
 
 const Community: NextPage = () => {
+  const { data } = useSWR<IAPICommunitiesReturn>('/api/communities');
+
+  console.log(data);
+
   return (
     <PageLayout title="Community">
       <div>
-        {[...Array(10)].map((_value, communityItemIndex) => (
+        {data?.foundPosts.map((post, postIndex) => (
           <CommunityItem
-            key={communityItemIndex}
-            question="What is the best restaurant in the world?"
-            ago="18h"
-            isFirst={communityItemIndex === 0}
+            key={postIndex}
+            id={post.id}
+            question={post.question}
+            ago={post.createdAt.toString()}
+            isFirst={postIndex === 0}
             user={{
-              name: 'Seol SO',
-              avatar: '/'
+              name: post.userName,
+              id: post.userId,
+              avatar: post.userAvatar
             }}
             wondering={{
-              value: 24,
+              value: post._count.wonderings,
               isWondered: false
             }}
             answer={{
-              value: 65,
-              isAnswered: true,
+              value: post._count.answers,
+              isAnswered: false,
               participater: [
                 { avatar: '/' },
                 { avatar: '/' },

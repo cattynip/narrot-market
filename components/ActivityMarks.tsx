@@ -28,8 +28,8 @@ const ActivityMarksComponent = ({
         hightColor={{
           variable: isMarked,
           highlightType: {
-            true: 'empty',
-            false: 'orangeHighlight'
+            false: 'empty',
+            true: 'orangeHighlight'
           }
         }}
       />

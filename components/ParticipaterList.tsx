@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 interface IParticipaterList {
   mainUser?: {
     name: string;
@@ -13,13 +15,15 @@ const ParticipaterList = ({ mainUser, participaters }: IParticipaterList) => {
     <div className="flex items-center justify-start space-x-3">
       {mainUser ? (
         <>
-          <div className="flex space-x-2">
-            <div
-              className="h-6 w-6
+          <Link href={`/users/${mainUser.name}`}>
+            <div className="flex space-x-2">
+              <div
+                className="h-6 w-6
           rounded-full bg-slate-400"
-            />
-            <span className="text-gray-500">{mainUser.name}</span>
-          </div>
+              />
+              <span className="text-gray-500">{mainUser.name}</span>
+            </div>
+          </Link>
           <span className="text-gray-400">│</span>
         </>
       ) : null}
