@@ -59,6 +59,7 @@ const Welcome: NextPage = () => {
 
   const tokenOnValid = (data: TokenForm) => {
     token(data);
+    console.log(data);
 
     if (tokenData?.token) {
       return router.push('/');
@@ -78,7 +79,7 @@ const Welcome: NextPage = () => {
   }, [enterData]);
 
   useEffect(() => {
-    if (user) {
+    if (user.isLoading && user) {
       router.push('/');
     }
   }, [user, router]);

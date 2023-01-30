@@ -1,5 +1,6 @@
 import client from '@libs/server/client';
 import withHandler from '@libs/server/withHandler';
+import withSession from '@libs/server/withSession';
 import { NextApiHandler } from 'next';
 
 declare module 'iron-session' {
@@ -46,15 +47,15 @@ const UserTokenHandler: NextApiHandler = async (req, res) => {
 
   await req.session.save();
 
-  console.log(req.session);
-
   return res.status(200).json({
     ok: true,
     message: 'Your are logged in!'
   });
 };
 
-export default withHandler({
-  method: 'POST',
-  handler: UserTokenHandler
-});
+export default withSession(
+  withHandler({
+    method: 'POST',
+    handler: UserTokenHandler
+  })
+);

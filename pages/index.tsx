@@ -14,7 +14,7 @@ const Home: NextPage = () => {
     <PageLayout title="Home">
       {productLoading
         ? 'Finding Carrots...'
-        : data?.datas.map((productItem, productItemIndex) => (
+        : data?.datas?.map((productItem, productItemIndex) => (
             <ProductItem
               key={productItemIndex}
               productId={productItem.id}
