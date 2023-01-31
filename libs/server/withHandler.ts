@@ -1,5 +1,4 @@
 import { NextApiHandler } from 'next';
-import withSession from './withSession';
 
 type THandlerMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -37,19 +36,17 @@ const withHandler = ({
       }
     }
 
-    if (isPrivate && !req.session.user) {
-      return res.status(401).json({
-        ok: false,
-        message: 'Please log in first.'
-      });
+    if (isPrivate) {
+      if (!req.session.user) {
+        return res.status(401).json({
+          ok: false,
+          message: 'Please log in first.'
+        });
+      }
     }
 
     try {
-      if (isPrivate) {
-        withSession(await handler(req, res));
-      } else {
-        await handler(req, res);
-      }
+      await handler(req, res);
     } catch (error) {
       console.error(error);
       return res.status(500).end();

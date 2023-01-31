@@ -24,7 +24,7 @@ const Home: NextPage = () => {
               isFirst={productItemIndex === 0}
               favourite={{
                 value: productItem._count.favourites,
-                isFavourite: false
+                isFavourite: Boolean(productItem.favourites.length === 1)
               }}
               comment={{
                 value: productItem.comments,

@@ -10,14 +10,6 @@ function App({ Component, pageProps }: AppProps) {
   const fetcher = (url: string) => fetch(url).then(response => response.json());
   const router = useRouter();
 
-  const user = useUser();
-
-  useEffect(() => {
-    if (!user.user) {
-      router.push('/welcome');
-    }
-  }, [user]);
-
   return (
     <SWRConfig
       value={{

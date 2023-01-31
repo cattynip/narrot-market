@@ -3,6 +3,10 @@ import withHandler from '@libs/server/withHandler';
 import withSession from '@libs/server/withSession';
 import { NextApiHandler } from 'next';
 
+interface ProductFav {
+  userId: number;
+}
+
 interface IProduct {
   id: number;
   name: string;
@@ -12,6 +16,7 @@ interface IProduct {
   userId: number;
   userName: string;
   userAvatar: string;
+  favourites: ProductFav[];
   _count: {
     favourites: number;
   };
@@ -23,9 +28,21 @@ export interface IAPIProductsReturn {
 }
 
 const ProductGet: NextApiHandler = async (req, res) => {
+  const {
+    session: { user }
+  } = req;
+
   const products = await client.product.findMany({
     include: {
-      _count: true
+      _count: true,
+      favourites: {
+        where: {
+          userId: user?.id
+        },
+        select: {
+          userId: true
+        }
+      }
     }
   });
 
