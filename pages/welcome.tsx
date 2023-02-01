@@ -41,7 +41,7 @@ const Welcome: NextPage = () => {
   const [isEntered, setIsEntered] = useState<boolean>(false);
   const router = useRouter();
 
-  const user = useUser();
+  useUser();
 
   const onEmailClick = () => {
     enterReset();
@@ -77,12 +77,6 @@ const Welcome: NextPage = () => {
       return true;
     });
   }, [enterData]);
-
-  useEffect(() => {
-    if (user.isLoading && user) {
-      router.push('/');
-    }
-  }, [user, router]);
 
   return (
     <div>

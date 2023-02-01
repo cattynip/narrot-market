@@ -1,7 +1,7 @@
 import joinClass from '@libs/client/joinClass';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
-type TGlobalInputFor = 'text' | 'email' | 'phone' | 'description';
+type TGlobalInputFor = 'text' | 'email' | 'phone' | 'description' | 'price';
 
 interface IGlobalInput {
   inputFor: TGlobalInputFor;
@@ -39,14 +39,14 @@ const GlobalInput = ({
           {...register}
           {...inputProps}
         />
-      ) : inputFor === 'phone' ? (
+      ) : inputFor === 'phone' || inputFor === 'price' ? (
         <div className="mt-2 flex rounded-lg shadow-md">
           <span className="rounded-lg rounded-r-none border-2 border-r-0 border-gray-300 py-2.5 px-2">
             {extraInformation?.supportText}
           </span>
           <input
             className="w-full rounded-md rounded-l-none border-2 border-gray-300 py-2.5 px-3 transition-all duration-200 hover:border-orange-300 focus:border-orange-600 focus:outline-none focus:placeholder:opacity-0"
-            placeholder="010-1234-5678"
+            placeholder={inputFor === 'phone' ? '010-1234-5678' : '666.66'}
             type="number"
             required
             {...register}

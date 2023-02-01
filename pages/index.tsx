@@ -32,7 +32,7 @@ const Home: NextPage = () => {
               }}
             />
           ))}
-      <HelpButton linkTo="/items/upload">
+      <HelpButton linkTo="/products/upload">
         <Icon
           d="plus"
           size={30}

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const useMutation = (
+const useMutation = <T = any,>(
   link: string
-): [(data?: any) => void, { loading: boolean; error: boolean; data: any }] => {
+): [(data?: any) => void, { loading: boolean; error: boolean; data: T }] => {
   const [data, setData] = useState<undefined | any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean | any>(false);
