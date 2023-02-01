@@ -10,10 +10,12 @@ import Link from 'next/link';
 import { IAPISimilarProductReturn } from '@pages/api/products/[id]/similar';
 import useMutation from '@libs/client/useMutation';
 import { IAPIProductReturn } from '@pages/api/products/[id]';
+import useUser from '@libs/client/useUser';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const user = useUser();
 
   const { data: productData, mutate: productMutate } =
     useSWR<IAPIProductReturn>(id ? `/api/products/${id}` : null);
@@ -34,12 +36,17 @@ const ItemDetail: NextPage = () => {
   const onFavButtonClick = () => {
     if (!productData) return;
 
+    const wasFav = Boolean(productData?.foundProduct.favourites.length === 1);
+
     toggleFav();
 
     productMutate(
       {
         ...productData,
-        isFav: !productData.isFav
+        foundProduct: {
+          ...productData.foundProduct,
+          favourites: wasFav ? [] : [{ userId: user.user.id }]
+        }
       },
       false
     );
@@ -75,7 +82,9 @@ const ItemDetail: NextPage = () => {
                 d={'heart'}
                 size={24}
                 hightColor={{
-                  variable: productData?.isFav,
+                  variable: Boolean(
+                    productData?.foundProduct.favourites.length === 1
+                  ),
                   highlightType: {
                     true: 'orangeHighlight',
                     false: 'empty'

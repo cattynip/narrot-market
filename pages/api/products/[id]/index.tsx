@@ -4,18 +4,22 @@ import withHandler from '@libs/server/withHandler';
 import withSession from '@libs/server/withSession';
 import { NextApiHandler } from 'next';
 
+interface FoundProductFav {
+  userId: number;
+}
+
 interface FoundProduct {
   name: string;
   price: number;
   description: string;
   userName: string;
   userAvatar: string;
+  favourites: FoundProductFav[];
 }
 
 export interface IAPIProductReturn {
   ok: boolean;
   foundProduct: FoundProduct;
-  isFav: boolean;
 }
 
 const ProductGet: NextApiHandler = async (req, res) => {
@@ -42,7 +46,15 @@ const ProductGet: NextApiHandler = async (req, res) => {
       price: true,
       description: true,
       userName: true,
-      userAvatar: true
+      userAvatar: true,
+      favourites: {
+        where: {
+          userId: user?.id
+        },
+        select: {
+          userId: true
+        }
+      }
     }
   });
 
@@ -53,22 +65,9 @@ const ProductGet: NextApiHandler = async (req, res) => {
     });
   }
 
-  const isFav = Boolean(
-    await client.favourite.findFirst({
-      where: {
-        productId: cleanProductId,
-        userId: user?.id
-      },
-      select: {
-        id: true
-      }
-    })
-  );
-
   return res.status(200).json({
     ok: true,
-    foundProduct,
-    isFav
+    foundProduct
   });
 };
 
