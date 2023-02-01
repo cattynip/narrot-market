@@ -40,8 +40,6 @@ const MakeProductFav: NextApiHandler = async (req, res) => {
     select: { id: true }
   });
 
-  console.log(foundFav);
-
   if (!foundFav) {
     await client.favourite.create({
       data: {

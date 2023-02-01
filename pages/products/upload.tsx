@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import useMutation from '@libs/client/useMutation';
 import { useRouter } from 'next/router';
 import { IAPIProductsUploadReturn } from '@pages/api/products/upload';
+import { useEffect } from 'react';
 
 interface INewProductForm {
   name: string;
@@ -21,15 +22,19 @@ const ItemsUpload: NextPage = () => {
     useMutation<IAPIProductsUploadReturn>('/api/products/upload');
   const router = useRouter();
 
-  const onValid = async (formData: INewProductForm) => {
-    await uploadProduct({
+  const onValid = (formData: INewProductForm) => {
+    uploadProduct({
       ...formData
     });
-
-    if (productData.ok) {
-      router.push(`/products/${productData.id}`);
-    }
   };
+
+  useEffect(() => {
+    if (productData) {
+      if (productData.ok) {
+        router.push(`/products/${productData.id}`);
+      }
+    }
+  }, [productData, router]);
 
   return (
     <PageLayout title="Upload a new Product">

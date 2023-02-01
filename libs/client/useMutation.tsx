@@ -22,8 +22,8 @@ const useMutation = <T = any,>(
           return;
         })
       )
-      .then(data => {
-        setData(data);
+      .then(fetchData => {
+        setData(fetchData);
       })
       .catch(setError)
       .finally(() => setLoading(false));
