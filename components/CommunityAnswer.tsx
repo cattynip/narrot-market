@@ -1,4 +1,5 @@
-import ActivityMarks from './ActivityMarks';
+import Link from 'next/link';
+import ActivityMarks, { IActivityMarksComponentPart } from './ActivityMarks';
 import ParticipaterList from './ParticipaterList';
 
 interface ICommunityAnswer {
@@ -8,14 +9,8 @@ interface ICommunityAnswer {
   };
   ago: string;
   answer: string;
-  liked: {
-    value: number;
-    isLiked: boolean;
-  };
-  helped: {
-    value: number;
-    isHelped: boolean;
-  };
+  liked: IActivityMarksComponentPart;
+  helped: IActivityMarksComponentPart;
 }
 
 const CommunityAnswer = ({
@@ -27,13 +22,16 @@ const CommunityAnswer = ({
 }: ICommunityAnswer) => {
   return (
     <div className="border-b-2 pt-4">
-      <div className="flex items-center justify-between border-b-2 pb-3">
-        <div className="flex items-center justify-start space-x-2">
-          <div className="h-9 w-9 rounded-full bg-slate-400" />
-          <span>{user.name}</span>
+      <Link href={`/users/${user.name}`}>
+        <div className="flex items-center justify-between border-b-2 pb-3">
+          <div className="flex items-center justify-start space-x-2">
+            <div className="h-9 w-9 rounded-full bg-slate-400" />
+            <span>{user.name}</span>
+          </div>
+          <span className="text-gray-500">{ago}</span>
         </div>
-        <span className="text-gray-500">{ago}</span>
-      </div>
+      </Link>
+
       <div className="border-b-2 pt-2.5 pl-1 pb-3">
         <p>{answer}</p>
       </div>
@@ -54,13 +52,11 @@ const CommunityAnswer = ({
           activities={[
             {
               type: 'like',
-              value: liked.value,
-              isMarked: liked.isLiked
+              ...liked
             },
             {
               type: 'help',
-              value: helped.value,
-              isMarked: helped.isHelped
+              ...helped
             }
           ]}
         />

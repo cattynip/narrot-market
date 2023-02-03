@@ -7,8 +7,8 @@ interface IUseUserReturn {
     id: number;
     phone?: string;
     email?: string;
-    name?: string;
-    avatar?: string;
+    name: string;
+    avatar: string;
     createdAt: Date;
     updatedAt: Date;
   };

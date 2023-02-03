@@ -1,27 +1,38 @@
 import { TIconDs } from '@libs/client/iconDs';
+import joinClass from '@libs/client/joinClass';
 import Icon from './Icon';
 
 interface IActivityMarks {
-  activities: {
-    type: TIconDs;
-    isMarked: boolean;
-    value: number;
-  }[];
+  activities: IActivityMarksComponent[];
 }
 
 interface IActivityMarksComponent {
   type: TIconDs;
   isMarked: boolean;
   value: number;
+  onClickFn?: () => void;
+}
+
+export interface IActivityMarksComponentPart {
+  isMarked: boolean;
+  value: number;
+  onClickFn?: () => void;
 }
 
 const ActivityMarksComponent = ({
   type,
   isMarked,
-  value
+  value,
+  onClickFn
 }: IActivityMarksComponent) => {
   return (
-    <div className="flex items-center justify-start space-x-1">
+    <div
+      className={joinClass([
+        'flex items-center justify-start space-x-1',
+        onClickFn ? 'cursor-pointer' : ''
+      ])}
+      onClick={onClickFn}
+    >
       <Icon
         d={type}
         size={20}
@@ -42,12 +53,7 @@ const ActivityMarks = ({ activities }: IActivityMarks) => {
   return (
     <div className="flex items-center justify-start space-x-3">
       {activities.map((activity, activityIndex) => (
-        <ActivityMarksComponent
-          key={activityIndex}
-          type={activity.type}
-          isMarked={activity.isMarked}
-          value={activity.value}
-        />
+        <ActivityMarksComponent key={activityIndex} {...activity} />
       ))}
     </div>
   );
