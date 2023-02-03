@@ -7,12 +7,26 @@ const isUserIn = (inforArr: any[], userId: number) => {
   );
 };
 
-export const remove = <T>(arr: T[], value: T): T[] => {
-  const index = arr.indexOf(value);
+export const replaceElementInArr = <T>(
+  arr: T[],
+  findingValue: T,
+  replaceElement: T
+): T[] => {
+  arr.map((value, index) => {
+    if (JSON.stringify(value) === JSON.stringify(findingValue)) {
+      return (arr[index] = replaceElement);
+    }
+  });
 
-  if (index > -1) {
-    arr.splice(index, 1);
-  }
+  return arr;
+};
+
+export const removeElementInArr = <T>(arr: T[], findingValue: T) => {
+  arr.map((value, index) => {
+    if (JSON.stringify(value) === JSON.stringify(findingValue)) {
+      return arr.splice(index, 1);
+    }
+  });
 
   return arr;
 };
