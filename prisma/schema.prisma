@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
 }
 
 datasource db {
@@ -27,9 +28,10 @@ model User {
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   Token                Token[]
+  writtenReviews       Review[]              @relation(name: "writtenReviews")
+  receivedReviews      Review[]              @relation(name: "receivedReviews")
   Minimums             Minimum[]
   Products             Product[]
-  Favourites           Favourite[]
   Posts                Post[]
   Wonderings           Wondering[]
   Answers              Answer[]
@@ -38,10 +40,12 @@ model User {
   ChattingRooms        ChattingRoom[]
   StreamingChatBubbles StreamingChatBubble[]
   Streams              Stream[]
+  records              Record[]
 
   @@unique([phone, email])
   @@unique([id, name, avatar])
   @@unique([id, avatar])
+  @@unique([name, avatar])
 }
 
 model Token {
@@ -52,27 +56,48 @@ model Token {
   createdAt DateTime @default(now())
 }
 
+model Review {
+  id           Int      @id @default(autoincrement())
+  review       String   @db.LongText
+  star         Int      @default(1)
+  createdBy    User     @relation(name: "writtenReviews", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById  Int
+  createdFor   User     @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Record {
+  id        Int        @id @default(autoincrement())
+  product   Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  type      RecordType
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+enum RecordType {
+  Purchase
+  Sale
+  Fav
+}
+
 model Product {
-  id          Int         @id @default(autoincrement())
-  name        String      @db.Char(55)
-  price       Float       @db.Double
-  description String      @db.LongText
-  favourites  Favourite[]
-  comments    Int         @default(0)
-  user        User        @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
+  id          Int      @id @default(autoincrement())
+  name        String   @db.Char(200)
+  price       Float    @db.Double
+  description String   @db.LongText
+  comments    Int      @default(0)
+  user        User     @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
   userId      Int
   userName    String
   userAvatar  String
-}
-
-model Favourite {
-  id        Int      @id @default(autoincrement())
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  records     Record[]
 }
 
 model Post {
