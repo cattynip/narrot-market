@@ -3,12 +3,13 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["filteredRelationCount"]
+  previewFeatures = ["referentialIntegrity", "filteredRelationCount"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model Minimum {
@@ -32,6 +33,9 @@ model User {
   receivedReviews      Review[]              @relation(name: "receivedReviews")
   Minimums             Minimum[]
   Products             Product[]
+  Favourites           Favourite[]
+  Sales                Sale[]
+  Purchases            Purchase[]
   Posts                Post[]
   Wonderings           Wondering[]
   Answers              Answer[]
@@ -85,18 +89,51 @@ enum RecordType {
   Fav
 }
 
+model Favourite {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sale {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Purchase {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Product {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.Char(200)
-  price       Float    @db.Double
-  description String   @db.LongText
-  comments    Int      @default(0)
-  user        User     @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
+  id          Int         @id @default(autoincrement())
+  name        String      @db.Char(200)
+  price       Float       @db.Double
+  description String      @db.LongText
+  comments    Int         @default(0)
+  user        User        @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
   userId      Int
   userName    String
   userAvatar  String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  favourites  Favourite[]
+  sales       Sale[]
+  purchases   Purchase[]
   records     Record[]
 }
 

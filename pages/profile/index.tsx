@@ -1,19 +1,23 @@
 import GlobalButton from '@components/GlobalButton';
+import GlobalInput from '@components/GlobalInput';
+import GlobalLabel from '@components/GlobalLabel';
 import Icon from '@components/Icon';
 import PageLayout from '@components/PageLayout';
 import ProfileInforItem from '@components/ProfileInforItem';
 import ProfileReview from '@components/ProfileReview';
+import useUser from '@libs/client/useUser';
 import { NextPage } from 'next';
 import Link from 'next/link';
 
 const Profile: NextPage = () => {
+  const { user } = useUser();
   return (
     <PageLayout title="Profile">
       <div className="flex items-center justify-between border-b-2 pb-5">
         <div className="flex items-center justify-start space-x-5">
           <div className="h-24 w-24 rounded-full bg-slate-500" />
           <div>
-            <h1 className="text-3xl font-medium">Seol SO</h1>
+            <h1 className="text-3xl font-medium">{user?.name}</h1>
             <span className="text-gray-500">430 Followers</span>
           </div>
         </div>
