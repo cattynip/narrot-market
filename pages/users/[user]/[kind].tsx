@@ -13,6 +13,7 @@ const ProfileDetail: NextPage = () => {
             price={699}
             imageSrc="/"
             isFirst={profileItemIndex === 0}
+            productId={0}
             favourite={{
               value: 24,
               isFavourite: true
