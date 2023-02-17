@@ -56,6 +56,22 @@ const MakeProductFav: NextApiHandler = async (req, res) => {
       }
     });
 
+    await client.record.create({
+      data: {
+        product: {
+          connect: {
+            id: cleanProductId
+          }
+        },
+        user: {
+          connect: {
+            id: user.id
+          }
+        },
+        type: 'Fav'
+      }
+    });
+
     return res.status(200).json({
       ok: true
     });
@@ -64,6 +80,23 @@ const MakeProductFav: NextApiHandler = async (req, res) => {
   await client.favourite.delete({
     where: {
       id: foundFav.id
+    }
+  });
+
+  const foundRecord = await client.record.findFirst({
+    where: {
+      productId: cleanProductId,
+      userId: user.id,
+      type: 'Fav'
+    },
+    select: {
+      id: true
+    }
+  });
+
+  await client.record.delete({
+    where: {
+      id: foundRecord?.id
     }
   });
 

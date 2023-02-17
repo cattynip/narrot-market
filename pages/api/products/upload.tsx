@@ -1,3 +1,4 @@
+import cleanId from '@libs/server/cleanId';
 import client from '@libs/server/client';
 import withHandler from '@libs/server/withHandler';
 import withSession from '@libs/server/withSession';
@@ -14,6 +15,13 @@ const ProductUpload: NextApiHandler = async (req, res) => {
     body: { name, price, description }
   } = req;
 
+  if (!user) {
+    return res.status(402).json({
+      ok: false,
+      message: 'User should exist.'
+    });
+  }
+
   const createdProduct = await client.product.create({
     data: {
       name,
@@ -27,6 +35,22 @@ const ProductUpload: NextApiHandler = async (req, res) => {
     },
     select: {
       id: true
+    }
+  });
+
+  await client.record.create({
+    data: {
+      product: {
+        connect: {
+          id: createdProduct.id
+        }
+      },
+      user: {
+        connect: {
+          id: user.id
+        }
+      },
+      type: 'Sale'
     }
   });
 
