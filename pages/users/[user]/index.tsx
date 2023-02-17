@@ -1,20 +1,47 @@
 import GlobalButton from '@components/GlobalButton';
+import GlobalInput from '@components/GlobalInput';
+import GlobalLabel from '@components/GlobalLabel';
 import HelpButton from '@components/HelpButton';
 import Icon from '@components/Icon';
 import PageLayout from '@components/PageLayout';
 import ProfileInforItem from '@components/ProfileInforItem';
 import ProfileReview from '@components/ProfileReview';
+import useMutation from '@libs/client/useMutation';
 import useUser from '@libs/client/useUser';
+import { IAPIProfileReturn } from '@pages/api/profile/[id]';
+import { IAPIWriteReviewReturn } from '@pages/api/profile/[id]/reviews/write';
+import { IAPIUserSearchForName } from '@pages/api/users/search/[name]';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import useSWR from 'swr';
+
+interface ReviewForm {
+  review: string;
+  star: number;
+}
 
 const Profile: NextPage = () => {
   const router = useRouter();
   const { user: routerUserName } = router.query;
   const { user: sessionUser } = useUser();
   const [isUserSame, setIsUserSame] = useState<boolean>(false);
+  const { register, handleSubmit, reset: formReset } = useForm<ReviewForm>();
+
+  const { data: foundUserId } = useSWR<IAPIUserSearchForName>(
+    routerUserName ? `/api/users/search/${routerUserName}` : null
+  );
+
+  const { data, mutate } = useSWR<IAPIProfileReturn>(
+    foundUserId?.id ? `/api/profile/${foundUserId?.id}` : null
+  );
+
+  const [writeReview, { data: writeReviewData }] =
+    useMutation<IAPIWriteReviewReturn>(
+      foundUserId?.id ? `/api/profile/${foundUserId.id}/reviews/write` : ''
+    );
 
   useEffect(() => {
     if (sessionUser?.name === routerUserName) {
@@ -29,6 +56,36 @@ const Profile: NextPage = () => {
       routerUserName;
     }
   }, [routerUserName]);
+
+  const onValid = (formData: ReviewForm) => {
+    if (!formData || !data) return;
+
+    writeReview({
+      review: formData.review,
+      star: formData.star
+    });
+
+    mutate(
+      {
+        ...data,
+        foundUser: {
+          ...data.foundUser,
+          receivedReviews: [
+            {
+              id: 0,
+              review: formData.review,
+              star: formData.star,
+              createdBy: { name: sessionUser.name, avatar: sessionUser.avatar }
+            },
+            ...data.foundUser.receivedReviews
+          ]
+        }
+      },
+      false
+    );
+
+    formReset();
+  };
 
   return (
     <PageLayout title="Profile">
@@ -94,13 +151,50 @@ const Profile: NextPage = () => {
           />
         </div>
       </div>
-      <div className="border-b-2 pb-5">
-        {[...Array(10)].map((review, reviewIndex) => (
+      {isUserSame ? null : (
+        <form
+          onSubmit={handleSubmit(onValid)}
+          className="space-y-3 border-b-2 py-3 pb-5"
+        >
+          <div>
+            <GlobalLabel content="Your Review for him/her" isRequired />
+            <GlobalInput
+              inputFor="text"
+              placeholder="What a perfect man!"
+              register={register('review')}
+            />
+          </div>
+          <div>
+            <GlobalLabel content="Rate" isRequired />
+            <GlobalInput
+              inputFor="price"
+              placeholder="5"
+              extraInformation={{ supportText: 'Stars' }}
+              register={register('star', {
+                min: {
+                  value: 0,
+                  message: 'Star can not be less than 0.'
+                },
+                max: {
+                  value: 5,
+                  message: 'Star can not be bigger than 5.'
+                }
+              })}
+            />
+          </div>
+          <GlobalButton>Write a Review</GlobalButton>
+        </form>
+      )}
+      <div>
+        {data?.foundUser.receivedReviews.map((review, reviewIndex) => (
           <ProfileReview
             key={reviewIndex}
-            user={{ name: 'Cattynip', avatar: '/' }}
-            star={4}
-            review="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget vulputate mauris. Quisque cursus nulla id nisl rutrum sodales et in purus. Morbi cursus ultrices justo. Aliquam vitae pharetra massa, quis ultricies enim. Nullam at rutrum ipsum. Etiam aliquet nisl quis dolor sollicitudin lacinia. Donec ultrices urna quis tristique hendrerit. Integer malesuada mi mollis lorem mattis, et bibendum ex accumsan. Fusce fermentum pellentesque imperdiet. Nunc eros sapien, sodales nec scelerisque vel, sodales quis magna. Curabitur a nunc nunc. Proin iaculis ante in tincidunt interdum."
+            user={{
+              name: review.createdBy.name,
+              avatar: review.createdBy.avatar
+            }}
+            star={review.star}
+            review={review.review}
           />
         ))}
       </div>

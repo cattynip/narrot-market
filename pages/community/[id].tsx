@@ -43,9 +43,9 @@ const CommunityDetail: NextPage = () => {
   const onWonderingButtonClick = () => {
     if (!data) return;
 
-    const wasWondered = Boolean(data.foundPost.wonderings.length === 1);
-
     toggleWondering();
+
+    const wasWondered = Boolean(data.foundPost.wonderings.length === 1);
 
     mutate(
       {

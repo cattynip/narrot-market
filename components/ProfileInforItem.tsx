@@ -5,11 +5,18 @@ import Icon from './Icon';
 interface IProfileInforItem {
   icon: TIconDs;
   title: string;
+  userName: string;
+  linkLabel: string;
 }
 
-const ProfileInforItem = ({ icon, title }: IProfileInforItem) => {
+const ProfileInforItem = ({
+  icon,
+  title,
+  userName,
+  linkLabel
+}: IProfileInforItem) => {
   return (
-    <Link href={`/profile/${title}`}>
+    <Link href={`/users/${userName}/${linkLabel}`}>
       <div className="flex flex-col items-center justify-center space-y-2">
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-400 transition-colors hover:bg-orange-500">
           <Icon
