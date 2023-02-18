@@ -9,8 +9,6 @@ import { IAPICommunitiesReturn } from '@pages/api/communities';
 const Community: NextPage = () => {
   const { data } = useSWR<IAPICommunitiesReturn>('/api/communities');
 
-  console.log(data);
-
   return (
     <PageLayout title="Community">
       <div>

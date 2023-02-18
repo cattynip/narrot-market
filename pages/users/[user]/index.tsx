@@ -11,6 +11,7 @@ import useUser from '@libs/client/useUser';
 import { IAPIProfileReturn } from '@pages/api/profile/[id]';
 import { IAPIWriteReviewReturn } from '@pages/api/profile/[id]/reviews/write';
 import { IAPIUserSearchForName } from '@pages/api/users/search/[name]';
+import { warn } from 'console';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -38,10 +39,9 @@ const Profile: NextPage = () => {
     foundUserId?.id ? `/api/profile/${foundUserId?.id}` : null
   );
 
-  const [writeReview, { data: writeReviewData }] =
-    useMutation<IAPIWriteReviewReturn>(
-      foundUserId?.id ? `/api/profile/${foundUserId.id}/reviews/write` : ''
-    );
+  const [writeReview] = useMutation<IAPIWriteReviewReturn>(
+    foundUserId?.id ? `/api/profile/${foundUserId.id}/reviews/write` : ''
+  );
 
   useEffect(() => {
     if (sessionUser?.name === routerUserName) {
@@ -52,10 +52,12 @@ const Profile: NextPage = () => {
   }, [sessionUser, routerUserName]);
 
   useEffect(() => {
-    if (typeof routerUserName !== 'string') {
-      routerUserName;
+    if (!foundUserId) return;
+
+    if (foundUserId.ok === false) {
+      router.back();
     }
-  }, [routerUserName]);
+  }, [foundUserId, router]);
 
   const onValid = (formData: ReviewForm) => {
     if (!formData || !data) return;
@@ -98,7 +100,7 @@ const Profile: NextPage = () => {
           </div>
         </div>
         <div className="flex items-center justify-between space-x-2">
-          <Link href={'/profile/edit'}>
+          <Link href={'/users/edit'}>
             <GlobalButton className="px-2">
               <Icon
                 d="pencil"
@@ -133,15 +135,15 @@ const Profile: NextPage = () => {
         <div className="mx-auto flex max-w-lg items-center justify-between ">
           <ProfileInforItem
             icon="cart"
-            title="Sold"
+            title="Sales"
             userName={routerUserName + ''}
-            linkLabel="sold"
+            linkLabel="sale"
           />
           <ProfileInforItem
             icon="shopping"
-            title="Bought"
+            title="Purchases"
             userName={routerUserName + ''}
-            linkLabel="bought"
+            linkLabel="purchase"
           />
           <ProfileInforItem
             icon="heart"
@@ -198,19 +200,6 @@ const Profile: NextPage = () => {
           />
         ))}
       </div>
-      <HelpButton linkTo={`/users/${routerUserName + ''}/review`}>
-        <Icon
-          d="pencil"
-          size={30}
-          hightColor={{
-            variable: true,
-            highlightType: {
-              true: 'whiteStrokeTransparentFill',
-              false: 'whiteStrokeTransparentFill'
-            }
-          }}
-        />
-      </HelpButton>
     </PageLayout>
   );
 };
