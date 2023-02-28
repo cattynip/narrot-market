@@ -10,6 +10,7 @@ interface IGlobalInput {
     supportText: string;
   };
   className?: string;
+  required?: boolean;
   register?: UseFormRegisterReturn;
   /* eslint-disable @typescript-eslint/no-explicit-any */
   [key: string]: any;
@@ -20,6 +21,7 @@ const GlobalInput = ({
   extraInformation,
   className,
   register,
+  required = true,
   ...inputProps
 }: IGlobalInput) => {
   return (
@@ -36,7 +38,7 @@ const GlobalInput = ({
               ? 'support@narrot.market'
               : 'Super Mega Product'
           }
-          required
+          required={required}
           {...register}
           {...inputProps}
         />
@@ -49,7 +51,7 @@ const GlobalInput = ({
             className="w-full rounded-md rounded-l-none border-2 border-gray-300 py-2.5 px-3 transition-all duration-200 hover:border-orange-300 focus:border-orange-600 focus:outline-none focus:placeholder:opacity-0"
             placeholder={inputFor === 'phone' ? '010-1234-5678' : '666.66'}
             type="number"
-            required
+            required={required}
             {...register}
             {...inputProps}
           />
@@ -58,6 +60,7 @@ const GlobalInput = ({
         <textarea
           className="mt-2 w-full rounded-md border-2 border-gray-300 py-2.5 px-3 shadow-md transition-all duration-200 hover:border-orange-300 focus:border-orange-600 focus:outline-none focus:placeholder:opacity-0"
           cols={4}
+          required={required}
           {...register}
         />
       ) : null}
