@@ -3,29 +3,30 @@ import withHandler from '@libs/server/withHandler';
 import withSession from '@libs/server/withSession';
 import { NextApiHandler } from 'next';
 
-export interface IAPIProductsUploadReturn {
+export interface IAPICreateStreamReturn {
   ok: boolean;
   id: number;
 }
 
-const ProductUpload: NextApiHandler = async (req, res) => {
+const CreateStream: NextApiHandler = async (req, res) => {
   const {
-    session: { user },
-    body: { name, price, description }
+    body: { name, productName, price, description },
+    session: { user }
   } = req;
 
-  if (!user) {
+  if (!user || !user.id) {
     return res.status(402).json({
       ok: false,
-      message: 'User should exist.'
+      message: 'You have to put the user id value correctly'
     });
   }
 
-  const createdProduct = await client.product.create({
+  const createdStream = await client.stream.create({
     data: {
-      name,
+      productName: productName,
+      title: name,
       price: +price,
-      description,
+      description: description,
       user: {
         connect: {
           id: user?.id
@@ -37,32 +38,16 @@ const ProductUpload: NextApiHandler = async (req, res) => {
     }
   });
 
-  await client.record.create({
-    data: {
-      product: {
-        connect: {
-          id: createdProduct.id
-        }
-      },
-      user: {
-        connect: {
-          id: user.id
-        }
-      },
-      type: 'Sale'
-    }
-  });
-
   return res.status(200).json({
     ok: true,
-    id: createdProduct.id
+    id: createdStream.id
   });
 };
 
 export default withSession(
   withHandler({
+    handler: CreateStream,
     method: 'POST',
-    handler: ProductUpload,
     isPrivate: true
   })
 );

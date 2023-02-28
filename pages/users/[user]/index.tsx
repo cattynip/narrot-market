@@ -1,7 +1,6 @@
 import GlobalButton from '@components/GlobalButton';
 import GlobalInput from '@components/GlobalInput';
 import GlobalLabel from '@components/GlobalLabel';
-import HelpButton from '@components/HelpButton';
 import Icon from '@components/Icon';
 import PageLayout from '@components/PageLayout';
 import ProfileInforItem from '@components/ProfileInforItem';
@@ -11,7 +10,6 @@ import useUser from '@libs/client/useUser';
 import { IAPIProfileReturn } from '@pages/api/profile/[id]';
 import { IAPIWriteReviewReturn } from '@pages/api/profile/[id]/reviews/write';
 import { IAPIUserSearchForName } from '@pages/api/users/search/[name]';
-import { warn } from 'console';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

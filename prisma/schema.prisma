@@ -21,30 +21,29 @@ model Minimum {
 }
 
 model User {
-  id                   Int                   @id @default(autoincrement())
-  name                 String                @unique
-  phone                String?
-  email                String?
-  avatar               String?               @default("/")
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  Token                Token[]
-  writtenReviews       Review[]              @relation(name: "writtenReviews")
-  receivedReviews      Review[]              @relation(name: "receivedReviews")
-  Minimums             Minimum[]
-  Products             Product[]
-  Favourites           Favourite[]
-  Sales                Sale[]
-  Purchases            Purchase[]
-  Posts                Post[]
-  Wonderings           Wondering[]
-  Answers              Answer[]
-  Likes                Like[]
-  Helps                Help[]
-  ChattingRooms        ChattingRoom[]
-  StreamingChatBubbles StreamingChatBubble[]
-  Streams              Stream[]
-  records              Record[]
+  id              Int             @id @default(autoincrement())
+  name            String          @unique
+  phone           String?
+  email           String?
+  avatar          String?         @default("/")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  Token           Token[]
+  writtenReviews  Review[]        @relation(name: "writtenReviews")
+  receivedReviews Review[]        @relation(name: "receivedReviews")
+  Minimums        Minimum[]
+  Products        Product[]
+  Favourites      Favourite[]
+  Sales           Sale[]
+  Purchases       Purchase[]
+  Posts           Post[]
+  Wonderings      Wondering[]
+  Answers         Answer[]
+  Likes           Like[]
+  Helps           Help[]
+  StreamMessages  StreamMessage[]
+  Streams         Stream[]
+  records         Record[]
 
   @@unique([phone, email])
   @@unique([id, name, avatar])
@@ -196,38 +195,29 @@ model Help {
   updatedAt DateTime @updatedAt
 }
 
-model ChattingRoom {
-  id           Int                   @id @default(autoincrement())
-  createUser   User                  @relation(fields: [createUserId], references: [id], onDelete: Cascade)
-  createUserId Int
-  chatContents StreamingChatBubble[]
-  stream       Stream                @relation(fields: [streamId], references: [id], onDelete: Cascade)
-  streamId     Int
-  createdAt    DateTime              @default(now())
-  updatedAt    DateTime              @updatedAt
-}
-
-model StreamingChatBubble {
-  id             Int          @id @default(autoincrement())
-  content        String
-  user           User         @relation(fields: [userId, userAvatar], references: [id, avatar], onDelete: Cascade)
-  userId         Int
-  userAvatar     String
-  ChattingRoom   ChattingRoom @relation(fields: [chattingRoomId], references: [id])
-  chattingRoomId Int
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+model StreamMessage {
+  id         Int      @id @default(autoincrement())
+  content    String
+  user       User     @relation(fields: [userId, userAvatar], references: [id, avatar], onDelete: Cascade)
+  userId     Int
+  userAvatar String
+  stream     Stream   @relation(fields: [streamId], references: [id])
+  streamId   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Stream {
-  id           Int            @id @default(autoincrement())
-  title        String         @db.Char(55)
-  description  String         @db.LongText
-  user         User           @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
-  userId       Int
-  userName     String
-  userAvatar   String
-  chattingRoom ChattingRoom[]
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  id          Int             @id @default(autoincrement())
+  productName String
+  title       String          @db.Char(55)
+  price       Int
+  description String?         @db.LongText
+  user        User            @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
+  userId      Int
+  userName    String
+  userAvatar  String
+  messages    StreamMessage[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
