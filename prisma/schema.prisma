@@ -198,8 +198,9 @@ model Help {
 model StreamMessage {
   id         Int      @id @default(autoincrement())
   content    String
-  user       User     @relation(fields: [userId, userAvatar], references: [id, avatar], onDelete: Cascade)
+  user       User     @relation(fields: [userId, userName, userAvatar], references: [id, name, avatar], onDelete: Cascade)
   userId     Int
+  userName   String
   userAvatar String
   stream     Stream   @relation(fields: [streamId], references: [id])
   streamId   Int
