@@ -29,7 +29,7 @@ const CreateStream: NextApiHandler = async (req, res) => {
       description: description,
       user: {
         connect: {
-          id: user?.id
+          id: user.id
         }
       }
     },

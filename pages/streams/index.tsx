@@ -2,14 +2,24 @@ import HelpButton from '@components/HelpButton';
 import Icon from '@components/Icon';
 import PageLayout from '@components/PageLayout';
 import StreamItem from '@components/StreamItem';
+import { IAPIGetAllStreamsReturn } from '@pages/api/streams';
 import { NextPage } from 'next';
+import useSWR from 'swr';
 
 const Stream: NextPage = () => {
+  const { data: foundData } = useSWR<IAPIGetAllStreamsReturn>('/api/streams/');
+
   return (
     <PageLayout title="Streams">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {[...Array(20)].map((stream, streamIndex) => (
-          <StreamItem key={streamIndex} title="New iPhone 23 Unboxing" />
+        {foundData?.foundStreams.map((stream, streamIndex) => (
+          <StreamItem
+            key={streamIndex}
+            id={stream.id}
+            title={stream.title}
+            price={stream.price}
+            userName={stream.userName}
+          />
         ))}
       </div>
       <HelpButton linkTo="/streams/create">
