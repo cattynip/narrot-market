@@ -27,7 +27,7 @@ const ChatsBubble = ({
       <p
         className={`text-${
           isOpponent ? 'left' : 'right'
-        } max-w-md rounded-3xl m${
+        } max-w-md rounded-2xl m${
           isOpponent ? 'r' : 'l'
         }-autorounded-3xl border-2 border-gray-400 py-3 px-4`}
       >

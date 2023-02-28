@@ -12,9 +12,30 @@ const StreamDetail: NextPage = () => {
   const { user } = useUser();
   const { id } = router.query;
 
-  const { data: foundStreamData } = useSWR<IAPIGetStreamReturn>(
-    id ? `/api/streams/${id}` : ''
-  );
+  const { data: foundStreamData, mutate: messageMutate } =
+    useSWR<IAPIGetStreamReturn>(id ? `/api/streams/${id}` : '');
+
+  const sendMessageFn = (messageContent: string) => {
+    if (!foundStreamData) return;
+
+    messageMutate(
+      {
+        ...foundStreamData,
+        foundStream: {
+          ...foundStreamData.foundStream,
+          messages: [
+            ...foundStreamData.foundStream.messages,
+            {
+              content: messageContent,
+              userName: user.name,
+              userAvatar: user.avatar
+            }
+          ]
+        }
+      },
+      false
+    );
+  };
 
   return (
     <PageLayout title={foundStreamData?.foundStream.title}>
@@ -44,7 +65,7 @@ const StreamDetail: NextPage = () => {
       </div>
       <div className="mb-20 pt-3">
         <h3 className="text-2xl font-semibold">Live Chats</h3>
-        <div className="w-full overflow-hidden">
+        <div className="w-full overflow-hidden pb-16">
           {foundStreamData?.foundStream.messages.map(
             (message, messageIndex) => (
               <ChatsBubble
@@ -58,7 +79,10 @@ const StreamDetail: NextPage = () => {
           )}
         </div>
       </div>
-      <ChatsInput />
+      <ChatsInput
+        streamId={id ? (typeof id === 'string' ? id : '') : ''}
+        sendMessageFn={sendMessageFn}
+      />
     </PageLayout>
   );
 };

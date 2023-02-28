@@ -1,4 +1,5 @@
 import joinClass from '@libs/client/joinClass';
+import React from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
 type TGlobalInputFor = 'text' | 'email' | 'phone' | 'description' | 'price';
@@ -58,7 +59,6 @@ const GlobalInput = ({
           className="mt-2 w-full rounded-md border-2 border-gray-300 py-2.5 px-3 shadow-md transition-all duration-200 hover:border-orange-300 focus:border-orange-600 focus:outline-none focus:placeholder:opacity-0"
           cols={4}
           {...register}
-          {...inputProps}
         />
       ) : null}
     </>
