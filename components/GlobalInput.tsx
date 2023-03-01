@@ -1,8 +1,14 @@
 import joinClass from '@libs/client/joinClass';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
-type TGlobalInputFor = 'text' | 'email' | 'phone' | 'description' | 'price';
+type TGlobalInputFor =
+  | 'text'
+  | 'email'
+  | 'phone'
+  | 'description'
+  | 'price'
+  | 'picture';
 
 interface IGlobalInput {
   inputFor: TGlobalInputFor;
@@ -23,7 +29,7 @@ const GlobalInput = ({
   register,
   required = true,
   ...inputProps
-}: IGlobalInput) => {
+}: IGlobalInput & HTMLAttributes<HTMLInputElement>) => {
   return (
     <>
       {inputFor === 'email' || inputFor === 'text' ? (
@@ -62,6 +68,14 @@ const GlobalInput = ({
           cols={4}
           required={required}
           {...register}
+        />
+      ) : inputFor === 'picture' ? (
+        <input
+          type={'file'}
+          className="hidden"
+          accept="image/*"
+          {...register}
+          {...inputProps}
         />
       ) : null}
     </>

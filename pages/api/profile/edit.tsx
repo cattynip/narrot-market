@@ -10,8 +10,10 @@ export interface IAPIEditProfileReturn {
 const EditProfile: NextApiHandler = async (req, res) => {
   const {
     session: { user },
-    body: { name, email, phone }
+    body: { name, email, phone, avatar }
   } = req;
+
+  console.log(avatar);
 
   if (!user) {
     return res.status(402).json({
