@@ -1,5 +1,4 @@
 import useMutation from '@libs/client/useMutation';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import GlobalInput from './GlobalInput';
 

@@ -7,7 +7,6 @@ import useMutation from '@libs/client/useMutation';
 import useUser from '@libs/client/useUser';
 import { IAPIEditProfileReturn } from '@pages/api/profile/edit';
 import type { NextPage } from 'next';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
