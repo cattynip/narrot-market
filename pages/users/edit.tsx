@@ -19,15 +19,29 @@ interface EditProfileForm {
 }
 
 const ProfileEdit: NextPage = () => {
-  const { register, handleSubmit, setError, watch } =
-    useForm<EditProfileForm>();
   const [editProfile, { loading: editProfileLoading }] =
     useMutation<IAPIEditProfileReturn>('/api/profile/edit');
   const { user } = useUser();
   const router = useRouter();
   const [userAvatarUrl, setUserAvatarUrl] = useState<string>('');
+  const { register, handleSubmit, setError, setValue, watch } =
+    useForm<EditProfileForm>({
+      defaultValues: {
+        name: user?.name,
+        email: user?.email,
+        phone: user?.phone
+      }
+    });
 
-  const onValid = (formData: EditProfileForm) => {
+  useEffect(() => {
+    if (!user) return;
+
+    setValue('name', user.name);
+    setValue('email', user?.email);
+    setValue('phone', user?.phone);
+  }, [user, setValue]);
+
+  const onValid = async (formData: EditProfileForm) => {
     if (!formData) return;
 
     if (
@@ -40,10 +54,16 @@ const ProfileEdit: NextPage = () => {
       });
     }
 
-    editProfile({
-      ...formData
-    });
+    if (avatar && avatar.length > 0) {
+      const cloudflareUrl = await (await fetch('/api/images')).json();
 
+      console.log(cloudflareUrl);
+
+      // editProfile({
+      //   ...formData,
+      //   cloudflareUrl
+      // });
+    }
     router.push(`/users/${user.name}`);
   };
 
@@ -62,10 +82,11 @@ const ProfileEdit: NextPage = () => {
         <ImageBadge
           isCircle
           className="absolute w-full"
-          src={userAvatarUrl}
+          src={user?.avatar ? user.avatar : '/next.svg'}
           alt="User Avatar"
           width={300}
           height={300}
+          priority={true}
         />
         <GlobalButton className="m-0 w-auto p-0">
           <GlobalLabel
@@ -88,7 +109,6 @@ const ProfileEdit: NextPage = () => {
             inputFor="text"
             placeholder="Cattynip"
             register={register('name')}
-            defaultValue={user?.name}
           />
         </div>
         <div>
@@ -99,7 +119,6 @@ const ProfileEdit: NextPage = () => {
               required: false
             })}
             required={false}
-            defaultValue={user?.email}
           />
         </div>
         <div>
@@ -111,7 +130,6 @@ const ProfileEdit: NextPage = () => {
               required: false
             })}
             required={false}
-            defaultValue={user?.phone}
           />
         </div>
         <div>

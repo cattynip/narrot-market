@@ -7,6 +7,8 @@ declare global {
       TWILIO_AUTH_TOKEN: string;
       TWILIO_PHONE_NUMBER: string;
       SESSION_PASSWORD: string;
+      CLOUDFLARE_TOKEN: string;
+      CLOUDFLARE_ACCOUNT_ID: string;
     }
   }
 }
