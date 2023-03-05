@@ -13,8 +13,6 @@ const EditProfile: NextApiHandler = async (req, res) => {
     body: { name, email, phone, avatar }
   } = req;
 
-  console.log(avatar);
-
   if (!user) {
     return res.status(402).json({
       ok: false
@@ -28,6 +26,15 @@ const EditProfile: NextApiHandler = async (req, res) => {
     });
   }
 
+  const foundUser = await client.user.findUnique({
+    where: {
+      id: user.id
+    },
+    select: { avatar: true }
+  });
+
+  console.log(avatar);
+
   await client.user.update({
     where: {
       id: user.id
@@ -35,7 +42,8 @@ const EditProfile: NextApiHandler = async (req, res) => {
     data: {
       name,
       email,
-      phone
+      phone,
+      avatar: avatar ? avatar : foundUser?.avatar
     }
   });
 

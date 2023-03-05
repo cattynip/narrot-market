@@ -23,7 +23,9 @@ const ProfileEdit: NextPage = () => {
     useMutation<IAPIEditProfileReturn>('/api/profile/edit');
   const { user } = useUser();
   const router = useRouter();
-  const [userAvatarUrl, setUserAvatarUrl] = useState<string>('');
+  const [userAvatarUrl, setUserAvatarUrl] = useState<string>(
+    `https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${user?.avatar}/public`
+  );
   const { register, handleSubmit, setError, setValue, watch } =
     useForm<EditProfileForm>({
       defaultValues: {
@@ -39,6 +41,9 @@ const ProfileEdit: NextPage = () => {
     setValue('name', user.name);
     setValue('email', user?.email);
     setValue('phone', user?.phone);
+    setUserAvatarUrl(
+      `https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${user?.avatar}/public`
+    );
   }, [user, setValue]);
 
   const onValid = async (formData: EditProfileForm) => {
@@ -54,15 +59,23 @@ const ProfileEdit: NextPage = () => {
       });
     }
 
-    if (avatar && avatar.length > 0) {
-      const cloudflareUrl = await (await fetch('/api/images')).json();
+    if (avatar && avatar.length > 0 && user?.name) {
+      const response = await (await fetch('/api/images')).json();
 
-      console.log(cloudflareUrl);
+      const form = new FormData();
+      form.append('file', avatar[0], user.name);
 
-      // editProfile({
-      //   ...formData,
-      //   cloudflareUrl
-      // });
+      await fetch(response.uploadURL, {
+        method: 'POST',
+        body: form
+      });
+
+      console.log(response);
+
+      editProfile({
+        ...formData,
+        avatar: response.id
+      });
     }
     router.push(`/users/${user.name}`);
   };
@@ -72,7 +85,8 @@ const ProfileEdit: NextPage = () => {
   useEffect(() => {
     if (avatar && avatar.length > 0) {
       const file = avatar[0];
-      setUserAvatarUrl(URL.createObjectURL(file));
+      const blobUrl = URL.createObjectURL(file);
+      setUserAvatarUrl(blobUrl);
     }
   }, [avatar]);
 
@@ -82,7 +96,7 @@ const ProfileEdit: NextPage = () => {
         <ImageBadge
           isCircle
           className="absolute w-full"
-          src={user?.avatar ? user.avatar : '/next.svg'}
+          src={userAvatarUrl}
           alt="User Avatar"
           width={300}
           height={300}

@@ -26,6 +26,8 @@ const UploadImage: NextApiHandler = async (req, res) => {
     console.log(responseData);
   }
 
+  console.log(responseData);
+
   return res.status(200).json({
     ok: true,
     ...responseData.result

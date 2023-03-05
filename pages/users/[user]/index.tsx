@@ -2,6 +2,7 @@ import GlobalButton from '@components/GlobalButton';
 import GlobalInput from '@components/GlobalInput';
 import GlobalLabel from '@components/GlobalLabel';
 import Icon from '@components/Icon';
+import ImageBadge from '@components/ImageBadge';
 import PageLayout from '@components/PageLayout';
 import ProfileInforItem from '@components/ProfileInforItem';
 import ProfileReview from '@components/ProfileReview';
@@ -11,6 +12,7 @@ import { IAPIProfileReturn } from '@pages/api/profile/[id]';
 import { IAPIWriteReviewReturn } from '@pages/api/profile/[id]/reviews/write';
 import { IAPIUserSearchForName } from '@pages/api/users/search/[name]';
 import { NextPage } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -91,7 +93,13 @@ const Profile: NextPage = () => {
     <PageLayout title="Profile">
       <div className="flex items-center justify-between border-b-2 pb-5">
         <div className="flex items-center justify-start space-x-5">
-          <div className="h-24 w-24 rounded-full bg-slate-500" />
+          <img
+            src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${data?.foundUser.avatar}/public`}
+            alt={`The avatar of ${data?.foundUser.name}`}
+            width={300}
+            height={300}
+            className="relative h-24 w-24 overflow-hidden rounded-full bg-slate-500"
+          />
           <div>
             <h1 className="text-3xl font-medium">{routerUserName}</h1>
             <span className="text-gray-500">430 Followers</span>
