@@ -11,7 +11,7 @@ export interface IAPIUploadImageReturn {
 const UploadImage: NextApiHandler = async (req, res) => {
   const responseData = await (
     await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1/direct_upload`,
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
       {
         method: 'POST',
         headers: {

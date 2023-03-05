@@ -93,14 +93,12 @@ const ProfileEdit: NextPage = () => {
   return (
     <PageLayout title="Edit Profile">
       <div className="flex items-center justify-start space-x-5 border-b-2 pb-5">
-        <ImageBadge
-          isCircle
-          className="absolute w-full"
-          src={userAvatarUrl}
-          alt="User Avatar"
+        <img
+          src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${user?.avatar}/avatar`}
+          alt={'The Avatar of you'}
           width={300}
           height={300}
-          priority={true}
+          className="relative h-24 w-24 overflow-hidden rounded-full bg-slate-500"
         />
         <GlobalButton className="m-0 w-auto p-0">
           <GlobalLabel
