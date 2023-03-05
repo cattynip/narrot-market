@@ -11,7 +11,7 @@ export interface IAPIProductsUploadReturn {
 const ProductUpload: NextApiHandler = async (req, res) => {
   const {
     session: { user },
-    body: { name, price, description }
+    body: { name, price, description, image }
   } = req;
 
   if (!user) {
@@ -26,6 +26,7 @@ const ProductUpload: NextApiHandler = async (req, res) => {
       name,
       price: +price,
       description,
+      image,
       user: {
         connect: {
           id: user?.id

@@ -55,9 +55,16 @@ const ItemDetail: NextPage = () => {
   return (
     <PageLayout title={productData?.foundProduct.name}>
       <div>
-        <div className="relative flex h-80 w-full items-end justify-between bg-slate-400 bg-gradient-to-t from-black to-transparent px-4 pb-4 text-6xl font-black text-white">
-          <h1>{productData?.foundProduct.name}</h1>
-          <p>${productData?.foundProduct.price}</p>
+        <div className="relative">
+          <img
+            src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${productData?.foundProduct.image}/cover`}
+            alt={`The image of ${productData?.foundProduct.name}`}
+            className="w-full object-cover"
+          />
+          <div className="absolute inset-0 flex items-end justify-between bg-gradient-to-t from-black to-transparent px-5 pb-5 text-6xl font-black text-white opacity-75">
+            <h1>{productData?.foundProduct.name}</h1>
+            <p>${productData?.foundProduct.price}</p>
+          </div>
         </div>
         <Link href={`/users/${productData?.foundProduct.userName}`}>
           <div className="flex items-center justify-start pt-5 pb-3">

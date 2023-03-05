@@ -8,23 +8,37 @@ import { useForm } from 'react-hook-form';
 import useMutation from '@libs/client/useMutation';
 import { useRouter } from 'next/router';
 import { IAPIProductsUploadReturn } from '@pages/api/products/upload';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface INewProductForm {
   name: string;
   price: number;
   description?: string;
+  image: FileList;
 }
 
 const ItemsUpload: NextPage = () => {
-  const { register, handleSubmit } = useForm<INewProductForm>();
+  const { register, handleSubmit, watch } = useForm<INewProductForm>();
   const [uploadProduct, { loading, data: productData }] =
     useMutation<IAPIProductsUploadReturn>('/api/products/upload');
   const router = useRouter();
 
-  const onValid = (formData: INewProductForm) => {
+  const [productImageURL, setProductImageURL] = useState<string>('');
+
+  const onValid = async (formData: INewProductForm) => {
+    const response = await (await fetch('/api/images')).json();
+
+    const form = new FormData();
+    form.append('file', productImageWatch[0], formData.name);
+
+    await fetch(response.uploadURL, {
+      method: 'POST',
+      body: form
+    });
+
     uploadProduct({
-      ...formData
+      ...formData,
+      image: response.id
     });
   };
 
@@ -36,25 +50,58 @@ const ItemsUpload: NextPage = () => {
     }
   }, [productData, router]);
 
+  const productImageWatch = watch('image');
+
+  useEffect(() => {
+    if (productImageWatch && productImageWatch.length > 0) {
+      const file = productImageWatch[0];
+      setProductImageURL(URL.createObjectURL(file));
+    }
+  }, [productImageWatch]);
+
   return (
     <PageLayout title="Upload a new Product">
       <form className="space-y-2" onSubmit={handleSubmit(onValid)}>
         <div>
-          <GlobalLabel content="Images" isRequired={true} />
-          <div className="mt-2 flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 shadow-md transition-colors duration-150 hover:border-orange-300 hover:text-orange-500 focus:border-orange-500">
-            <Icon
-              d={'picture'}
-              size={50}
-              hightColor={{
-                variable: true,
-                highlightType: {
-                  true: 'blackHightlight',
-                  false: 'blackHightlight'
+          <GlobalLabel
+            content="Images"
+            isRequired={true}
+            htmlFor={productImageWatch?.length > 0 ? '' : 'productImage'}
+          />
+
+          {productImageWatch?.length > 0 ? (
+            <img src={productImageURL} className={'mt-2 h-64'} />
+          ) : (
+            <>
+              <GlobalLabel
+                content={
+                  <div className="mt-2 flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 shadow-md transition-colors duration-150 hover:border-orange-300 hover:text-orange-500 focus:border-orange-500">
+                    <Icon
+                      d={'picture'}
+                      size={50}
+                      hightColor={{
+                        variable: true,
+                        highlightType: {
+                          true: 'blackHightlight',
+                          false: 'blackHightlight'
+                        }
+                      }}
+                    />
+                  </div>
                 }
-              }}
-            />
-            <input className="hidden" type="file" />
-          </div>
+                isRequired={false}
+                htmlFor={'productImage'}
+              />
+            </>
+          )}
+
+          <input
+            className="hidden"
+            accept="image/*"
+            type="file"
+            {...register('image')}
+            id={'productImage'}
+          />
         </div>
         <div>
           <GlobalLabel content="Name" isRequired />

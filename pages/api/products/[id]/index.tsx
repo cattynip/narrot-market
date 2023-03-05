@@ -12,6 +12,7 @@ interface FoundProduct {
   name: string;
   price: number;
   description: string;
+  image: string;
   userName: string;
   userAvatar: string;
   favourites: FoundProductFav[];
@@ -45,6 +46,7 @@ const ProductGet: NextApiHandler = async (req, res) => {
       name: true,
       price: true,
       description: true,
+      image: true,
       userName: true,
       userAvatar: true,
       favourites: {
