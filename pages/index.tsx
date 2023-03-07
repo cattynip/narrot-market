@@ -5,6 +5,8 @@ import ProductItem from '@components/ProductItem';
 import PageLayout from '@components/PageLayout';
 import useSWR from 'swr';
 import { IAPIProductsReturn } from './api/products';
+import Image from 'next/image';
+import Bodwell from '../public/bodwell.png';
 
 const Home: NextPage = () => {
   const { data, isLoading: productLoading } =
@@ -32,6 +34,13 @@ const Home: NextPage = () => {
               }}
             />
           ))}
+      <Image
+        src={Bodwell}
+        className="w-full"
+        placeholder="blur"
+        alt="Bodwell Logo"
+        quality={100}
+      />
       <HelpButton linkTo="/products/upload">
         <Icon
           d="plus"

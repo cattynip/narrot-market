@@ -11,6 +11,7 @@ import { IAPISimilarProductReturn } from '@pages/api/products/[id]/similar';
 import useMutation from '@libs/client/useMutation';
 import { IAPIProductReturn } from '@pages/api/products/[id]';
 import useUser from '@libs/client/useUser';
+import Image from 'next/image';
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
@@ -56,9 +57,11 @@ const ItemDetail: NextPage = () => {
     <PageLayout title={productData?.foundProduct.name}>
       <div>
         <div className="relative">
-          <img
+          <Image
             src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${productData?.foundProduct.image}/cover`}
             alt={`The image of ${productData?.foundProduct.name}`}
+            width={728}
+            height={364}
             className="w-full object-cover"
           />
           <div className="absolute inset-0 flex items-end justify-between bg-gradient-to-t from-black to-transparent px-5 pb-5 text-6xl font-black text-white opacity-75">
@@ -66,14 +69,23 @@ const ItemDetail: NextPage = () => {
             <p>${productData?.foundProduct.price}</p>
           </div>
         </div>
-        <Link href={`/users/${productData?.foundProduct.userName}`}>
-          <div className="flex items-center justify-start pt-5 pb-3">
-            <div className="h-14 w-14 rounded-full bg-slate-500" />
-            <span className="ml-3 text-2xl font-bold">
-              {productData?.foundProduct.userName}
-            </span>
-          </div>
-        </Link>
+        <div className="pt-5 pb-3">
+          <Link href={`/users/${productData?.foundProduct.userName}`}>
+            <div className="flex items-center justify-start">
+              <Image
+                src={`https://imagedelivery.net/WBCziywbOKp6BAE-wJa2BQ/${productData?.foundProduct.userAvatar}/avatar`}
+                alt={`The Avatar of ${productData?.foundProduct.userName}`}
+                width={56}
+                height={56}
+                quality={10}
+                className={'h-14 w-14 rounded-full'}
+              />
+              <span className="ml-3 text-2xl font-bold">
+                {productData?.foundProduct.userName}
+              </span>
+            </div>
+          </Link>
+        </div>
         <div className="space-y-2">
           <h4 className="mt-2 text-lg font-semibold">Description</h4>
           <p className="cursor-default pb-2 text-gray-600">
