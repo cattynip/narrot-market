@@ -10,6 +10,8 @@ const ChatsDetail: NextPage = () => {
         {[...Array(30)].map((chat, chatIndex) => (
           <ChatsBubble
             key={chatIndex}
+            userName={'Cattynip'}
+            userAvatar={'62bb3846-2487-4396-6c7e-858e86bb7000'}
             content="Hello, I am Seol SO."
             isOpponent={chatIndex % 3 == 1 ? true : false}
           />

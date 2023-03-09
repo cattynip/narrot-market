@@ -18,8 +18,11 @@ const ResetData: NextApiHandler = async (req, res) => {
   await client.product.deleteMany({});
   await client.favourite.deleteMany({});
   await client.wondering.deleteMany({});
-  await client.chattingRoom.deleteMany({});
-  await client.streamingChatBubble.deleteMany({});
+  await client.record.deleteMany({});
+  await client.sale.deleteMany({});
+  await client.purchase.deleteMany({});
+  await client.review.deleteMany({});
+  await client.streamMessage.deleteMany({});
 
   return res.status(200).json({
     ok: true

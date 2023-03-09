@@ -16,7 +16,7 @@ interface IUseUserReturn {
 }
 
 const useUser = (): IUseUserReturn => {
-  const { data, isLoading } = useSWR('/api/users/search');
+  const { data, isLoading, error } = useSWR('/api/users/search');
   const router = useRouter();
 
   useEffect(() => {

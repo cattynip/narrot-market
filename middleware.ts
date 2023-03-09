@@ -12,8 +12,8 @@ const middleware = (req: NextRequest, event: NextFetchEvent) => {
 
   if (!req.url.includes('/api')) {
     if (!req.url.includes('/enter') && !req.url.includes('/welcome')) {
-      if (req.cookies.has('narrotsession')) {
-        return NextResponse.redirect('/enter');
+      if (!req.cookies.has('narrotsession')) {
+        // return NextResponse.rewrite(new URL('/welcome', req.url));
       }
     }
   }

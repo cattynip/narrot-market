@@ -41,7 +41,7 @@ export interface IHightColor {
 interface IIcon {
   d: TIconDs;
   size: number;
-  hightColor?: IHightColor;
+  hightColor: IHightColor;
 }
 
 const Icon = ({
@@ -56,14 +56,14 @@ const Icon = ({
       height={size}
       xmlns="http://www.w3.org/2000/svg"
       fill={
-        hightColor.variable
+        hightColor?.variable
           ? ColorObj[SnipColorSet[hightColor.highlightType['true']][0]]
           : ColorObj[SnipColorSet[hightColor.highlightType['false']][0]]
       }
       stroke={
-        hightColor.variable
+        hightColor?.variable
           ? ColorObj[SnipColorSet[hightColor.highlightType['true']][1]]
-          : ColorObj[SnipColorSet[hightColor.highlightType['false']][1]]
+          : ColorObj[SnipColorSet[hightColor?.highlightType['false']][1]]
       }
       viewBox="0 0 24 24"
       {...svgProps}

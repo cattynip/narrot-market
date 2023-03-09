@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import GlobalButton from '@components/GlobalButton';
 import GlobalInput from '@components/GlobalInput';
 import GlobalLabel from '@components/GlobalLabel';
@@ -10,6 +10,9 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import ErrorMessage from '@components/ErrorMessage';
 import useUser from '@libs/client/useUser';
+import dynamic from 'next/dynamic';
+
+const Bs = dynamic(() => import('@components/Bs'));
 
 interface WelcomeForm {
   name: string;
@@ -146,16 +149,23 @@ const Welcome: NextPage = () => {
                 isRequired={true}
               />
               {method === 'email' ? (
-                <GlobalInput
-                  inputFor="email"
-                  register={enterRegister('email')}
-                />
+                <>
+                  <GlobalInput
+                    inputFor="email"
+                    register={enterRegister('email')}
+                  />
+                </>
               ) : (
-                <GlobalInput
-                  inputFor="phone"
-                  register={enterRegister('phone')}
-                  extraInformation={{ supportText: '+82' }}
-                />
+                <>
+                  <Suspense fallback={<GlobalButton>Loading...</GlobalButton>}>
+                    <Bs />
+                  </Suspense>
+                  <GlobalInput
+                    inputFor="phone"
+                    register={enterRegister('phone')}
+                    extraInformation={{ supportText: '+82' }}
+                  />
+                </>
               )}
             </div>
             <GlobalButton className="mt-4 py-2.5">

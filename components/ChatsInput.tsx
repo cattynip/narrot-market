@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import GlobalInput from './GlobalInput';
 
 interface IChatsInputProps {
-  streamId: string;
-  sendMessageFn: (messageContent: string) => void;
+  streamId?: string;
+  sendMessageFn?: (messageContent: string) => void;
 }
 
 interface MessageForm {
@@ -22,7 +22,7 @@ const ChatsInput = ({ streamId, sendMessageFn }: IChatsInputProps) => {
       content: formData.content
     });
 
-    sendMessageFn(formData.content);
+    if (sendMessageFn) sendMessageFn(formData.content);
 
     reset();
   };
