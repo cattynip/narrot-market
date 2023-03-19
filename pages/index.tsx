@@ -3,44 +3,37 @@ import HelpButton from '@components/HelpButton';
 import Icon from '@components/Icon';
 import ProductItem from '@components/ProductItem';
 import PageLayout from '@components/PageLayout';
-import useSWR from 'swr';
-import { IAPIProductsReturn } from './api/products';
-import Image from 'next/image';
-import Bodwell from '../public/bodwell.png';
+import client from '@libs/server/client';
+import { IProduct } from '@pages/api/products/index';
 
-const Home: NextPage = () => {
-  const { data, isLoading: productLoading } =
-    useSWR<IAPIProductsReturn>('/api/products/');
-
+const Home: NextPage<{ products: IProduct[] }> = ({ products }) => {
   return (
     <PageLayout title="Home">
-      {productLoading
-        ? 'Finding Carrots...'
-        : data?.datas?.map((productItem, productItemIndex) => (
-            <ProductItem
-              key={productItemIndex}
-              productId={productItem.id}
-              title={productItem.name}
-              imageSrc="/"
-              price={productItem.price}
-              isFirst={productItemIndex === 0}
-              favourite={{
-                value: productItem._count.favourites,
-                isFavourite: Boolean(productItem.favourites.length === 1)
-              }}
-              comment={{
-                value: productItem.comments,
-                isCommented: false
-              }}
-            />
-          ))}
-      <Image
-        src={Bodwell}
-        className="w-full"
-        placeholder="blur"
-        alt="Bodwell Logo"
-        quality={100}
-      />
+      {products?.map((productItem, productItemIndex) => (
+        <ProductItem
+          key={productItemIndex}
+          productId={productItem.id}
+          title={productItem.name}
+          imageSrc="/"
+          price={productItem.price}
+          isFirst={productItemIndex === 0}
+          favourite={{
+            value: productItem._count.favourites,
+            isFavourite: Boolean(productItem.favourites.length === 1)
+          }}
+          comment={{
+            value: productItem.comments,
+            isCommented: false
+          }}
+        />
+      ))}
+      {/* <Image */}
+      {/*   src={Bodwell} */}
+      {/*   className="w-full" */}
+      {/*   placeholder="blur" */}
+      {/*   alt="Bodwell Logo" */}
+      {/*   quality={100} */}
+      {/* /> */}
       <HelpButton linkTo="/products/upload">
         <Icon
           d="plus"
@@ -57,5 +50,27 @@ const Home: NextPage = () => {
     </PageLayout>
   );
 };
+
+export async function getServerSideProps() {
+  const products = await client.product.findMany({
+    include: {
+      _count: true,
+      favourites: {
+        where: {
+          userId: 1
+        },
+        select: {
+          userId: true
+        }
+      }
+    }
+  });
+
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products))
+    }
+  };
+}
 
 export default Home;
