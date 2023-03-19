@@ -3,6 +3,14 @@ import withHandler from '@libs/server/withHandler';
 import { NextApiHandler } from 'next';
 import withSession from '@libs/server/withSession';
 
+export interface SearchedUser {
+  id: number;
+  name: string;
+  phone: null;
+  email: string;
+  avatar: string;
+}
+
 const UserSearchHandler: NextApiHandler = async (req, res) => {
   const {
     session: { user }

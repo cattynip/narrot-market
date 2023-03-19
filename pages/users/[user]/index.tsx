@@ -7,15 +7,18 @@ import ProfileInforItem from '@components/ProfileInforItem';
 import ProfileReview from '@components/ProfileReview';
 import useMutation from '@libs/client/useMutation';
 import useUser from '@libs/client/useUser';
+import { withSsrSession } from '@libs/server/withSession';
 import { IAPIProfileReturn } from '@pages/api/profile/[id]';
 import { IAPIWriteReviewReturn } from '@pages/api/profile/[id]/reviews/write';
 import { IAPIUserSearchForName } from '@pages/api/users/search/[name]';
-import { NextPage } from 'next';
-import Link from 'next/link';
+import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useSWR from 'swr';
+import useSWR, { SWRConfig } from 'swr';
+import Link from 'next/link';
+import { SearchedUser } from '@pages/api/users/search';
+import client from '@libs/server/client';
 
 interface ReviewForm {
   review: string;
@@ -208,4 +211,37 @@ const Profile: NextPage = () => {
   );
 };
 
-export default Profile;
+const Page: NextPage<{ profile: SearchedUser }> = ({ profile }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          '/api/users/search': {
+            ok: true,
+            user: profile
+          }
+        }
+      }}
+    >
+      <Profile />
+    </SWRConfig>
+  );
+};
+
+export const getServerSideProps = withSsrSession(async function ({
+  req
+}: NextPageContext) {
+  const profile = await client.user.findUnique({
+    where: {
+      id: req?.session.user?.id
+    }
+  });
+
+  return {
+    props: {
+      profile: JSON.parse(JSON.stringify(profile))
+    }
+  };
+});
+
+export default Page;
