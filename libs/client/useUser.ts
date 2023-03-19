@@ -20,6 +20,7 @@ const useUser = (): IUseUserReturn => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(data);
     if (data && !data.ok) {
       router.push('/welcome');
     } else if (router.pathname === '/welcome' && data && data.ok) {

@@ -3,30 +3,35 @@ import HelpButton from '@components/HelpButton';
 import Icon from '@components/Icon';
 import ProductItem from '@components/ProductItem';
 import PageLayout from '@components/PageLayout';
+import { IAPIProductsReturn, IProduct } from '@pages/api/products/index';
+import useSWR, { SWRConfig } from 'swr';
 import client from '@libs/server/client';
-import { IProduct } from '@pages/api/products/index';
 
-const Home: NextPage<{ products: IProduct[] }> = ({ products }) => {
+const Home: NextPage = () => {
+  const { data } = useSWR<IAPIProductsReturn>('/api/products');
+
   return (
     <PageLayout title="Home">
-      {products?.map((productItem, productItemIndex) => (
-        <ProductItem
-          key={productItemIndex}
-          productId={productItem.id}
-          title={productItem.name}
-          imageSrc="/"
-          price={productItem.price}
-          isFirst={productItemIndex === 0}
-          favourite={{
-            value: productItem._count.favourites,
-            isFavourite: Boolean(productItem.favourites.length === 1)
-          }}
-          comment={{
-            value: productItem.comments,
-            isCommented: false
-          }}
-        />
-      ))}
+      {!data
+        ? 'Loading...'
+        : data?.datas?.map((productItem, productItemIndex) => (
+            <ProductItem
+              key={productItemIndex}
+              productId={productItem.id}
+              title={productItem.name}
+              imageSrc="/"
+              price={productItem.price}
+              isFirst={productItemIndex === 0}
+              favourite={{
+                value: productItem._count.favourites,
+                isFavourite: Boolean(productItem.favourites.length === 1)
+              }}
+              comment={{
+                value: productItem.comments,
+                isCommented: false
+              }}
+            />
+          ))}
       {/* <Image */}
       {/*   src={Bodwell} */}
       {/*   className="w-full" */}
@@ -51,20 +56,25 @@ const Home: NextPage<{ products: IProduct[] }> = ({ products }) => {
   );
 };
 
-export async function getServerSideProps() {
-  const products = await client.product.findMany({
-    include: {
-      _count: true,
-      favourites: {
-        where: {
-          userId: 1
-        },
-        select: {
-          userId: true
+const Page: NextPage<{ products: IProduct }> = ({ products }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          '/api/products': {
+            ok: true,
+            products
+          }
         }
-      }
-    }
-  });
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  );
+};
+
+export async function getServerSideProps() {
+  const products = await client.product.findMany({});
 
   return {
     props: {
@@ -73,4 +83,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default Home;
+export default Page;
