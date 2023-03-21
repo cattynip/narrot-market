@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import HelpButton from '@components/HelpButton';
 import Icon from '@components/Icon';
 import ProductItem from '@components/ProductItem';
@@ -73,7 +73,7 @@ const Page: NextPage<{ products: IProduct }> = ({ products }) => {
   );
 };
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
   const products = await client.product.findMany({});
 
   return {
@@ -81,6 +81,6 @@ export async function getServerSideProps() {
       products: JSON.parse(JSON.stringify(products))
     }
   };
-}
+};
 
 export default Page;
