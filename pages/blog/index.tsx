@@ -18,7 +18,7 @@ const Blog: NextPage<{ posts: IPost[] }> = ({ posts }) => {
     <PageLayout title="Blog">
       {posts.map(post => (
         <Link key={post.title} href={`/blog/${post.slug}`}>
-          <div>
+          <div className="my-5 bg-gray-400">
             <h2>{post.title}</h2>
             <div>
               {post.category.map(ctg => (

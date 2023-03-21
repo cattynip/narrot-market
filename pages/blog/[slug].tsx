@@ -1,3 +1,4 @@
+import PageLayout from '@components/PageLayout';
 import { readdirSync } from 'fs';
 import matter from 'gray-matter';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
@@ -7,10 +8,15 @@ import { unified } from 'unified';
 
 interface BlogSlugProps {
   post: string;
+  title: string;
 }
 
-const BlogSlug: NextPage<BlogSlugProps> = ({ post }) => {
-  return <div>{post}</div>;
+const BlogSlug: NextPage<BlogSlugProps> = ({ post, title }) => {
+  return (
+    <PageLayout title={title}>
+      <div className="blog-post" dangerouslySetInnerHTML={{ __html: post }} />
+    </PageLayout>
+  );
 };
 
 // This is for informing how many paths the [slug] can be.
@@ -39,7 +45,8 @@ export const getStaticProps: GetStaticProps = async ctx => {
 
   return {
     props: {
-      post: value
+      post: value,
+      title: data?.title
     }
   };
 };
