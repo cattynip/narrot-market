@@ -29,6 +29,8 @@ const CommunityWrite: NextApiHandler = async (req, res) => {
     }
   });
 
+  await res.revalidate('/community');
+
   return res.status(200).json({
     ok: true,
     id: createdPost.id

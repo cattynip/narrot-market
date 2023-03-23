@@ -9,6 +9,7 @@ declare global {
       SESSION_PASSWORD: string;
       CLOUDFLARE_TOKEN: string;
       CLOUDFLARE_ACCOUNT_ID: string;
+      SECRET_TOKEN: string;
     }
   }
 }

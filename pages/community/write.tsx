@@ -18,6 +18,7 @@ const CommunityWrite: NextPage = () => {
   const { register, handleSubmit } = useForm<IWritePostForm>();
   const [writePost, { data: writeData, loading }] =
     useMutation<IAPICommunitiesWriteReturn>('/api/communities/write');
+
   const router = useRouter();
 
   const onValid = (formData: IWritePostForm) => {
