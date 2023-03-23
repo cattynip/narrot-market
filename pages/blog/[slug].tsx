@@ -27,8 +27,6 @@ export const getStaticPaths: GetStaticPaths = () => {
     return { params: { slug: name } };
   });
 
-  console.log(files);
-
   return {
     paths: files,
     fallback: false

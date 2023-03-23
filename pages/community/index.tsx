@@ -1,18 +1,29 @@
 import PageLayout from '@components/PageLayout';
-import type { NextPage } from 'next';
+import type { GetStaticProps, NextPage } from 'next';
 import CommunityItem from '../../components/CommunityItem';
 import HelpButton from '../../components/HelpButton';
 import Icon from '../../components/Icon';
-import useSWR from 'swr';
-import { IAPICommunitiesReturn } from '@pages/api/communities';
+import client from '@libs/server/client';
+import { Post } from '@prisma/client';
 
-const Community: NextPage = () => {
-  const { data } = useSWR<IAPICommunitiesReturn>('/api/communities');
+interface IPost extends Post {
+  _count: {
+    wonderings: number;
+    answers: number;
+  };
+}
+
+interface ICommunityNextPage {
+  posts: IPost[];
+}
+
+const Community: NextPage<ICommunityNextPage> = ({ posts }) => {
+  // const { data } = useSWR<IAPICommunitiesReturn>('/api/communities');
 
   return (
     <PageLayout title="Community">
       <div>
-        {data?.foundPosts.map((post, postIndex) => (
+        {posts.map((post, postIndex) => (
           <CommunityItem
             key={postIndex}
             id={post.id}
@@ -59,6 +70,19 @@ const Community: NextPage = () => {
       </HelpButton>
     </PageLayout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = await client.post.findMany({
+    include: { user: true, _count: true }
+  });
+
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts))
+    },
+    revalidate: 20
+  };
 };
 
 export default Community;

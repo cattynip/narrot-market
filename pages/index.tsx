@@ -56,7 +56,7 @@ const Home: NextPage = () => {
   );
 };
 
-const Page: NextPage<{ products: IProduct }> = ({ products }) => {
+const Page: NextPage<{ products: IProduct[] }> = ({ products }) => {
   return (
     <SWRConfig
       value={{
