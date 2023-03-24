@@ -46,6 +46,10 @@ const withHandler = ({
     }
 
     try {
+      console.log('I am here');
+      await new Promise(resolve => setTimeout(resolve, 50000));
+      console.log('I am here after waiting');
+
       await handler(req, res);
     } catch (error) {
       console.error(error);
