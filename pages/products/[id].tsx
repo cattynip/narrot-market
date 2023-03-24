@@ -142,6 +142,12 @@ const ItemDetail: NextPage<IAPIProductReturn> = ({ foundProduct }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = () => {
+  // Fallback blocking
+  //
+  // This feature is that...
+  // If the user visit to a route that has the getStaticProps or the getStaticPaths and it does not have any kind of HTMLs,
+  // it will make the user wait just for a moment,
+  // and generate the HTML file for it, and render it.
   return {
     paths: [],
     fallback: 'blocking'
