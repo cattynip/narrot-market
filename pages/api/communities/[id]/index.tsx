@@ -15,6 +15,7 @@ interface CommunityPostAnswer {
   userName: string;
   userAvatar: string;
   createdAt: Date;
+  updatedAt: Date;
   likes: UserId[];
   helps: UserId[];
   _count: {
@@ -23,7 +24,7 @@ interface CommunityPostAnswer {
   };
 }
 
-interface CommunityPost {
+export interface CommunityPost {
   id: number;
   question: string;
   description: string;
@@ -31,6 +32,7 @@ interface CommunityPost {
   userName: string;
   userAvatar: string;
   createdAt: Date;
+  updatedAt: Date;
   wonderings: UserId[];
   answers: CommunityPostAnswer[];
   _count: {
@@ -103,6 +105,8 @@ const CommunityPostGet: NextApiHandler = async (req, res) => {
       message: 'Post can not be found.'
     });
   }
+
+  res.revalidate(`/community/${foundPost.id}`);
 
   return res.status(200).json({
     ok: true,

@@ -2,7 +2,6 @@ import PageLayout from '@components/PageLayout';
 import matter from 'gray-matter';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import remarkHtml from 'remark-html';
 import remarkParse from 'remark-parse/lib';
 import { unified } from 'unified';
@@ -14,10 +13,6 @@ interface BlogSlugProps {
 
 const BlogSlug: NextPage<BlogSlugProps> = ({ post, title }) => {
   const router = useRouter();
-
-  useEffect(() => {
-    console.log('Hello?');
-  }, []);
 
   if (router.isFallback) {
     return (

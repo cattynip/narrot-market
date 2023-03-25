@@ -1,9 +1,9 @@
-import { NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import ActivityMarks from '@components/ActivityMarks';
 import CommunityAnswer from '@components/CommunityAnswer';
 import ParticipaterList from '@components/ParticipaterList';
 import PageLayout from '@components/PageLayout';
-import useSWR from 'swr';
+import useSWR, { SWRConfig } from 'swr';
 import { useRouter } from 'next/router';
 import { IAPICommunitiesReturn } from '@pages/api/communities/[id]';
 import useMutation from '@libs/client/useMutation';
@@ -13,6 +13,9 @@ import GlobalLabel from '@components/GlobalLabel';
 import GlobalInput from '@components/GlobalInput';
 import GlobalButton from '@components/GlobalButton';
 import { useForm } from 'react-hook-form';
+import cleanId from '@libs/server/cleanId';
+import client from '@libs/server/client';
+import { CommunityPost } from '@pages/api/communities/[id]/index';
 
 interface IWriteAnswerForm {
   answer: string;
@@ -167,6 +170,7 @@ const CommunityDetail: NextPage = () => {
               userName: user.name,
               userAvatar: user.avatar,
               createdAt: new Date(),
+              updatedAt: new Date(),
               likes: [],
               helps: [],
               _count: {
@@ -180,6 +184,14 @@ const CommunityDetail: NextPage = () => {
       false
     );
   };
+
+  if (router.isFallback) {
+    return (
+      <PageLayout title="Data fetching...">
+        <span>Wait just for a minute</span>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout title={data?.foundPost.question}>
@@ -269,4 +281,74 @@ const CommunityDetail: NextPage = () => {
   );
 };
 
-export default CommunityDetail;
+const Page: NextPage<{ foundPost: CommunityPost }> = ({ foundPost }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          '/api/communities/${id}': {
+            ok: true,
+            foundPost
+          }
+        }
+      }}
+    >
+      <CommunityDetail />
+    </SWRConfig>
+  );
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ctx => {
+  if (!ctx.params?.id || typeof ctx.params?.id !== 'string') {
+    return {
+      props: {}
+    };
+  }
+
+  const cleanFoundPostId = cleanId(ctx.params.id);
+
+  const foundPost = await client.post.findUnique({
+    where: {
+      id: cleanFoundPostId
+    },
+    include: {
+      _count: true,
+      wonderings: {
+        select: {
+          userId: true
+        }
+      },
+      answers: {
+        include: {
+          _count: true,
+          likes: {
+            select: {
+              userId: true
+            }
+          },
+          helps: {
+            select: {
+              userId: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return {
+    props: {
+      foundPost: JSON.parse(JSON.stringify(foundPost))
+    },
+    revalidate: 30
+  };
+};
+
+export default Page;
