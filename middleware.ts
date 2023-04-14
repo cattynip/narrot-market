@@ -5,7 +5,7 @@ const middleware = (req: NextRequest, event: NextFetchEvent) => {
   const { isBot } = userAgent(req);
 
   if (isBot) {
-    return new Response('Please do not be a bot. Be human', {
+    return new Response('Please do not use a bot. Be human', {
       status: 403
     });
   }
@@ -13,7 +13,7 @@ const middleware = (req: NextRequest, event: NextFetchEvent) => {
   if (!req.url.includes('/api')) {
     if (!req.url.includes('/enter') && !req.url.includes('/welcome')) {
       if (!req.cookies.has('narrotsession')) {
-        // return NextResponse.rewrite(new URL('/welcome', req.url));
+        return NextResponse.rewrite(new URL('/welcome', req.url));
       }
     }
   }

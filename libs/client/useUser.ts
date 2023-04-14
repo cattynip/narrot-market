@@ -16,18 +16,9 @@ interface IUseUserReturn {
   error: boolean;
 }
 
-const useUser = (): IUseUserReturn => {
+const useUser = (moveRouter?: boolean): IUseUserReturn => {
   const { data, isLoading, error } = useSWR('/api/users/search');
   const router = useRouter();
-
-  useEffect(() => {
-    console.log(data);
-    if (data && !data.ok) {
-      router.push('/welcome');
-    } else if (router.pathname === '/welcome' && data && data.ok) {
-      router.push('/');
-    }
-  }, [data, router]);
 
   return { user: data?.user, isLoading: isLoading, error };
 };
