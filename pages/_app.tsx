@@ -7,8 +7,6 @@ import useUser from '@libs/client/useUser';
 function App({ Component, pageProps }: AppProps) {
   const fetcher = (url: string) => fetch(url).then(response => response.json());
 
-  useUser();
-
   return (
     <SWRConfig
       value={{
