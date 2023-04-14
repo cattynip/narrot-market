@@ -32,13 +32,6 @@ const Home: NextPage = () => {
               }}
             />
           ))}
-      {/* <Image */}
-      {/*   src={Bodwell} */}
-      {/*   className="w-full" */}
-      {/*   placeholder="blur" */}
-      {/*   alt="Bodwell Logo" */}
-      {/*   quality={100} */}
-      {/* /> */}
       <HelpButton linkTo="/products/upload">
         <Icon
           d="plus"

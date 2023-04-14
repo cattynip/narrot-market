@@ -5,7 +5,7 @@ import PageLayout from '@components/PageLayout';
 const Chats: NextPage = () => {
   return (
     <PageLayout title="Chats">
-      {[...Array(20)].map((chat, chatIndex) => (
+      {[...Array(20)].map((_chat, chatIndex) => (
         <ChatsItem
           key={chatIndex}
           opponent={{ name: 'Cattynip', avatar: '/' }}

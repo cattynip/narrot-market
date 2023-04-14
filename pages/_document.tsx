@@ -1,7 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import Script from 'next/script';
 
-class CustomDocument extends Document {
+class NarrotMarket extends Document {
   render(): JSX.Element {
     return (
       <Html lang="en">
@@ -27,4 +27,4 @@ class CustomDocument extends Document {
   }
 }
 
-export default CustomDocument;
+export default NarrotMarket;

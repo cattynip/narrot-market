@@ -13,6 +13,7 @@ interface IUseUserReturn {
     updatedAt: Date;
   };
   isLoading: boolean;
+  error: boolean;
 }
 
 const useUser = (): IUseUserReturn => {
@@ -28,7 +29,7 @@ const useUser = (): IUseUserReturn => {
     }
   }, [data, router]);
 
-  return { user: data?.user, isLoading: isLoading };
+  return { user: data?.user, isLoading: isLoading, error };
 };
 
 export default useUser;

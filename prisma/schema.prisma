@@ -3,21 +3,13 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "filteredRelationCount"]
+  previewFeatures = ["filteredRelationCount", "referentialIntegrity"]
 }
 
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
-}
-
-model Minimum {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model User {
@@ -31,7 +23,7 @@ model User {
   Token           Token[]
   writtenReviews  Review[]        @relation(name: "writtenReviews")
   receivedReviews Review[]        @relation(name: "receivedReviews")
-  Minimums        Minimum[]
+  // Minimums        Minimum[]
   Products        Product[]
   Favourites      Favourite[]
   Sales           Sale[]
@@ -69,6 +61,9 @@ model Review {
   createdForId Int
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  @@index([createdById])
+  @@index([createdForId])
 }
 
 model Record {
@@ -80,6 +75,9 @@ model Record {
   type      RecordType
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
 
 enum RecordType {
@@ -96,6 +94,9 @@ model Favourite {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Sale {
@@ -106,6 +107,9 @@ model Sale {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Purchase {
@@ -116,6 +120,9 @@ model Purchase {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Product {
@@ -135,6 +142,8 @@ model Product {
   sales       Sale[]
   purchases   Purchase[]
   records     Record[]
+
+  @@index([userId])
 }
 
 model Post {
@@ -149,6 +158,8 @@ model Post {
   userAvatar  String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+
+  @@index([userId])
 }
 
 model Wondering {
@@ -159,6 +170,9 @@ model Wondering {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Answer {
@@ -174,6 +188,9 @@ model Answer {
   helps      Help[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Like {
@@ -184,6 +201,9 @@ model Like {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([answerId])
 }
 
 model Help {
@@ -194,6 +214,9 @@ model Help {
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([answerId])
 }
 
 model StreamMessage {
@@ -207,6 +230,9 @@ model StreamMessage {
   streamId   Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([streamId])
 }
 
 model Stream {
@@ -222,4 +248,7 @@ model Stream {
   messages    StreamMessage[]
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
+  abcd String? @default("NPM RUN START")
+
+  @@index([userId])
 }
